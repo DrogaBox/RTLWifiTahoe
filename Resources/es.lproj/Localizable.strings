@@ -13,8 +13,8 @@
 "app.power_off" = "Apagar USB Wi-Fi";
 
 "tab.status" = "Status";
-"tab.profiles" = "Profiles";
-"tab.pro" = "Pro";
+"tab.profiles" = "Perfiles";
+"tab.settings" = "Configuración";
 
 "status.badge.active" = "ACTIVE";
 "status.badge.linking" = "LINKING";
@@ -77,21 +77,21 @@
 "dns.no_service" = "No se encontró el servicio de red USB";
 "dns.auto_display" = "Auto (DHCP)";
 
-"pro.theme" = "Tema";
-"pro.menu_bar" = "Menu bar";
-"pro.behavior" = "Behavior";
-"pro.tools" = "Tools";
-"pro.refresh" = "Refresh";
-"pro.auto_reconnect" = "Auto-reconectar";
-"pro.auto_reconnect_sub" = "Reúne la última red si se cae el link o despertás el Mac";
-"pro.scan_nearby" = "Scan redes cercanas";
-"pro.scan_nearby_sub" = "Lista en Status · apagar ahorra radio/CPU";
-"pro.launch_login" = "Launch at login";
-"pro.launch_login_sub" = "Start when you log in";
-"pro.kill_classic" = "Kill classic StatusBarApp";
-"pro.kill_classic_sub" = "Quit Realtek utility on launch (recommended)";
-"pro.quit_classic" = "Quit classic now";
-"pro.network_settings" = "Network Settings";
+"settings.theme" = "Tema";
+"settings.menu_bar" = "Barra de menú";
+"settings.behavior" = "Comportamiento";
+"settings.tools" = "Herramientas";
+"settings.refresh" = "Actualización";
+"settings.auto_reconnect" = "Auto-reconectar";
+"settings.auto_reconnect_sub" = "Reúne la última red si se cae el link o despertás el Mac";
+"settings.scan_nearby" = "Scan redes cercanas";
+"settings.scan_nearby_sub" = "Lista en Status · apagar ahorra radio/CPU";
+"settings.launch_login" = "Abrir al iniciar sesión";
+"settings.launch_login_sub" = "Arranca al iniciar sesión en el Mac";
+"settings.kill_classic" = "Cerrar StatusBarApp clásico";
+"settings.kill_classic_sub" = "Cierra la utilidad Realtek al abrir Tahoe (recomendado)";
+"settings.quit_classic" = "Cerrar clásico ahora";
+"settings.network_settings" = "Ajustes de red";
 
 "theme.power_gadget" = "Power Gadget";
 "theme.power_gadget_sub" = "Como AMD Power Gadget";
@@ -226,10 +226,10 @@
 "notify.disconnected_body_ssid" = "Saliste de %@";
 "notify.reconnecting_title" = "Reconectando";
 "notify.reconnecting_body" = "Uniéndose a %@…";
-"pro.notifications" = "Notificaciones";
-"pro.notifications_sub" = "Avisos del sistema al conectar / desconectar";
+"settings.notifications" = "Notificaciones";
+"settings.notifications_sub" = "Avisos del sistema al conectar / desconectar";
 
 // MARK: Links & support
-"pro.links" = "Enlaces y soporte";
-"pro.github" = "GitHub";
-"pro.donate" = "Donar (PayPal)";
+"settings.links" = "Enlaces y soporte";
+"settings.github" = "GitHub";
+"settings.donate" = "Donar (PayPal)";

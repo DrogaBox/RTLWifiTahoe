@@ -35,7 +35,8 @@ enum L10n {
     enum Tab {
         static var status: String { tr("tab.status") }
         static var profiles: String { tr("tab.profiles") }
-        static var pro: String { tr("tab.pro") }
+        /// Appearance, behavior, login item — not a “Pro” tier.
+        static var settings: String { tr("tab.settings") }
     }
 
     enum App {
@@ -125,24 +126,29 @@ enum L10n {
         static var autoDisplay: String { tr("dns.auto_display") }
     }
 
-    // MARK: - Pro
+    // MARK: - Settings (appearance, behavior, tools)
 
-    enum Pro {
-        static var theme: String { tr("pro.theme") }
-        static var menuBar: String { tr("pro.menu_bar") }
-        static var behavior: String { tr("pro.behavior") }
-        static var tools: String { tr("pro.tools") }
-        static var refresh: String { tr("pro.refresh") }
-        static var autoReconnect: String { tr("pro.auto_reconnect") }
-        static var autoReconnectSub: String { tr("pro.auto_reconnect_sub") }
-        static var scanNearby: String { tr("pro.scan_nearby") }
-        static var scanNearbySub: String { tr("pro.scan_nearby_sub") }
-        static var launchLogin: String { tr("pro.launch_login") }
-        static var launchLoginSub: String { tr("pro.launch_login_sub") }
-        static var killClassic: String { tr("pro.kill_classic") }
-        static var killClassicSub: String { tr("pro.kill_classic_sub") }
-        static var quitClassic: String { tr("pro.quit_classic") }
-        static var networkSettings: String { tr("pro.network_settings") }
+    enum Settings {
+        static var theme: String { tr("settings.theme") }
+        static var menuBar: String { tr("settings.menu_bar") }
+        static var behavior: String { tr("settings.behavior") }
+        static var tools: String { tr("settings.tools") }
+        static var refresh: String { tr("settings.refresh") }
+        static var autoReconnect: String { tr("settings.auto_reconnect") }
+        static var autoReconnectSub: String { tr("settings.auto_reconnect_sub") }
+        static var scanNearby: String { tr("settings.scan_nearby") }
+        static var scanNearbySub: String { tr("settings.scan_nearby_sub") }
+        static var launchLogin: String { tr("settings.launch_login") }
+        static var launchLoginSub: String { tr("settings.launch_login_sub") }
+        static var killClassic: String { tr("settings.kill_classic") }
+        static var killClassicSub: String { tr("settings.kill_classic_sub") }
+        static var quitClassic: String { tr("settings.quit_classic") }
+        static var networkSettings: String { tr("settings.network_settings") }
+        static var notifications: String { tr("settings.notifications") }
+        static var notificationsSub: String { tr("settings.notifications_sub") }
+        static var links: String { tr("settings.links") }
+        static var github: String { tr("settings.github") }
+        static var donate: String { tr("settings.donate") }
     }
 
     enum Theme {

@@ -87,7 +87,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         alert.informativeText = String(localized: """
             RTL Wi-Fi Tahoe can replace the classic Realtek StatusBarApp for day-to-day Wi-Fi management. \
             If you accept, Tahoe will quit StatusBarApp and prevent it from launching at login. \
-            You can change this later under Pro settings.
+            You can change this later under Settings.
             """)
         alert.alertStyle = .informational
         alert.addButton(withTitle: String(localized: "Replace StatusBarApp"))

@@ -15,7 +15,7 @@
 
 "tab.status" = "Status";
 "tab.profiles" = "Profiles";
-"tab.pro" = "Pro";
+"tab.settings" = "Settings";
 
 // MARK: Status
 "status.badge.active" = "ACTIVE";
@@ -83,21 +83,21 @@
 "dns.auto_display" = "Auto (DHCP)";
 
 // MARK: Pro
-"pro.theme" = "Theme";
-"pro.menu_bar" = "Menu bar";
-"pro.behavior" = "Behavior";
-"pro.tools" = "Tools";
-"pro.refresh" = "Refresh";
-"pro.auto_reconnect" = "Auto-reconnect";
-"pro.auto_reconnect_sub" = "Rejoin last network if the link drops or the Mac wakes";
-"pro.scan_nearby" = "Scan nearby networks";
-"pro.scan_nearby_sub" = "Status list · turn off to save radio/CPU";
-"pro.launch_login" = "Launch at login";
-"pro.launch_login_sub" = "Start when you log in";
-"pro.kill_classic" = "Kill classic StatusBarApp";
-"pro.kill_classic_sub" = "Quit Realtek utility on launch (recommended)";
-"pro.quit_classic" = "Quit classic now";
-"pro.network_settings" = "Network Settings";
+"settings.theme" = "Theme";
+"settings.menu_bar" = "Menu bar";
+"settings.behavior" = "Behavior";
+"settings.tools" = "Tools";
+"settings.refresh" = "Refresh";
+"settings.auto_reconnect" = "Auto-reconnect";
+"settings.auto_reconnect_sub" = "Rejoin last network if the link drops or the Mac wakes";
+"settings.scan_nearby" = "Scan nearby networks";
+"settings.scan_nearby_sub" = "Status list · turn off to save radio/CPU";
+"settings.launch_login" = "Launch at login";
+"settings.launch_login_sub" = "Start when you log in";
+"settings.kill_classic" = "Kill classic StatusBarApp";
+"settings.kill_classic_sub" = "Quit Realtek utility on launch (recommended)";
+"settings.quit_classic" = "Quit classic now";
+"settings.network_settings" = "Network Settings";
 
 // MARK: Themes
 "theme.power_gadget" = "Power Gadget";
@@ -238,10 +238,10 @@
 "notify.disconnected_body_ssid" = "Left %@";
 "notify.reconnecting_title" = "Reconnecting";
 "notify.reconnecting_body" = "Joining %@…";
-"pro.notifications" = "Notifications";
-"pro.notifications_sub" = "System banners when connect / disconnect";
+"settings.notifications" = "Notifications";
+"settings.notifications_sub" = "System banners when connect / disconnect";
 
 // MARK: Links & support
-"pro.links" = "Links & Support";
-"pro.github" = "GitHub";
-"pro.donate" = "Donate (PayPal)";
+"settings.links" = "Links & Support";
+"settings.github" = "GitHub";
+"settings.donate" = "Donate (PayPal)";

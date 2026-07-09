@@ -126,7 +126,7 @@ struct PopoverView: View {
             Picker("", selection: $tab) {
                 Text(L10n.Tab.status).tag(0)
                 Text(L10n.Tab.profiles).tag(1)
-                Text(L10n.Tab.pro).tag(2)
+                Text(L10n.Tab.settings).tag(2)
             }
             .pickerStyle(.segmented)
             .controlSize(.small)
@@ -137,7 +137,7 @@ struct PopoverView: View {
                 switch tab {
                 case 0: StatusTab(model: model, showJoin: $showJoin)
                 case 1: ProfilesTab(model: model, showJoin: $showJoin)
-                default: ProTab(model: model)
+                default: SettingsTab(model: model)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .top)
@@ -855,24 +855,24 @@ struct ProfilesTab: View {
 
 // MARK: - Pro
 
-struct ProTab: View {
+struct SettingsTab: View {
     @ObservedObject var model: WiFiModel
     @ObservedObject private var themes = ThemeStore.shared
-    /// Collapsed by default so Pro stays short; user expands Theme / Behavior.
+    /// Collapsed by default so Settings stays short; user expands Theme / Behavior.
     @State private var themeExpanded = false
     @State private var behaviorExpanded = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             collapsibleSection(
-                title: L10n.Pro.theme,
+                title: L10n.Settings.theme,
                 isExpanded: $themeExpanded,
                 summary: themes.themeID.label
             ) {
                 ThemePickerView(themes: themes)
             }
 
-            section(L10n.Pro.menuBar) {
+            section(L10n.Settings.menuBar) {
                 VStack(alignment: .leading, spacing: 6) {
                     Picker("", selection: $model.menuBarMode) {
                         ForEach(MenuBarDisplayMode.allCases) { mode in
@@ -884,7 +884,7 @@ struct ProTab: View {
                     .controlSize(.small)
 
                     HStack {
-                        Text(L10n.Pro.refresh)
+                        Text(L10n.Settings.refresh)
                             .font(.system(size: 11, weight: .semibold))
                             .foregroundColor(Tahoe.text)
                         Spacer()
@@ -899,54 +899,54 @@ struct ProTab: View {
             }
 
             collapsibleSection(
-                title: L10n.Pro.behavior,
+                title: L10n.Settings.behavior,
                 isExpanded: $behaviorExpanded,
                 summary: behaviorSummary
             ) {
                 TahoeToggleRow(
-                    title: L10n.Pro.autoReconnect,
-                    subtitle: L10n.Pro.autoReconnectSub,
+                    title: L10n.Settings.autoReconnect,
+                    subtitle: L10n.Settings.autoReconnectSub,
                     isOn: $model.autoReconnect
                 )
                 TahoeToggleRow(
-                    title: L10n.tr("pro.notifications"),
-                    subtitle: L10n.tr("pro.notifications_sub"),
+                    title: L10n.Settings.notifications,
+                    subtitle: L10n.Settings.notificationsSub,
                     isOn: $model.showNotifications
                 )
                 TahoeToggleRow(
-                    title: L10n.Pro.scanNearby,
-                    subtitle: L10n.Pro.scanNearbySub,
+                    title: L10n.Settings.scanNearby,
+                    subtitle: L10n.Settings.scanNearbySub,
                     isOn: $model.scanEnabled
                 )
                 TahoeToggleRow(
-                    title: L10n.Pro.launchLogin,
-                    subtitle: L10n.Pro.launchLoginSub,
+                    title: L10n.Settings.launchLogin,
+                    subtitle: L10n.Settings.launchLoginSub,
                     isOn: $model.launchAtLogin
                 )
                 TahoeToggleRow(
-                    title: L10n.Pro.killClassic,
-                    subtitle: L10n.Pro.killClassicSub,
+                    title: L10n.Settings.killClassic,
+                    subtitle: L10n.Settings.killClassicSub,
                     isOn: $model.hideClassicUtility
                 )
-                ActionButton(title: L10n.Pro.quitClassic, icon: "xmark.octagon", accent: Tahoe.accentOrange) {
+                ActionButton(title: L10n.Settings.quitClassic, icon: "xmark.octagon", accent: Tahoe.accentOrange) {
                     model.purgeClassicUtility()
                 }
             }
 
-            section(L10n.tr("pro.links")) {
+            section(L10n.Settings.links) {
                 HStack(spacing: 6) {
-                    ActionButton(title: L10n.tr("pro.github"), icon: "link", accent: Tahoe.accentCyan) {
+                    ActionButton(title: L10n.Settings.github, icon: "link", accent: Tahoe.accentCyan) {
                         model.openGitHub()
                     }
-                    ActionButton(title: L10n.tr("pro.donate"), icon: "heart.fill", accent: Tahoe.accentOrange) {
+                    ActionButton(title: L10n.Settings.donate, icon: "heart.fill", accent: Tahoe.accentOrange) {
                         model.openDonate()
                     }
                 }
             }
 
-            section(L10n.Pro.tools) {
+            section(L10n.Settings.tools) {
                 VStack(spacing: 6) {
-                    ActionButton(title: L10n.Pro.networkSettings, icon: "gearshape", accent: Tahoe.accentCyan) {
+                    ActionButton(title: L10n.Settings.networkSettings, icon: "gearshape", accent: Tahoe.accentCyan) {
                         model.openNetworkSettings()
                     }
                     ActionButton(title: L10n.App.quit, icon: "xmark.circle", accent: Tahoe.accentRed) {

@@ -368,7 +368,7 @@ struct TahoeToggleRow: View {
     }
 }
 
-// MARK: - Theme picker chips (Pro tab)
+// MARK: - Theme picker chips (Settings tab)
 
 struct ThemePickerView: View {
     @ObservedObject var themes: ThemeStore
