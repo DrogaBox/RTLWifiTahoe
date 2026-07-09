@@ -1655,6 +1655,21 @@ final class WiFiModel: ObservableObject {
         }
     }
 
+    /// Project page (same pattern as AMD Power Gadget → GitHub).
+    static let githubURL = URL(string: "https://github.com/DrogaBox/RTLWifiTahoe")!
+    /// PayPal donate (same account as SMCAMD / Power Gadget).
+    static let paypalDonateURL = URL(string: "https://www.paypal.com/donate/?business=mrleisures@gmail.com")!
+
+    func openGitHub() {
+        NSWorkspace.shared.open(Self.githubURL)
+    }
+
+    /// Play bundled applause (`bravo.mp3`) then open PayPal — same flow as Power Gadget.
+    func openDonate() {
+        SupportAudio.playApplause()
+        NSWorkspace.shared.open(Self.paypalDonateURL)
+    }
+
     func revealProfilesFolder() {
         NSWorkspace.shared.open(URL(fileURLWithPath: realtekSupport))
     }

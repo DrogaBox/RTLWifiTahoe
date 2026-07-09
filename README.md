@@ -110,3 +110,13 @@ MIT — see [LICENSE](LICENSE).
 
 This project interfaces with a third-party kernel extension. Use at your own risk.  
 It is not affiliated with Realtek Semiconductor Corp. or Apple Inc.
+
+---
+
+## Links
+
+| | |
+|---|---|
+| **Repository** | https://github.com/DrogaBox/RTLWifiTahoe |
+| **Releases** | https://github.com/DrogaBox/RTLWifiTahoe/releases |
+| **Donate (PayPal)** | https://www.paypal.com/donate/?business=mrleisures@gmail.com |

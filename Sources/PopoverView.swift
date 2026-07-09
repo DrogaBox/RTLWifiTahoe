@@ -922,6 +922,17 @@ struct ProTab: View {
                 }
             }
 
+            section(L10n.tr("pro.links")) {
+                HStack(spacing: 6) {
+                    ActionButton(title: L10n.tr("pro.github"), icon: "link", accent: Tahoe.accentCyan) {
+                        model.openGitHub()
+                    }
+                    ActionButton(title: L10n.tr("pro.donate"), icon: "heart.fill", accent: Tahoe.accentOrange) {
+                        model.openDonate()
+                    }
+                }
+            }
+
             section(L10n.Pro.tools) {
                 VStack(spacing: 6) {
                     ActionButton(title: L10n.Pro.networkSettings, icon: "gearshape", accent: Tahoe.accentCyan) {

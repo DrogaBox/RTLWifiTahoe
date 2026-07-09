@@ -240,3 +240,8 @@
 "notify.reconnecting_body" = "Joining %@…";
 "pro.notifications" = "Notifications";
 "pro.notifications_sub" = "System banners when connect / disconnect";
+
+// MARK: Links & support
+"pro.links" = "Links & Support";
+"pro.github" = "GitHub";
+"pro.donate" = "Donate (PayPal)";

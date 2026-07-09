@@ -15,6 +15,7 @@ SOURCES=(
   "$ROOT/Sources/RTLog.swift"
   "$ROOT/Sources/KeychainStore.swift"
   "$ROOT/Sources/AppNotify.swift"
+  "$ROOT/Sources/SupportAudio.swift"
   "$ROOT/Sources/JoinOptions.swift"
   "$ROOT/Sources/RealtekDriver.swift"
   "$ROOT/Sources/WiFiModel.swift"
@@ -94,6 +95,12 @@ PLIST
 if [[ -f "$ROOT/Resources/AppIcon.icns" ]]; then
   cp "$ROOT/Resources/AppIcon.icns" "$APP/Contents/Resources/AppIcon.icns"
   echo "Icon: AppIcon.icns"
+fi
+
+# Support audio (same applause clip as AMD Power Gadget)
+if [[ -f "$ROOT/Resources/bravo.mp3" ]]; then
+  cp "$ROOT/Resources/bravo.mp3" "$APP/Contents/Resources/bravo.mp3"
+  echo "Audio: bravo.mp3"
 fi
 
 # Localizations (en.lproj, es.lproj, …) for Crowdin / Bundle.main

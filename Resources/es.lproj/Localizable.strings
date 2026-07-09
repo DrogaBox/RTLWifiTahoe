@@ -228,3 +228,8 @@
 "notify.reconnecting_body" = "Uniéndose a %@…";
 "pro.notifications" = "Notificaciones";
 "pro.notifications_sub" = "Avisos del sistema al conectar / desconectar";
+
+// MARK: Links & support
+"pro.links" = "Enlaces y soporte";
+"pro.github" = "GitHub";
+"pro.donate" = "Donar (PayPal)";
