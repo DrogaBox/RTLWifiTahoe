@@ -1,0 +1,44 @@
+# Build
+build/
+*.o
+*.dSYM/
+.DerivedData/
+
+# Xcode / Swift
+xcuserdata/
+*.xccheckout
+*.xcscmblueprint
+.swiftpm/
+Package.resolved
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Secrets / local
+.env
+.env.*
+*.pem
+*.p12
+crowdin-credentials*
+.crowdin.yml.local
+
+# Logs & temp
+*.log
+/tmp/
+*.plist.bak
+
+# RE scratch (keep maps; ignore heavy dumps if re-generated)
+re/bn_gui_output/*.txt
+!re/bn_gui_output/.gitkeep
+
+# Icon work intermediates
+Resources/AppIcon.iconset/
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*~

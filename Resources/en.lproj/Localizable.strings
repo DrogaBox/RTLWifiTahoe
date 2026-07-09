@@ -1,0 +1,231 @@
+/* RTL Wi-Fi Tahoe — source language (Crowdin upload source)
+ * Keys are stable identifiers. Do not translate keys.
+ */
+
+// MARK: App / chrome
+"app.name" = "RTL Wi-Fi Tahoe";
+"app.refresh" = "Refresh";
+"app.quit" = "Quit RTL Wi-Fi Tahoe";
+"app.copy_ip" = "Copy IP";
+"app.disconnect" = "Disconnect";
+"app.join" = "Join…";
+"app.router" = "Router";
+"app.power_on" = "Turn USB Wi-Fi on";
+"app.power_off" = "Turn USB Wi-Fi off";
+
+"tab.status" = "Status";
+"tab.profiles" = "Profiles";
+"tab.pro" = "Pro";
+
+// MARK: Status
+"status.badge.active" = "ACTIVE";
+"status.badge.linking" = "LINKING";
+"status.badge.down" = "DOWN";
+"status.ip" = "IP";
+"status.mask" = "Mask";
+"status.router" = "Router";
+"status.internet" = "Internet";
+"status.mac" = "MAC";
+"status.dns" = "DNS";
+"status.nearby" = "NEARBY";
+"status.scan_on" = "Scan ON";
+"status.scan_off" = "Scan OFF";
+"status.scan_disabled" = "Scan off · networks not listed";
+"status.scanning" = "Scanning networks…";
+"status.no_networks" = "No networks · tap ↻ or Join…";
+"status.more_networks" = "+%d more · open Join…";
+"status.gateway" = "Gateway";
+"status.internet_ok" = "OK";
+"status.internet_lan" = "LAN only";
+"status.internet_no_route" = "No route";
+"status.rx" = "↓ RX";
+"status.tx" = "↑ TX";
+"status.disconnecting" = "…";
+
+// MARK: Signal
+"signal.none" = "No signal";
+"signal.weak" = "Weak";
+"signal.fair" = "Fair";
+"signal.good" = "Good";
+"signal.excellent" = "Excellent";
+"signal.linking" = "Linking";
+"signal.associating" = "Associating…";
+"signal.disconnected" = "Disconnected";
+"signal.connected" = "Connected";
+
+// MARK: Profiles
+"profiles.title" = "Saved networks";
+"profiles.empty" = "No saved profiles";
+"profiles.with_password" = "Password saved";
+"profiles.open" = "Open / no password";
+"profiles.last" = "Last";
+"profiles.forget_title" = "Forget network?";
+"profiles.forget_action" = "Forget \"%@\"";
+"profiles.forget_message" = "Deletes the saved password and config. If already connected, the session stays until you disconnect; next join will ask for the password again.";
+"profiles.cancel" = "Cancel";
+"profiles.folder" = "Folder";
+"profiles.forget_help" = "Forget %@";
+
+// MARK: DNS
+"dns.title" = "DNS";
+"dns.dhcp" = "DHCP";
+"dns.preset.auto" = "Auto";
+"dns.preset.cloudflare" = "CF";
+"dns.preset.google" = "Google";
+"dns.preset.quad9" = "Quad9";
+"dns.preset.adguard" = "AdGuard";
+"dns.preset.opendns" = "OpenDNS";
+"dns.preset.cf_google" = "CF+G";
+"dns.detail.auto" = "From router / ISP";
+"dns.applied.auto" = "DNS → Automatic (DHCP)";
+"dns.applied" = "DNS → %@: %@";
+"dns.no_service" = "USB network service not found";
+"dns.auto_display" = "Auto (DHCP)";
+
+// MARK: Pro
+"pro.theme" = "Theme";
+"pro.menu_bar" = "Menu bar";
+"pro.behavior" = "Behavior";
+"pro.tools" = "Tools";
+"pro.refresh" = "Refresh";
+"pro.auto_reconnect" = "Auto-reconnect";
+"pro.auto_reconnect_sub" = "Rejoin last network if the link drops or the Mac wakes";
+"pro.scan_nearby" = "Scan nearby networks";
+"pro.scan_nearby_sub" = "Status list · turn off to save radio/CPU";
+"pro.launch_login" = "Launch at login";
+"pro.launch_login_sub" = "Start when you log in";
+"pro.kill_classic" = "Kill classic StatusBarApp";
+"pro.kill_classic_sub" = "Quit Realtek utility on launch (recommended)";
+"pro.quit_classic" = "Quit classic now";
+"pro.network_settings" = "Network Settings";
+
+// MARK: Themes
+"theme.power_gadget" = "Power Gadget";
+"theme.power_gadget_sub" = "Like AMD Power Gadget";
+"theme.classic" = "Tahoe Cyan";
+"theme.classic_sub" = "Original neon cyan";
+"theme.midnight" = "Midnight";
+"theme.midnight_sub" = "Deep blue";
+"theme.ember" = "Ember";
+"theme.ember_sub" = "Orange / heat";
+"theme.matrix" = "Matrix";
+"theme.matrix_sub" = "Terminal green";
+"theme.rose" = "Rose";
+"theme.rose_sub" = "Magenta / pink";
+
+// MARK: Join
+"join.title" = "Wi-Fi networks";
+"join.reading" = "Reading networks…";
+"join.empty_cache" = "No networks in cache";
+"join.rescan" = "Scan again";
+"join.none_in_band" = "No networks on %@";
+"join.none_wifi6" = "No Wi-Fi 6/7 networks with this filter";
+"join.show_all" = "Show all";
+"join.cancel" = "Cancel";
+"join.other_network" = "Other network…";
+"join.logs" = "Logs";
+"join.scan" = "Scan";
+"join.list_hint" = "Networks from the Realtek adapter";
+"join.count_summary" = "%d/%d networks%@ · %@";
+"join.connected" = "CONNECTED";
+"join.options" = "JOIN / OPTIONS";
+"join.options_for" = "JOIN · %@";
+"join.network_type" = "NETWORK TYPE";
+"join.security" = "SECURITY";
+"join.wps" = "WPS";
+"join.password" = "Password (8–63)";
+"join.wep_key" = "WEP key";
+"join.wps_hint" = "Press WPS on the router, then Join. (Full EAPOL = experimental)";
+"join.adhoc_hint" = "Ad-hoc: use WPA-None or Open. Infrastructure WPA2-PSK does not apply.";
+"join.connecting" = "Connecting…";
+"join.join" = "Join";
+"join.join_wps_pbc" = "Join WPS PBC";
+"join.red" = "Network: %@";
+"join.empty_ssid" = "Empty SSID";
+"join.short_key" = "Password too short (min. %d)";
+"join.adhoc_auth_nudge" = "Ad-hoc: switched security to WPA-None";
+"join.no_networks" = "No networks.";
+"join.logs_empty" = "(empty — try a Join)";
+"join.copy" = "Copy";
+"join.file" = "File";
+"join.band.all" = "All";
+"join.band.24" = "2.4 GHz";
+"join.band.5" = "5 GHz";
+"join.wifi6_filter" = "Wi-Fi 6";
+"join.auth.open" = "Open";
+"join.auth.wpa2" = "WPA2";
+"join.auth.wpa" = "WPA";
+"join.auth.wpa_none" = "WPA-None";
+"join.auth.wep" = "WEP";
+"join.updated_ago" = "updated %ds ago";
+"join.updated_min" = "%d min ago";
+"join.cache_old" = "stale cache";
+"join.connecting_to" = "Connecting to %@…";
+"join.wps_pbc_wait" = "WPS PBC · %@ — press the router button…";
+
+// MARK: Network type / WPS / Auth (full labels)
+"nettype.infra" = "Infrastructure";
+"nettype.infra_short" = "Infra";
+"nettype.adhoc" = "Ad-hoc";
+"nettype.auto" = "Auto";
+"wps.none" = "Normal (SSID/password)";
+"wps.pbc" = "WPS · Button (PBC)";
+"wps.pin" = "WPS · PIN";
+"wps.pin_field" = "WPS PIN (4 or 8 digits)";
+"auth.open" = "Open (none)";
+"auth.wep64" = "WEP 64";
+"auth.wep128" = "WEP 128";
+"auth.wpa_psk" = "WPA-PSK / WPA-None";
+"auth.wpa_psk_aes" = "WPA-PSK AES";
+"auth.wpa2_tkip" = "WPA2-PSK TKIP";
+"auth.wpa2" = "WPA2-PSK AES";
+
+// MARK: Model / runtime
+"model.disconnected" = "Disconnected";
+"model.connected" = "Connected · %@";
+"model.associating" = "Associating · %@";
+"model.no_link" = "No link · %@";
+"model.driver_missing" = "Driver not loaded";
+"model.radio_off" = "USB radio OFF";
+"model.no_iface" = "No USB Wi-Fi interface";
+"model.reconnecting" = "Reconnecting · %@…";
+"model.disconnected_ok" = "Disconnected";
+"model.disconnect_fail" = "Could not disconnect";
+"model.join_ok" = "✓ Connected to %@ · %@";
+"model.join_no_link" = "Kext accepted OIDs (SSID/PSK) but did not bring the link up (IOLinkSpeed=0). No L2 means no IP/DHCP. See Logs.";
+"model.join_fail" = "OID join failed for %@. See Logs.";
+"model.empty_ssid" = "Empty SSID";
+"model.driver_not_loaded" = "RtWlanU driver not loaded";
+"model.radio_on_fail" = "Could not enable USB Wi-Fi";
+"model.radio_off_fail" = "Could not turn off USB Wi-Fi";
+"model.forget_fail" = "Could not forget %@";
+"model.forget_pass_left" = "Forget %@: password still stored";
+"model.forgot" = "Forgot · %@";
+"model.radio_on" = "USB radio ON";
+"model.radio_off_status" = "USB radio OFF";
+
+// MARK: Menu bar
+"menubar.icon" = "Icon";
+"menubar.ssid" = "SSID";
+"menubar.ip" = "IP";
+"menubar.speed" = "Speed";
+"menubar.ssid_ip" = "SSID + IP";
+"menubar.off" = "Off";
+"menubar.disconnected_tip" = "RTL Wi-Fi · disconnected — click to open";
+
+// MARK: Band / gen / badges
+"band.all" = "All";
+"band.24" = "2.4 GHz";
+"band.5" = "5 GHz";
+"band.24_short" = "2.4";
+"band.5_short" = "5";
+"gen.wifi4" = "Wi-Fi 4";
+"gen.wifi5" = "Wi-Fi 5";
+"gen.wifi6" = "Wi-Fi 6";
+"gen.wifi7" = "Wi-Fi 7";
+"gen.legacy" = "802.11g";
+"gen.bg" = "b/g";
+"badge.adhoc" = "Ad-hoc";
+"badge.wps" = "WPS";
+"badge.secured" = "Secured";
+"badge.open" = "Open";
