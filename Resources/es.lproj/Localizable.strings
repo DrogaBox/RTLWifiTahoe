@@ -217,3 +217,14 @@
 "badge.wps" = "WPS";
 "badge.secured" = "Secured";
 "badge.open" = "Open";
+
+// MARK: Notifications
+"notify.connected_title" = "Conectado";
+"notify.connected_body" = "%@ · %@";
+"notify.disconnected_title" = "Desconectado";
+"notify.disconnected_body" = "Se perdió el enlace USB Wi-Fi";
+"notify.disconnected_body_ssid" = "Saliste de %@";
+"notify.reconnecting_title" = "Reconectando";
+"notify.reconnecting_body" = "Uniéndose a %@…";
+"pro.notifications" = "Notificaciones";
+"pro.notifications_sub" = "Avisos del sistema al conectar / desconectar";

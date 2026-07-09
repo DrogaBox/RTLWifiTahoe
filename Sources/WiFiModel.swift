@@ -1006,6 +1006,9 @@ final class WiFiModel: ObservableObject {
     @Published var dnsStatusMessage: String?
     @Published var disconnectBusy = false
 
+    /// When set, Join panel opens directly on this network (Status nearby tap).
+    @Published var pendingJoinNetwork: ScannedNetwork? = nil
+
     /// Re-join default profile when link drops (USB plug, sleep, failed DHCP).
     @Published var autoReconnect: Bool = {
         if UserDefaults.standard.object(forKey: "auto_reconnect") == nil { return true }
@@ -1059,6 +1062,7 @@ final class WiFiModel: ObservableObject {
         startPathMonitor()
         restartTimer()
         observeWake()
+        AppNotify.requestAuthorizationIfNeeded()
         refreshAsync(forceSlow: true)
         purgeClassicUtility()
     }
@@ -1405,6 +1409,14 @@ final class WiFiModel: ObservableObject {
                 self.statusText = status
                 self.isRefreshing = false
                 if force { self.lastSlowRefresh = Date() }
+                // Notify link loss (had IP → no IP), not during join grace
+                let hadIP = self.snapshot.ip != "—"
+                let nowIP = hasIP
+                let prevSSID = self.lastSSID
+                if hadIP, !nowIP, Date() >= self.joinGraceUntil {
+                    AppNotify.disconnected(ssid: prevSSID.isEmpty ? snap.ssid : prevSSID)
+                }
+
                 self.lastSSID = snap.ssid
                 // Sync picker to what the system actually uses (not while applying)
                 if !self.dnsBusy, let matched = snap.matchedDNSPreset {
@@ -1431,8 +1443,10 @@ final class WiFiModel: ObservableObject {
                 guard let self else { return }
                 self.disconnectBusy = false
                 if ok {
+                    let left = self.snapshot.ssid
                     self.statusText = L10n.Model.disconnectedOk
                     self.lastError = nil
+                    AppNotify.disconnected(ssid: left)
                     rtlog("disconnect UI OK — auto-reconnect suppressed 90s")
                 } else {
                     self.lastError = L10n.Model.disconnectFail
@@ -1465,18 +1479,14 @@ final class WiFiModel: ObservableObject {
         }()
         guard let ssid = targetSSID, !ssid.isEmpty, ssid != "—" else { return }
 
-        let pass = RealtekProfiles.password(for: ssid, supportPath: support) ?? ""
+        let pass = KeychainStore.bestPassword(forSSID: ssid, supportPath: support) ?? ""
         // Only auto-join networks we have a password for (or open — rare)
-        // If no password stored, skip (user forgot / open AP needs explicit Join)
         let entry = RealtekProfiles.allProfiles(supportPath: support)[ssid]
         let openish = (entry?["PreferrAuth_Encry"] as? Int) == 0
             || (entry?["PreferrAuth_Encry"] as? NSNumber)?.intValue == 0
         if pass.isEmpty && !openish {
-            // try any profile key case-insensitive
-            if RealtekProfiles.password(for: ssid, supportPath: support) == nil {
-                rtlog("auto-reconnect skip \(ssid): no stored password")
-                return
-            }
+            rtlog("auto-reconnect skip \(ssid): no stored password (Keychain/Profiles)")
+            return
         }
 
         autoReconnectInFlight = true
@@ -1484,6 +1494,7 @@ final class WiFiModel: ObservableObject {
         joinGraceUntil = Date().addingTimeInterval(20)
         rtlog("auto-reconnect → \(ssid)")
         statusText = L10n.tr("model.reconnecting", ssid)
+        AppNotify.reconnecting(ssid: ssid)
 
         Task { @MainActor in
             var opts = JoinOptions()
@@ -1601,9 +1612,10 @@ final class WiFiModel: ObservableObject {
             let channel = entry["Channel"] as? Int
             let hasStoredPass = pass.count >= 8
                 || RealtekProfiles.hasCredentialInProfile1x(ssid: ssid, supportPath: supportPath)
+            let hasKC = KeychainStore.password(forSSID: ssid) != nil
             found.append(SavedProfile(
                 ssid: ssid,
-                hasPassword: hasStoredPass,
+                hasPassword: hasStoredPass || hasKC,
                 channel: channel,
                 isDefault: last.map { $0.caseInsensitiveCompare(ssid) == .orderedSame } ?? false
             ))
@@ -1653,9 +1665,11 @@ final class WiFiModel: ObservableObject {
         let support = realtekSupport
         let target = ssid.trimmingCharacters(in: .whitespacesAndNewlines)
         workQueue.async { [weak self] in
+            _ = KeychainStore.deletePassword(forSSID: target)
             let ok = RealtekProfiles.forget(ssid: target, supportPath: support)
-            // Confirm credentials are gone (both stores)
-            let stillPass = RealtekProfiles.password(for: target, supportPath: support) != nil
+            // Confirm credentials are gone (Keychain + Realtek stores)
+            let stillPass = KeychainStore.password(forSSID: target) != nil
+                || RealtekProfiles.password(for: target, supportPath: support) != nil
                 || RealtekProfiles.hasCredentialInProfile1x(ssid: target, supportPath: support)
             let stillListed = RealtekProfiles.allProfiles(supportPath: support).keys
                 .contains { $0.caseInsensitiveCompare(target) == .orderedSame }
@@ -1723,7 +1737,10 @@ final class WiFiModel: ObservableObject {
         let support = realtekSupport
         var pass = password ?? ""
         if useStoredPassword, pass.isEmpty {
-            pass = RealtekProfiles.password(for: ssid, supportPath: support) ?? ""
+            pass = KeychainStore.bestPassword(forSSID: ssid, supportPath: support) ?? ""
+        } else if pass.isEmpty {
+            // Prefer Keychain even when UI left field blank
+            pass = KeychainStore.bestPassword(forSSID: ssid, supportPath: support) ?? ""
         }
 
         var opts = options ?? JoinOptions()
@@ -1735,9 +1752,14 @@ final class WiFiModel: ObservableObject {
 
         rtlog("joinNetwork ssid=\(ssid) passLen=\(pass.count) type=\(opts.networkType.shortLabel) auth=\(opts.authEnc.rawValue) wps=\(opts.wps.rawValue)")
 
-        if opts.wps == .none {
+        if opts.wps == .none, !pass.isEmpty {
             workQueue.async {
+                _ = KeychainStore.setPassword(pass, forSSID: ssid)
                 try? RealtekProfiles.upsert(ssid: ssid, password: pass, supportPath: support)
+                try? RealtekProfiles.setLastNetwork(ssid, supportPath: support)
+            }
+        } else if opts.wps == .none {
+            workQueue.async {
                 try? RealtekProfiles.setLastNetwork(ssid, supportPath: support)
             }
         }
@@ -1794,6 +1816,7 @@ final class WiFiModel: ObservableObject {
             rtlog("join SUCCESS ip=\(snapshot.ip)")
             // Successful join re-enables auto-reconnect immediately
             suppressAutoReconnectUntil = .distantPast
+            AppNotify.connected(ssid: ssid, ip: snapshot.ip)
             return L10n.tr("model.join_ok", ssid, snapshot.ip)
         }
         if ok {

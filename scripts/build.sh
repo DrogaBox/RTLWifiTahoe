@@ -13,6 +13,8 @@ SOURCES=(
   "$ROOT/Sources/Theme.swift"
   "$ROOT/Sources/SignalIcon.swift"
   "$ROOT/Sources/RTLog.swift"
+  "$ROOT/Sources/KeychainStore.swift"
+  "$ROOT/Sources/AppNotify.swift"
   "$ROOT/Sources/JoinOptions.swift"
   "$ROOT/Sources/RealtekDriver.swift"
   "$ROOT/Sources/WiFiModel.swift"
@@ -41,6 +43,8 @@ xcrun swiftc -O -parse-as-library \
   -framework IOKit \
   -framework SystemConfiguration \
   -framework Combine \
+  -framework Security \
+  -framework UserNotifications \
   "${SOURCES[@]}" \
   -o "$APP/Contents/MacOS/RTLWifiTahoe"
 
@@ -69,9 +73,9 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>1.0.0</string>
+  <string>1.1.0</string>
   <key>CFBundleVersion</key>
-  <string>1</string>
+  <string>2</string>
   <key>LSMinimumSystemVersion</key>
   <string>13.0</string>
   <key>LSUIElement</key>

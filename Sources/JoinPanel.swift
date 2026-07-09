@@ -46,7 +46,8 @@ struct JoinPanel: View {
             statusLine
             bandFilterBar
 
-            if scanning && networks.isEmpty {
+            // Never block the join form on "reading…" — pending Status taps open form first
+            if scanning && networks.isEmpty && !showPasswordForm {
                 Spacer(minLength: 0)
                 VStack(spacing: 10) {
                     ProgressView()
@@ -55,7 +56,7 @@ struct JoinPanel: View {
                         .foregroundColor(Tahoe.subtext)
                 }
                 Spacer(minLength: 0)
-            } else if networks.isEmpty {
+            } else if networks.isEmpty && !showPasswordForm {
                 Spacer(minLength: 0)
                 VStack(spacing: 8) {
                     Image(systemName: "wifi.exclamationmark")
@@ -155,7 +156,41 @@ struct JoinPanel: View {
         .background(PanelBackground())
         .preferredColorScheme(.dark)
         .animation(.easeOut(duration: 0.15), value: showPasswordForm)
-        .task { await rescan() }
+        .task {
+            // 1) Instant: use Status nearby list + open form if user tapped a network
+            if !model.nearbyNetworks.isEmpty {
+                networks = model.nearbyNetworks
+            }
+            applyPendingJoinIfNeeded()
+
+            // 2) Background refresh only if we still need a list (no pending form)
+            //    Manual "Scan" still runs a full rescan.
+            if !showPasswordForm {
+                await rescan(showSpinner: networks.isEmpty)
+            }
+        }
+    }
+
+    /// Status “Cercanas” tap → open password/options for that network immediately.
+    /// Does **not** wait for driver scan (pending seed already has channel/BSSID).
+    @MainActor
+    private func applyPendingJoinIfNeeded() {
+        guard let pending = model.pendingJoinNetwork else { return }
+        model.pendingJoinNetwork = nil
+
+        // Merge pending into list so it appears if missing
+        if !networks.contains(where: { $0.ssid == pending.ssid }) {
+            networks.insert(pending, at: 0)
+        }
+
+        let seed = networks.first(where: {
+            $0.ssid == pending.ssid
+                && (pending.bssid == nil || $0.bssid == pending.bssid)
+        }) ?? networks.first(where: { $0.ssid == pending.ssid }) ?? pending
+
+        let stored = KeychainStore.bestPassword(forSSID: seed.ssid, supportPath: supportPath) ?? ""
+        selected = seed.ssid
+        openPasswordForm(ssid: seed.ssid, prefillPass: stored, seed: seed)
     }
 
     private var header: some View {
@@ -608,9 +643,9 @@ struct JoinPanel: View {
     }
 
     @MainActor
-    private func rescan() async {
-        scanning = true
-        message = nil
+    private func rescan(showSpinner: Bool = true) async {
+        if showSpinner { scanning = true }
+        if !showPasswordForm { message = nil }
         // Only treat as connected if we have real L2/IP — not sticky kext SSID
         let reallyConnected = model.snapshot.ip != "—"
             || model.snapshot.linkSpeedBps > 0
@@ -644,6 +679,7 @@ struct JoinPanel: View {
                 isFromLiveScan: false
             ))
         }
+        // Keep password form open; don't wipe UI mid-type
         networks = merged
 
         if let age = RealtekLiveScan.cacheAge() {
@@ -654,8 +690,8 @@ struct JoinPanel: View {
             cacheInfo = ""
         }
 
-        if let err, merged.isEmpty { message = err }
-        else if merged.isEmpty { message = L10n.Join.noNetworks }
+        if let err, merged.isEmpty, !showPasswordForm { message = err }
+        else if merged.isEmpty, !showPasswordForm { message = L10n.Join.noNetworks }
         else if !showPasswordForm { message = nil }
         scanning = false
     }
@@ -668,7 +704,7 @@ struct JoinPanel: View {
         // Open networks: join immediately
         // Always open options form so user can pick Infra/Ad-hoc/WPS
         busy = false
-        let stored = RealtekProfiles.password(for: net.ssid, supportPath: supportPath) ?? ""
+        let stored = KeychainStore.bestPassword(forSSID: net.ssid, supportPath: supportPath) ?? ""
         openPasswordForm(ssid: net.ssid, prefillPass: stored, seed: net)
     }
 

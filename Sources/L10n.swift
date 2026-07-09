@@ -301,4 +301,8 @@ enum L10n {
         static var secured: String { tr("badge.secured") }
         static var open: String { tr("badge.open") }
     }
+
+    enum Notify {
+        // use tr() for formatted bodies
+    }
 }

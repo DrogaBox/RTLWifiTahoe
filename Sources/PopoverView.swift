@@ -517,6 +517,8 @@ struct StatusTab: View {
 
     private func nearbyRow(_ net: ScannedNetwork) -> some View {
         Button {
+            // Open Join overlay on this SSID (password form), not Profiles tab
+            model.pendingJoinNetwork = net
             showJoin = true
         } label: {
             HStack(spacing: 8) {
@@ -894,6 +896,11 @@ struct ProTab: View {
                     title: L10n.Pro.autoReconnect,
                     subtitle: L10n.Pro.autoReconnectSub,
                     isOn: $model.autoReconnect
+                )
+                TahoeToggleRow(
+                    title: L10n.tr("pro.notifications"),
+                    subtitle: L10n.tr("pro.notifications_sub"),
+                    isOn: $model.showNotifications
                 )
                 TahoeToggleRow(
                     title: L10n.Pro.scanNearby,
