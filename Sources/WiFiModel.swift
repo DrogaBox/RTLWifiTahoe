@@ -1014,12 +1014,16 @@ final class WiFiModel: ObservableObject {
     }() {
         didSet { UserDefaults.standard.set(menuBarMode.rawValue, forKey: "menubar_mode") }
     }
-    @Published var refreshHz: Double = UserDefaults.standard.object(forKey: "refresh_hz") as? Double ?? 2.0 {
+    /// Seconds between telemetry refreshes (IO). Default 3s keeps menubar light.
+    @Published var refreshHz: Double = UserDefaults.standard.object(forKey: "refresh_hz") as? Double ?? 3.0 {
         didSet {
             UserDefaults.standard.set(refreshHz, forKey: "refresh_hz")
             restartTimer()
         }
     }
+
+    /// Popover open → allow nearby scans; closed → skip BSS scans (big CPU saver).
+    private(set) var popoverVisible = false
 
     /// Last DNS preset the user picked (UI selection; may differ until apply succeeds).
     @Published var selectedDNSPreset: DNSPreset = {
@@ -1055,11 +1059,14 @@ final class WiFiModel: ObservableObject {
     private var lastNearbyScan: Date = .distantPast
     private var nearbyScanTask: Task<Void, Never>?
     private var refreshTask: Task<Void, Never>?
-    private let workQueue = DispatchQueue(label: "com.drogabox.rtlwifitahoe.probe", qos: .userInitiated)
+    private let workQueue = DispatchQueue(label: "com.drogabox.rtlwifitahoe.probe", qos: .utility)
     /// Long-running connect sleeps — keep off workQueue so UI refresh is not blocked (P1-2).
     private let joinQueue = DispatchQueue(label: "com.drogabox.rtlwifitahoe.join", qos: .userInitiated)
-    /// Min seconds between automatic BSS scans (driver scan is heavy)
-    private let nearbyScanInterval: TimeInterval = 25
+    /// Min seconds between automatic BSS scans (driver scan is heavy: multi-second Thread.sleep)
+    private let nearbyScanInterval: TimeInterval = 50
+    /// TCP / router identity only this often (not every light tick)
+    private let slowProbeMinInterval: TimeInterval = 12
+    private var lastInternetProbe: Date = .distantPast
 
     private let realtekSupport = "/Library/Application Support/WLAN/com.realtek.utility.wifi"
     private let classicAppCandidates = [
@@ -1116,12 +1123,29 @@ final class WiFiModel: ObservableObject {
         }
     }
 
+    func setPopoverVisible(_ visible: Bool) {
+        popoverVisible = visible
+        if visible {
+            // Fresh data when user opens panel; scan only if enabled
+            refreshAsync(forceSlow: true)
+            scanNearby(force: false)
+        }
+    }
+
     func restartTimer() {
         timer?.invalidate()
-        // Default 2s — light path only
-        let interval = max(1.0, min(5.0, refreshHz))
+        // 2…8s; default 3s. Slightly slower when popover is closed.
+        let base = max(2.0, min(8.0, refreshHz))
+        let interval = popoverVisible ? base : max(base, 4.0)
         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
-            Task { @MainActor in self?.refreshAsync(forceSlow: false) }
+            Task { @MainActor in
+                guard let self else { return }
+                self.refreshAsync(forceSlow: false)
+                // BSS scan only while popover open (or never if scan off)
+                if self.popoverVisible, self.scanEnabled {
+                    self.scanNearby(force: false)
+                }
+            }
         }
         if let timer { RunLoop.main.add(timer, forMode: .common) }
     }
@@ -1147,17 +1171,15 @@ final class WiFiModel: ObservableObject {
 
     // MARK: Public refresh API
 
-    /// Opens popover: never blocks UI. Uses cache + async update.
+    /// Manual refresh (menu / button).
     func refreshNow() {
         refreshAsync(forceSlow: true)
-        scanNearby(force: false)
+        if popoverVisible { scanNearby(force: true) }
     }
 
-    /// Light refresh for timer / menu label.
+    /// Light refresh for open-popover / wake — no automatic BSS scan.
     func refreshLight() {
         refreshAsync(forceSlow: false)
-        // Occasional background BSS scan when enabled
-        scanNearby(force: false)
     }
 
     /// Trigger BSS scan for Status nearby list. No-op when scan is disabled.
@@ -1166,6 +1188,8 @@ final class WiFiModel: ObservableObject {
             nearbyScanAgeText = "scan apagado"
             return
         }
+        // Background auto-scans only useful when user can see the list
+        if !force, !popoverVisible { return }
         guard snapshot.driverLoaded, snapshot.radioOn else { return }
         if isScanningNearby { return }
         if !force, Date().timeIntervalSince(lastNearbyScan) < nearbyScanInterval {
@@ -1218,11 +1242,12 @@ final class WiFiModel: ObservableObject {
     }
 
     private func refreshAsync(forceSlow: Bool) {
-        // Coalesce concurrent refreshes
-        if isRefreshing && !forceSlow { return }
+        // Coalesce concurrent refreshes — skip light ticks if previous still running
+        if isRefreshing { return }
 
         let pref = preferredBSD
-        let force = forceSlow || Date().timeIntervalSince(lastSlowRefresh) > 10
+        let force = forceSlow || Date().timeIntervalSince(lastSlowRefresh) > slowProbeMinInterval
+        let doNetProbe = force || Date().timeIntervalSince(lastInternetProbe) > slowProbeMinInterval
         let prev = previousBytes
         let support = realtekSupport
         let cachedDrv = cachedDriver
@@ -1232,6 +1257,9 @@ final class WiFiModel: ObservableObject {
         let graceUntil = joinGraceUntil
         let cachedRModel = cachedRouterModel
         let cachedRIP = cachedRouterIdentityIP
+        // Preserve last reachability on light ticks
+        let prevGw = snapshot.gatewayReachable
+        let prevNet = snapshot.internetReachable
 
         isRefreshing = true
 
@@ -1314,13 +1342,18 @@ final class WiFiModel: ObservableObject {
                         snap.dns = dnsSC
                         snap.dnsIsAutomatic = dnsSC.isEmpty || dnsSC == [router].compactMap { $0 }
                     }
-                    // Real connectivity (not “has DNS string”)
-                    let (gwOK, netOK) = NetProbe.probeInternet(router: router)
-                    snap.gatewayReachable = gwOK || router != nil
-                    snap.internetReachable = netOK
-                    // Brand/model: OUI instant + short HTTP (only on slow refresh or first time)
+                    // TCP probes are expensive (multi × 350ms) — only on slow path
+                    if doNetProbe {
+                        let (gwOK, netOK) = NetProbe.probeInternet(router: router)
+                        snap.gatewayReachable = gwOK || router != nil
+                        snap.internetReachable = netOK
+                    } else {
+                        snap.gatewayReachable = prevGw || router != nil
+                        snap.internetReachable = prevNet
+                    }
+                    // Brand/model: OUI instant + HTTP only on slow refresh / new router
                     if force || cachedRouterIdentityIP != router {
-                        if let model = NetProbe.identifyRouter(ip: router, mac: rmac) {
+                        if force, let model = NetProbe.identifyRouter(ip: router, mac: rmac) {
                             snap.routerModel = model
                             cachedRouterIdentityIP = router
                             cachedRouterModel = model
@@ -1331,7 +1364,7 @@ final class WiFiModel: ObservableObject {
                         } else if cachedRouterIdentityIP == router, let m = cachedRouterModel {
                             snap.routerModel = m
                         } else {
-                            snap.routerModel = "—"
+                            snap.routerModel = cachedRouterModel ?? "—"
                         }
                     } else if let m = cachedRouterModel {
                         snap.routerModel = m
@@ -1429,6 +1462,8 @@ final class WiFiModel: ObservableObject {
 
             DispatchQueue.main.async {
                 guard let self else { return }
+                let prevIP = self.snapshot.ip
+                let prevSSID = self.lastSSID
                 self.cachedDriver = driver
                 self.cachedProfiles = profiles
                 self.cachedMac = macMap
@@ -1441,20 +1476,16 @@ final class WiFiModel: ObservableObject {
                 self.statusText = status
                 self.isRefreshing = false
                 if force { self.lastSlowRefresh = Date() }
+                if doNetProbe { self.lastInternetProbe = Date() }
                 // Notify link loss (had IP → no IP), not during join grace
-                let hadIP = self.snapshot.ip != "—"
-                let nowIP = hasIP
-                let prevSSID = self.lastSSID
-                if hadIP, !nowIP, Date() >= self.joinGraceUntil {
+                if prevIP != "—", !hasIP, Date() >= self.joinGraceUntil {
                     AppNotify.disconnected(ssid: prevSSID.isEmpty ? snap.ssid : prevSSID)
                 }
 
                 self.lastSSID = snap.ssid
-                // Sync picker to what the system actually uses (not while applying)
                 if !self.dnsBusy, let matched = snap.matchedDNSPreset {
                     self.selectedDNSPreset = matched
                 }
-                // Auto-reconnect when no IP but we have a saved default profile
                 if !hasIP, snap.radioOn, driver.loaded {
                     self.maybeAutoReconnect(force: false)
                 }

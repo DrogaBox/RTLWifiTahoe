@@ -14,7 +14,7 @@ struct RTLWifiTahoeApp: App {
 }
 
 @MainActor
-final class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     private var statusItem: NSStatusItem!
     private var popover: NSPopover!
     private var model: WiFiModel!
@@ -41,6 +41,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         popover = NSPopover()
         popover.behavior = .transient
         popover.animates = true
+        popover.delegate = self
         popover.contentSize = NSSize(width: PanelSize.width, height: PanelSize.minHeight)
         installPopoverContent()
 
@@ -58,9 +59,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         updateStatusItem()
 
-        timer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { [weak self] _ in
+        // UI-only tick — WiFiModel owns all IO refresh (avoid double timers / double scans).
+        timer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: true) { [weak self] _ in
             Task { @MainActor in
-                self?.model.refreshLight()
                 self?.updateStatusItem()
             }
         }
@@ -163,8 +164,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         if popover.isShown {
+            model.setPopoverVisible(false)
             popover.performClose(sender)
         } else {
+            model.setPopoverVisible(true)
+            // One light refresh when opening — not every menu-bar tick
             model.refreshLight()
             updateStatusItem()
             // Recreate hosting controller so SwiftUI state is fresh & fast
@@ -178,7 +182,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             DispatchQueue.main.async { [weak self] in
                 self?.syncPopoverSizeFromHost()
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [weak self] in
                 self?.syncPopoverSizeFromHost()
             }
         }
@@ -220,4 +224,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func quit() { NSApp.terminate(nil) }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
+
+    // MARK: - NSPopoverDelegate
+
+    func popoverDidClose(_ notification: Notification) {
+        model.setPopoverVisible(false)
+    }
 }

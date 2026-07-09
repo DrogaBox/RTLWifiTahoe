@@ -33,7 +33,7 @@ final class RTLog: ObservableObject {
         }
         let snapshot = lines.suffix(80).joined(separator: "\n")
         writeBuffer.append(line)
-        let shouldFlush = writeBuffer.count >= 50
+        let shouldFlush = writeBuffer.count >= 80
         lock.unlock()
 
         #if DEBUG
@@ -42,14 +42,19 @@ final class RTLog: ObservableObject {
 
         if shouldFlush { flush() }
 
+        // Throttle UI log pane updates (not every line on main)
         DispatchQueue.main.async { [weak self] in
-            self?.recentText = snapshot
+            guard let self else { return }
+            if self.recentText != snapshot {
+                self.recentText = snapshot
+            }
         }
     }
 
     private func startFlushTimer() {
         let timer = DispatchSource.makeTimerSource(queue: .global(qos: .utility))
-        timer.schedule(deadline: .now() + 1.0, repeating: 1.0)
+        // 5s is enough for diagnostics; 1s flushed every line was wasteful
+        timer.schedule(deadline: .now() + 5.0, repeating: 5.0)
         timer.setEventHandler { [weak self] in
             self?.flush()
         }
