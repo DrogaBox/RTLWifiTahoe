@@ -858,10 +858,17 @@ struct ProfilesTab: View {
 struct ProTab: View {
     @ObservedObject var model: WiFiModel
     @ObservedObject private var themes = ThemeStore.shared
+    /// Collapsed by default so Pro stays short; user expands Theme / Behavior.
+    @State private var themeExpanded = false
+    @State private var behaviorExpanded = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            section(L10n.Pro.theme) {
+            collapsibleSection(
+                title: L10n.Pro.theme,
+                isExpanded: $themeExpanded,
+                summary: themes.themeID.label
+            ) {
                 ThemePickerView(themes: themes)
             }
 
@@ -891,7 +898,11 @@ struct ProTab: View {
                 }
             }
 
-            section(L10n.Pro.behavior) {
+            collapsibleSection(
+                title: L10n.Pro.behavior,
+                isExpanded: $behaviorExpanded,
+                summary: behaviorSummary
+            ) {
                 TahoeToggleRow(
                     title: L10n.Pro.autoReconnect,
                     subtitle: L10n.Pro.autoReconnectSub,
@@ -946,6 +957,16 @@ struct ProTab: View {
         }
         .padding(.horizontal, 12)
         .padding(.bottom, 10)
+        .animation(.easeOut(duration: 0.18), value: themeExpanded)
+        .animation(.easeOut(duration: 0.18), value: behaviorExpanded)
+    }
+
+    private var behaviorSummary: String {
+        var bits: [String] = []
+        if model.autoReconnect { bits.append("Auto") }
+        if model.showNotifications { bits.append("Notify") }
+        if model.scanEnabled { bits.append("Scan") }
+        return bits.isEmpty ? "—" : bits.joined(separator: " · ")
     }
 
     private func section<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
@@ -964,6 +985,60 @@ struct ProTab: View {
                     .fill(Tahoe.card)
                     .overlay(RoundedRectangle(cornerRadius: 10).stroke(Tahoe.cardBorder, lineWidth: 1))
             )
+        }
+    }
+
+    /// Expandable block (Tema / Behavior) — header row toggles body.
+    private func collapsibleSection<Content: View>(
+        title: String,
+        isExpanded: Binding<Bool>,
+        summary: String,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Button {
+                isExpanded.wrappedValue.toggle()
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundColor(Tahoe.accentCyan)
+                        .rotationEffect(.degrees(isExpanded.wrappedValue ? 90 : 0))
+                    Text(title.uppercased())
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundColor(Tahoe.subtext)
+                        .tracking(0.5)
+                    Spacer(minLength: 4)
+                    if !isExpanded.wrappedValue, !summary.isEmpty {
+                        Text(summary)
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundColor(Tahoe.text.opacity(0.75))
+                            .lineLimit(1)
+                    }
+                }
+                .padding(.horizontal, 10)
+                .padding(.vertical, 9)
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Tahoe.card)
+                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Tahoe.cardBorder, lineWidth: 1))
+                )
+            }
+            .buttonStyle(.plain)
+
+            if isExpanded.wrappedValue {
+                VStack(alignment: .leading, spacing: 4) {
+                    content()
+                }
+                .padding(10)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Tahoe.card)
+                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Tahoe.cardBorder, lineWidth: 1))
+                )
+                .transition(.opacity.combined(with: .move(edge: .top)))
+            }
         }
     }
 }

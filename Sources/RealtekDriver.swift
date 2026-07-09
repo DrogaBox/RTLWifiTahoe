@@ -62,11 +62,19 @@ final class RealtekDriver {
 
     deinit { close() }
 
+    /// BSD name for best-effort ifconfig (updated by WiFiModel when the Realtek iface is known).
+    var currentBSD: String = "en1"
+
     // MARK: - Open / close
 
     @discardableResult
     func open() -> Bool {
         lock.lock(); defer { lock.unlock() }
+        return openLocked()
+    }
+
+    /// Must be called under `lock`. Does NOT release the lock during IOServiceMatching (P1-1).
+    private func openLocked() -> Bool {
         if connection != 0 { return true }
 
         let matching = IOServiceMatching("IOEthernetController")
@@ -133,7 +141,13 @@ final class RealtekDriver {
         return true
     }
 
-    func close() {
+    /// Called from queryOID/setOID under lock.
+    private func ensureOpenLocked() -> Bool {
+        if connection != 0 { return true }
+        return openLocked()
+    }
+
+    private func close() {
         lock.lock(); defer { lock.unlock() }
         if connection != 0 {
             IOServiceClose(connection)
@@ -141,11 +155,15 @@ final class RealtekDriver {
         }
     }
 
+    #if DEBUG
+    func closeForTesting() { close() }
+    #endif
+
     // MARK: - OID helpers
 
     private func queryOID(_ oid: UInt32, out: UnsafeMutableRawPointer?, maxLen: Int) -> Int {
         lock.lock(); defer { lock.unlock() }
-        guard connection != 0 || openUnlocked() else {
+        guard ensureOpenLocked() else {
             rtlog(String(format: "queryOID 0x%08X FAIL open", oid))
             return -1
         }
@@ -194,7 +212,7 @@ final class RealtekDriver {
     @discardableResult
     private func setOIDValue(_ oid: UInt32, value: UInt32) -> Bool {
         lock.lock(); defer { lock.unlock() }
-        guard connection != 0 || openUnlocked() else {
+        guard ensureOpenLocked() else {
             rtlog(String(format: "setOID 0x%08X=%u FAIL open", oid, value))
             return false
         }
@@ -222,18 +240,9 @@ final class RealtekDriver {
         return ok
     }
 
-    private func openUnlocked() -> Bool {
-        // called under lock
-        if connection != 0 { return true }
-        lock.unlock()
-        let ok = open()
-        lock.lock()
-        return ok
-    }
-
     private func getNetwork(at index: UInt64) -> Data? {
         lock.lock(); defer { lock.unlock() }
-        guard connection != 0 || openUnlocked() else { return nil }
+        guard ensureOpenLocked() else { return nil }
 
         var idx = index
         var buf = [UInt8](repeating: 0, count: kNetInfoSize)
@@ -318,12 +327,15 @@ final class RealtekDriver {
     /// Full scan: start scan, wait, enumerate BSS list. No StatusBarApp.
     func scanNetworks() -> [ScannedNetwork] {
         _ = open()
+        let scanStart = Date()
 
         // Start scan (value 0 matches CmdScan)
         _ = setOIDValue(OID_RT_SET_SCAN, value: 0)
 
-        // Wait until scan not in progress
+        // Wait until scan not in progress (cap ~5s total wait — P2-1)
+        let scanDeadline = scanStart.addingTimeInterval(5.0)
         for _ in 0..<30 {
+            if Date() >= scanDeadline { break }
             var progress: UInt32 = 1
             let n = queryOID(OID_RT_GET_SCAN_IN_PROGRESS, out: &progress, maxLen: 4)
             if n >= 4 && progress == 0 { break }
@@ -331,18 +343,18 @@ final class RealtekDriver {
             Thread.sleep(forTimeInterval: 0.25)
         }
 
-        // BSS count
+        // BSS count — cap at 128 to avoid pathological 512-entry loops
         var count: UInt32 = 0
         let cn = queryOID(OID_BSS_NUMBER, out: &count, maxLen: 4)
         if cn < 4 || count == 0 {
-            // Fallback: try reading up to 64 entries anyway
             count = 64
         }
-        count = min(count, 512)
+        count = min(count, 128)
 
         var bySSID: [String: ScannedNetwork] = [:]
 
         for i in 0..<count {
+            if Date().timeIntervalSince(scanStart) > 8.0 { break }
             guard let data = getNetwork(at: UInt64(i)) else { continue }
             guard let parsed = Self.parseNetInfo(data) else { continue }
             if parsed.ssid.isEmpty { continue }
@@ -693,22 +705,23 @@ final class RealtekDriver {
     /// `true` = radio transmitting (turnRfOn). OID 0xFF818081: 0=on, 1=off.
     /// Also syncs soft state file + best-effort `ifconfig en1 up/down` like StatusBarApp.
     @discardableResult
-    func setRadioOn(_ on: Bool) -> Bool {
+    func setRadioOn(_ on: Bool, bsd: String? = nil) -> Bool {
         verboseOIDLog = true
         defer { verboseOIDLog = false }
         guard open() else {
             rtlog("setRadioOn(\(on)): open failed")
             return false
         }
+        let iface = (bsd?.isEmpty == false) ? bsd! : (currentBSD.isEmpty ? "en1" : currentBSD)
         // turnRfOn → value 0; turnRfOff → value 1
         let value: UInt32 = on ? 0 : 1
-        rtlog("setRadioOn(\(on)) OID 0xFF818081=\(value)")
+        rtlog("setRadioOn(\(on)) OID 0xFF818081=\(value) bsd=\(iface)")
         let ok = setOIDValue(OID_RT_RF, value: value)
         // Soft RF file: MenuItemRadioOnOff writes global bRfOff (1=OFF, 0=ON) as "%d\n"
         //   radio ON  -> file "0"
         //   radio OFF -> file "1"
         writeSoftRF(on: on)
-        ifconfigInterface(up: on)
+        ifconfigInterface(up: on, bsd: iface)
         Thread.sleep(forTimeInterval: 0.2)
         let off = isRadioOff()
         rtlog("setRadioOn result ok=\(ok) isRadioOff=\(String(describing: off)) softOff=\(String(describing: softRFFileSaysOff()))")
@@ -742,7 +755,8 @@ final class RealtekDriver {
                 wrote = true
             }
         }
-        if !wrote, let mac = NetProbe.macAddress(bsd: "en1") {
+        let softBSD = currentBSD.isEmpty ? "en1" : currentBSD
+        if !wrote, let mac = NetProbe.macAddress(bsd: softBSD) {
             let name = mac.replacingOccurrences(of: ":", with: "") + "rfoff.rtl"
             try? body.write(toFile: "\(dir)/\(name)", atomically: true, encoding: .utf8)
             rtlog("softRF created \(name) bRfOff=\(on ? 0 : 1)")
@@ -765,21 +779,21 @@ final class RealtekDriver {
         return nil
     }
 
-    private func ifconfigInterface(up: Bool) {
+    private func ifconfigInterface(up: Bool, bsd: String? = nil) {
         // Best-effort without sudo; StatusBarApp uses sudo ifconfig
-        let bsd = "en1"
+        let iface = (bsd?.isEmpty == false) ? bsd! : (currentBSD.isEmpty ? "en1" : currentBSD)
         let mode = up ? "up" : "down"
         let p = Process()
         p.executableURL = URL(fileURLWithPath: "/sbin/ifconfig")
-        p.arguments = [bsd, mode]
+        p.arguments = [iface, mode]
         p.standardOutput = FileHandle.nullDevice
         p.standardError = FileHandle.nullDevice
         do {
             try p.run()
             p.waitUntilExit()
-            rtlog("ifconfig \(bsd) \(mode) exit=\(p.terminationStatus)")
+            rtlog("ifconfig \(iface) \(mode) exit=\(p.terminationStatus)")
         } catch {
-            rtlog("ifconfig \(bsd) \(mode) error: \(error.localizedDescription)")
+            rtlog("ifconfig \(iface) \(mode) error: \(error.localizedDescription)")
         }
     }
 
@@ -787,7 +801,7 @@ final class RealtekDriver {
     ///   +0 OID, +4 infoBufLen = data length, +8 = 0, +12 = 0, +16 data…
     private func setOIDData(_ oid: UInt32, data: [UInt8]) -> Bool {
         lock.lock(); defer { lock.unlock() }
-        guard connection != 0 || openUnlocked() else {
+        guard ensureOpenLocked() else {
             rtlog(String(format: "setBuf 0x%08X len=%d FAIL open", oid, data.count))
             return false
         }
@@ -856,20 +870,26 @@ final class RealtekDriver {
         if signal > 100 { signal = min(100, signal) }
         if signal < 0 { signal = 0 }
 
-        // Site_Encry-ish: treat open only if WPS/IE empty-looking; default secure
-        let isSecure = true
+        // Encryption from RSN / WPA IEs (P2-6) — was hard-coded secure
+        let isSecure = detectEncryption(from: data)
 
         // Wi‑Fi 4/5/6/7 from HT / VHT / HE / EHT IEs embedded in NET_INFO
         let generation = WiFiGeneration.detect(from: data)
 
-        // WPS: OUI 00:50:F2:04 appears early in many Realtek records
+        // WPS: OUI 00:50:F2 type 0x04 (Simple Config)
         let hasWPS: Bool = {
             guard data.count > 0x40 else { return false }
             let bytes = [UInt8](data)
-            for i in 0x2C..<(min(bytes.count, 0x200) - 3) {
-                if bytes[i] == 0x50 && bytes[i + 1] == 0xF2 && bytes[i + 2] == 0x04 {
+            var i = 0x2C
+            while i + 6 < bytes.count {
+                let id = bytes[i]
+                let len = Int(bytes[i + 1])
+                guard i + 2 + len <= bytes.count else { break }
+                if id == 0xDD && len >= 4,
+                   bytes[i + 2] == 0x00, bytes[i + 3] == 0x50, bytes[i + 4] == 0xF2, bytes[i + 5] == 0x04 {
                     return true
                 }
+                i += 2 + len
             }
             return false
         }()
@@ -899,18 +919,63 @@ final class RealtekDriver {
         )
     }
 
-    /// Pull real AP MAC from WPS IE blob inside NET_INFO (byte 0xFE then 6-octet BSSID).
-    private static func extractRealBSSID(from data: Data) -> String? {
-        guard data.count > 0x30 else { return nil }
+    /// RSN (0x30) or Microsoft WPA vendor IE → secured network (P2-6).
+    private static func detectEncryption(from data: Data) -> Bool {
         let bytes = [UInt8](data)
-        // Search for 0xFE followed by a plausible MAC (not multicast-only junk)
-        for i in 0x2C..<(bytes.count - 7) {
-            if bytes[i] == 0xFE {
-                let mac = Array(bytes[(i + 1)..<(i + 7)])
-                // reject all-zero / all-ff
-                if mac.allSatisfy({ $0 == 0 }) || mac.allSatisfy({ $0 == 0xFF }) { continue }
-                return mac.map { String(format: "%02x", $0) }.joined()
+        guard bytes.count > 0x40 else { return false }
+        var i = 0x2C
+        while i + 2 < bytes.count {
+            let id = bytes[i]
+            let len = Int(bytes[i + 1])
+            guard i + 2 + len <= bytes.count else { break }
+            if id == 0x30 { return true } // RSN (WPA2/WPA3)
+            if id == 0xDD && len >= 4 {
+                // OUI 00:50:F2 type 0x01 = WPA IE
+                if bytes[i + 2] == 0x00 && bytes[i + 3] == 0x50 && bytes[i + 4] == 0xF2 && bytes[i + 5] == 0x01 {
+                    return true
+                }
             }
+            i += 2 + len
+        }
+        return false
+    }
+
+    /// Prefer WPS IE attribute 0x104A (AP MAC); fall back only if nothing found (P2-7).
+    private static func extractRealBSSID(from data: Data) -> String? {
+        let bytes = [UInt8](data)
+        guard bytes.count > 0x40 else { return nil }
+
+        var i = 0x2C
+        while i + 6 < bytes.count {
+            let id = bytes[i]
+            let len = Int(bytes[i + 1])
+            guard i + 2 + len <= bytes.count else { break }
+
+            if id == 0xDD && len >= 4 {
+                let oui0 = bytes[i + 2]
+                let oui1 = bytes[i + 3]
+                let oui2 = bytes[i + 4]
+                let wpsType = bytes[i + 5]
+                // WPS IE: OUI 00:50:F2, type 0x04 (Simple Config)
+                if oui0 == 0x00 && oui1 == 0x50 && oui2 == 0xF2 && wpsType == 0x04 {
+                    let wpsStart = i + 6
+                    let wpsEnd = i + 2 + len
+                    var j = wpsStart
+                    while j + 4 <= wpsEnd {
+                        let attrType = (UInt16(bytes[j]) << 8) | UInt16(bytes[j + 1])
+                        let attrLen = Int((UInt16(bytes[j + 2]) << 8) | UInt16(bytes[j + 3]))
+                        if j + 4 + attrLen > wpsEnd { break }
+                        if attrType == 0x104A && attrLen == 6 {
+                            let mac = Array(bytes[(j + 4)..<(j + 10)])
+                            if !mac.allSatisfy({ $0 == 0 }) && !mac.allSatisfy({ $0 == 0xFF }) {
+                                return mac.map { String(format: "%02x", $0) }.joined()
+                            }
+                        }
+                        j += 4 + attrLen
+                    }
+                }
+            }
+            i += 2 + len
         }
         return nil
     }

@@ -66,8 +66,37 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         if let timer { RunLoop.main.add(timer, forMode: .common) }
 
-        // Always kill classic Realtek StatusBarApp — RTL Wi-Fi Tahoe replaces it
-        model.purgeClassicUtility()
+        // Only purge classic utility when the user opted in (Pro toggle or first-launch dialog)
+        if model.hideClassicUtility {
+            model.purgeClassicUtility()
+        }
+
+        // First-launch: ask whether to replace StatusBarApp (P2-5)
+        if !UserDefaults.standard.bool(forKey: "classic_app_prompt_shown") {
+            UserDefaults.standard.set(true, forKey: "classic_app_prompt_shown")
+            // Defer so status item is ready before modal
+            DispatchQueue.main.async { [weak self] in
+                self?.askAboutClassicUtility()
+            }
+        }
+    }
+
+    private func askAboutClassicUtility() {
+        let alert = NSAlert()
+        alert.messageText = String(localized: "Replace Realtek StatusBarApp?")
+        alert.informativeText = String(localized: """
+            RTL Wi-Fi Tahoe can replace the classic Realtek StatusBarApp for day-to-day Wi-Fi management. \
+            If you accept, Tahoe will quit StatusBarApp and prevent it from launching at login. \
+            You can change this later under Pro settings.
+            """)
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: String(localized: "Replace StatusBarApp"))
+        alert.addButton(withTitle: String(localized: "Keep Both"))
+        let res = alert.runModal()
+        if res == .alertFirstButtonReturn {
+            model.hideClassicUtility = true
+            model.purgeClassicUtility()
+        }
     }
 
     private func installPopoverContent() {

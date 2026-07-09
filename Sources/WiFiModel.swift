@@ -6,6 +6,7 @@ import IOKit
 import IOKit.network
 import SystemConfiguration
 import Darwin
+import ServiceManagement
 
 // MARK: - Models
 
@@ -780,10 +781,30 @@ enum NetProbe {
         return (servers, servers.isEmpty)
     }
 
+    /// Shell single-quote escape: `a'b` → `'a'\''b'`
+    private static func shellQuote(_ s: String) -> String {
+        "'" + s.replacingOccurrences(of: "'", with: "'\\''") + "'"
+    }
+
+    /// AppleScript string literal escape for `do shell script "…"`.
+    private static func osaStringQuote(_ s: String) -> String {
+        "\"" + s.replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "\"", with: "\\\"") + "\""
+    }
+
     /// Set DNS servers on a network service. Empty array → DHCP automatic (`Empty`).
     static func setDNSServers(_ servers: [String], serviceName: String) -> (ok: Bool, message: String) {
         guard !serviceName.isEmpty else {
             return (false, "Servicio de red vacío")
+        }
+        // Reject control characters (possible injection / corrupt SC names)
+        if serviceName.unicodeScalars.contains(where: { $0.value < 0x20 }) {
+            return (false, "Nombre de servicio inválido")
+        }
+        for s in servers {
+            if s.unicodeScalars.contains(where: { $0.value < 0x20 }) {
+                return (false, "Servidor DNS inválido")
+            }
         }
         var args = ["-setdnsservers", serviceName]
         if servers.isEmpty {
@@ -795,10 +816,14 @@ enum NetProbe {
         if code == 0 {
             return (true, "OK")
         }
-        // Retry with admin privileges (macOS may require it for some configs)
-        let shellServers = servers.isEmpty ? "Empty" : servers.map { "'\($0)'" }.joined(separator: " ")
-        let cmd = "/usr/sbin/networksetup -setdnsservers '\(serviceName)' \(shellServers)"
-        let script = "do shell script \"\(cmd)\" with administrator privileges"
+        // Retry with admin privileges — MUST escape serviceName and servers
+        // to prevent shell injection via osascript (P0-1).
+        let shellServers = servers.isEmpty
+            ? "Empty"
+            : servers.map { shellQuote($0) }.joined(separator: " ")
+        let cmd = "/usr/sbin/networksetup -setdnsservers \(shellQuote(serviceName)) \(shellServers)"
+        rtlog("setDNSServers admin retry: \(cmd)")
+        let script = "do shell script \(osaStringQuote(cmd)) with administrator privileges"
         let (acode, aout, aerr) = runOSAscript(script)
         if acode == 0 {
             return (true, "OK (admin)")
@@ -1031,6 +1056,8 @@ final class WiFiModel: ObservableObject {
     private var nearbyScanTask: Task<Void, Never>?
     private var refreshTask: Task<Void, Never>?
     private let workQueue = DispatchQueue(label: "com.drogabox.rtlwifitahoe.probe", qos: .userInitiated)
+    /// Long-running connect sleeps — keep off workQueue so UI refresh is not blocked (P1-2).
+    private let joinQueue = DispatchQueue(label: "com.drogabox.rtlwifitahoe.join", qos: .userInitiated)
     /// Min seconds between automatic BSS scans (driver scan is heavy)
     private let nearbyScanInterval: TimeInterval = 25
 
@@ -1054,17 +1081,19 @@ final class WiFiModel: ObservableObject {
     private var cachedRouterModel: String?
 
     private init() {
-        // Replace classic StatusBarApp completely
+        // First launch: do not force-purge StatusBarApp (P2-5). Consent dialog in AppDelegate.
         if UserDefaults.standard.object(forKey: "hide_classic") == nil {
-            UserDefaults.standard.set(true, forKey: "hide_classic")
-            hideClassicUtility = true
+            UserDefaults.standard.set(false, forKey: "hide_classic")
+            hideClassicUtility = false
         }
         startPathMonitor()
         restartTimer()
         observeWake()
         AppNotify.requestAuthorizationIfNeeded()
         refreshAsync(forceSlow: true)
-        purgeClassicUtility()
+        if hideClassicUtility {
+            purgeClassicUtility()
+        }
     }
 
     private func observeWake() {
@@ -1236,6 +1265,9 @@ final class WiFiModel: ObservableObject {
                 }
             } else {
                 display = nameMap[bsd] ?? bsd
+            }
+            if !bsd.isEmpty {
+                RealtekDriver.shared.currentBSD = bsd
             }
 
             snap.bsdName = bsd
@@ -1655,19 +1687,16 @@ final class WiFiModel: ObservableObject {
         }
     }
 
-    /// Project page (same pattern as AMD Power Gadget → GitHub).
-    static let githubURL = URL(string: "https://github.com/DrogaBox/RTLWifiTahoe")!
-    /// PayPal donate (same account as SMCAMD / Power Gadget).
-    static let paypalDonateURL = URL(string: "https://www.paypal.com/donate/?business=mrleisures@gmail.com")!
-
     func openGitHub() {
-        NSWorkspace.shared.open(Self.githubURL)
+        guard let url = URL(string: "https://github.com/DrogaBox/RTLWifiTahoe") else { return }
+        NSWorkspace.shared.open(url)
     }
 
     /// Play bundled applause (`bravo.mp3`) then open PayPal — same flow as Power Gadget.
     func openDonate() {
+        guard let url = URL(string: "https://www.paypal.com/donate/?business=mrleisures@gmail.com") else { return }
         SupportAudio.playApplause()
-        NSWorkspace.shared.open(Self.paypalDonateURL)
+        NSWorkspace.shared.open(url)
     }
 
     func revealProfilesFolder() {
@@ -1712,8 +1741,9 @@ final class WiFiModel: ObservableObject {
     func setUSBRadio(on: Bool) {
         radioBusy = true
         lastError = nil
+        let bsd = snapshot.bsdName.isEmpty ? "en1" : snapshot.bsdName
         workQueue.async { [weak self] in
-            let ok = RealtekDriver.shared.setRadioOn(on)
+            let ok = RealtekDriver.shared.setRadioOn(on, bsd: bsd)
             DispatchQueue.main.async {
                 guard let self else { return }
                 self.radioBusy = false
@@ -1781,10 +1811,12 @@ final class WiFiModel: ObservableObject {
 
         joinGraceUntil = Date().addingTimeInterval(opts.wps == .pbc ? 40 : 25)
 
+        let joinBSD = snapshot.bsdName.isEmpty ? "en1" : snapshot.bsdName
         let ok: Bool = await withCheckedContinuation { cont in
-            workQueue.async {
+            joinQueue.async {
+                RealtekDriver.shared.currentBSD = joinBSD
                 func linked() -> Bool {
-                    NetProbe.realtekDriver().linkSpeedBps > 0 || NetProbe.mediaActive(bsd: "en1")
+                    NetProbe.realtekDriver().linkSpeedBps > 0 || NetProbe.mediaActive(bsd: joinBSD)
                 }
 
                 var r = RealtekDriver.shared.connect(ssid: ssid, password: pass, options: opts)
@@ -1855,10 +1887,9 @@ final class WiFiModel: ObservableObject {
         }
     }
 
-    /// Call on launch: remove classic utility from Login Items path if present (best-effort).
+    /// Call when user opts in: quit StatusBarApp and remove its LaunchAgents (P2-5).
     func purgeClassicUtility() {
         quitClassicStatusBarApp()
-        // Remove common LaunchAgents if any
         let agents = [
             FileManager.default.homeDirectoryForCurrentUser
                 .appendingPathComponent("Library/LaunchAgents/com.realtek.utility.statusbar.plist"),
@@ -1866,7 +1897,12 @@ final class WiFiModel: ObservableObject {
         ]
         for url in agents {
             if FileManager.default.fileExists(atPath: url.path) {
-                try? FileManager.default.removeItem(at: url)
+                do {
+                    try FileManager.default.removeItem(at: url)
+                    rtlog("purge: removed LaunchAgent \(url.path)")
+                } catch {
+                    rtlog("purge: FAILED to remove \(url.path): \(error.localizedDescription)")
+                }
             }
         }
     }
@@ -2099,47 +2135,36 @@ enum RealtekProfiles {
         let path = supportPath + "/ProfilesList.plist"
         guard let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else { return [:] }
 
-        // Preferred: proper NSKeyedUnarchiver (StatusBarApp format)
-        if let root = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSDictionary,
-           let profs = root["RealtekProfiles"] as? NSDictionary {
-            var result: [String: [String: Any]] = [:]
-            for (key, val) in profs {
-                guard let ssid = key as? String, !ssid.isEmpty, ssid.count <= 32 else { continue }
-                if ssid == "RealtekProfiles" || ssid == "Password" || ssid == "Channel" { continue }
-                if let entry = val as? NSDictionary {
-                    var plain: [String: Any] = [:]
-                    for (ek, ev) in entry {
-                        if let es = ek as? String { plain[es] = ev }
-                    }
-                    result[ssid] = plain
-                } else if let entry = val as? [String: Any] {
-                    result[ssid] = entry
-                }
-            }
-            return result
-        }
+        let allowedClasses: [AnyClass] = [
+            NSDictionary.self, NSMutableDictionary.self,
+            NSString.self, NSMutableString.self,
+            NSNumber.self,
+            NSArray.self, NSMutableArray.self
+        ]
 
-        if let root = try? NSKeyedUnarchiver.unarchivedObject(
-            ofClasses: [NSDictionary.self, NSMutableDictionary.self, NSString.self, NSNumber.self, NSArray.self],
+        guard let root = try? NSKeyedUnarchiver.unarchivedObject(
+            ofClasses: allowedClasses,
             from: data
         ) as? [String: Any],
-           let profs = root["RealtekProfiles"] as? [String: Any] {
-            var result: [String: [String: Any]] = [:]
-            for (ssid, val) in profs {
-                guard !ssid.isEmpty, ssid.count <= 32 else { continue }
-                if let entry = val as? [String: Any] {
-                    result[ssid] = entry
-                } else if let entry = val as? NSDictionary {
-                    var plain: [String: Any] = [:]
-                    for (ek, ev) in entry {
-                        if let es = ek as? String { plain[es] = ev }
-                    }
-                    result[ssid] = plain
-                }
-            }
-            return result
+              let profs = root["RealtekProfiles"] as? [String: Any] else {
+            return [:]
         }
-        return [:]
+
+        var result: [String: [String: Any]] = [:]
+        for (ssid, val) in profs {
+            guard !ssid.isEmpty, ssid.count <= 32 else { continue }
+            if ssid == "RealtekProfiles" || ssid == "Password" || ssid == "Channel" { continue }
+            if let entry = val as? [String: Any] {
+                result[ssid] = entry
+            } else if let entry = val as? NSDictionary {
+                var plain: [String: Any] = [:]
+                for (ek, ev) in entry {
+                    if let es = ek as? String { plain[es] = ev }
+                }
+                result[ssid] = plain
+            }
+        }
+        return result
     }
 
     static func password(for ssid: String, supportPath: String) -> String? {
@@ -2194,6 +2219,27 @@ enum LoginItemHelper {
     }
 
     static func setEnabled(_ enabled: Bool) {
+        if #available(macOS 13.0, *) {
+            let service = SMAppService.mainApp
+            do {
+                if enabled {
+                    try service.register()
+                    rtlog("login: registered via SMAppService")
+                } else {
+                    try service.unregister()
+                    rtlog("login: unregistered via SMAppService")
+                }
+                return
+            } catch {
+                rtlog("login: SMAppService failed: \(error.localizedDescription)")
+                fallbackLaunchctl(enabled: enabled)
+            }
+        } else {
+            fallbackLaunchctl(enabled: enabled)
+        }
+    }
+
+    private static func fallbackLaunchctl(enabled: Bool) {
         let fm = FileManager.default
         if enabled {
             let exe = Bundle.main.bundleURL.path

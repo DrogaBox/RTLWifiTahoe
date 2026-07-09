@@ -125,16 +125,13 @@ enum WiFiGeneration: Int, CaseIterable, Comparable, Hashable, Identifiable {
         var hasHE = false
         var hasEHT = false
 
-        // Fixed header ends ~0x2C; IEs appear after. Scan whole tail.
+        // Fixed header ends ~0x2C; IEs appear after. Advance by 2+len (P2-8).
         let start = min(0x2C, bytes.count)
         var i = start
         while i + 2 < bytes.count {
             let id = bytes[i]
             let len = Int(bytes[i + 1])
-            if len < 0 || i + 2 + len > bytes.count {
-                i += 1
-                continue
-            }
+            guard i + 2 + len <= bytes.count else { break }
 
             switch id {
             case 0x2D: // HT Capabilities (typically 26)
@@ -156,7 +153,7 @@ enum WiFiGeneration: Int, CaseIterable, Comparable, Hashable, Identifiable {
             default:
                 break
             }
-            i += 1
+            i += 2 + len
         }
 
         if hasEHT { return .wifi7 }
