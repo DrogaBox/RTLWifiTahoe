@@ -42,3 +42,6 @@ Resources/AppIcon.iconset/
 .vscode/
 *.swp
 *~
+
+# Release packages
+dist/
