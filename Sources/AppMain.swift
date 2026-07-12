@@ -125,7 +125,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         newFrame.origin.y = currentFrame.maxY - next.height
         newFrame.size = next
         
-        customPanel.setFrame(newFrame, display: true, animate: false)
+        NSAnimationContext.runAnimationGroup { context in
+            context.duration = 0.2
+            context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+            customPanel.animator().setFrame(newFrame, display: true)
+        }
     }
 
     private func updateStatusItem() {
@@ -185,8 +189,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let y = windowFrame.minY - size.height - 4
             customPanel.setFrame(NSRect(origin: NSPoint(x: x, y: y), size: size), display: true)
             
+            customPanel.alphaValue = 0.0
             customPanel.makeKeyAndOrderFront(nil)
             NSApp.activate(ignoringOtherApps: true)
+            
+            NSAnimationContext.runAnimationGroup { context in
+                context.duration = 0.15
+                context.timingFunction = CAMediaTimingFunction(name: .easeOut)
+                customPanel.animator().alphaValue = 1.0
+            }
+            
             setupEventMonitors()
             
             // Second pass after SwiftUI lays out nearby list / tabs
@@ -237,8 +249,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 
     private func closePanel() {
-        customPanel.orderOut(nil)
         removeEventMonitors()
+        NSAnimationContext.runAnimationGroup({ context in
+            context.duration = 0.15
+            context.timingFunction = CAMediaTimingFunction(name: .easeIn)
+            customPanel.animator().alphaValue = 0.0
+        }, completionHandler: {
+            self.customPanel.orderOut(nil)
+        })
     }
 
     private func setupEventMonitors() {
