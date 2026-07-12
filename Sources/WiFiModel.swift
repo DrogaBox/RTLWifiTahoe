@@ -342,39 +342,6 @@ enum NetProbe {
         return nil
     }
 
-    /// Bytes in/out via ifmib sysctl (fast, no shell).
-    static func byteCounts(bsd: String) -> (inBytes: UInt64, outBytes: UInt64)? {
-        // if_nametoindex
-        let idx = if_nametoindex(bsd)
-        guard idx > 0 else { return nil }
-
-        var name: [Int32] = [CTL_NET, PF_LINK, NET_RT_IFLIST2, 0]
-        var len: size_t = 0
-        guard sysctl(&name, 4, nil, &len, nil, 0) == 0, len > 0 else { return nil }
-        var buf = [UInt8](repeating: 0, count: len)
-        guard sysctl(&name, 4, &buf, &len, nil, 0) == 0 else { return nil }
-
-        var offset = 0
-        while offset + MemoryLayout<if_msghdr>.size <= len {
-            let hdr: if_msghdr = buf.withUnsafeBytes { raw in
-                raw.load(fromByteOffset: offset, as: if_msghdr.self)
-            }
-            let msglen = Int(hdr.ifm_msglen)
-            guard msglen > 0 else { break }
-            if hdr.ifm_type == UInt8(RTM_IFINFO2) {
-                // if_msghdr2 layout: if_msghdr2 then sockaddr_dl
-                let hdr2: if_msghdr2 = buf.withUnsafeBytes { raw in
-                    raw.load(fromByteOffset: offset, as: if_msghdr2.self)
-                }
-                if hdr2.ifm_index == UInt16(idx) {
-                    let data = hdr2.ifm_data
-                    return (data.ifi_ibytes, data.ifi_obytes)
-                }
-            }
-            offset += msglen
-        }
-        return nil
-    }
 
     static func scInterfaces() -> [(bsd: String, name: String)] {
         let ports = SCNetworkInterfaceCopyAll() as? [SCNetworkInterface] ?? []
@@ -909,34 +876,6 @@ enum NetProbe {
     }
 }
 
-// if_msghdr2 / if_data64 for byte counters
-private struct if_data64_local {
-    var ifi_type: UInt8 = 0
-    var ifi_typelen: UInt8 = 0
-    var ifi_physical: UInt8 = 0
-    var ifi_addrlen: UInt8 = 0
-    var ifi_hdrlen: UInt8 = 0
-    var ifi_recvquota: UInt8 = 0
-    var ifi_xmitquota: UInt8 = 0
-    var ifi_unused1: UInt8 = 0
-    var ifi_mtu: UInt32 = 0
-    var ifi_metric: UInt32 = 0
-    var ifi_baudrate: UInt64 = 0
-    var ifi_ipackets: UInt64 = 0
-    var ifi_ierrors: UInt64 = 0
-    var ifi_opackets: UInt64 = 0
-    var ifi_oerrors: UInt64 = 0
-    var ifi_collisions: UInt64 = 0
-    var ifi_ibytes: UInt64 = 0
-    var ifi_obytes: UInt64 = 0
-    var ifi_imcasts: UInt64 = 0
-    var ifi_omcasts: UInt64 = 0
-    var ifi_iqdrops: UInt64 = 0
-    var ifi_noproto: UInt64 = 0
-    var ifi_recvtiming: UInt32 = 0
-    var ifi_xmittiming: UInt32 = 0
-    // remainder unused
-}
 
 // Use Darwin's if_msghdr2 if available via import — define RTM_IFINFO2
 private let RTM_IFINFO2: UInt8 = 0x12

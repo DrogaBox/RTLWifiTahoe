@@ -86,7 +86,7 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
   <key>NSPrincipalClass</key>
   <string>NSApplication</string>
   <key>NSAppleEventsUsageDescription</key>
-  <string>RTL Wi-Fi Tahoe needs Accessibility to read the Realtek driver network list and join without opening the classic menu.</string>
+  <string>RTL Wi-Fi Tahoe uses AppleScript to apply DNS changes that require administrator privileges when standard permissions are insufficient.</string>
 </dict>
 </plist>
 PLIST

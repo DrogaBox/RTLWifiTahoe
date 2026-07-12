@@ -671,7 +671,7 @@ struct JoinPanel: View {
             // unless they look like normal network names
             merged.append(ScannedNetwork(
                 ssid: p.ssid,
-                isSecure: p.hasPassword || true,
+                isSecure: p.hasPassword,
                 isConnected: p.isDefault && model.snapshot.active,
                 signalBars: 2,
                 signalPercent: 0,

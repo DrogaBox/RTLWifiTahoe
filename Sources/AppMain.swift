@@ -14,12 +14,14 @@ struct RTLWifiTahoeApp: App {
 }
 
 @MainActor
-final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
-    private var popover: NSPopover!
+    private var customPanel: NSPanel!
     private var model: WiFiModel!
     private var timer: Timer?
     private var sizeObserver: NSObjectProtocol?
+    private var eventMonitor: Any?
+    private var localEventMonitor: Any?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
@@ -37,12 +39,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         }
 
-        // --- Popover panel (height auto-grows downward with content) ---
-        popover = NSPopover()
-        popover.behavior = .transient
-        popover.animates = true
-        popover.delegate = self
-        popover.contentSize = NSSize(width: PanelSize.width, height: PanelSize.minHeight)
+        // --- Custom Floating Panel ---
+        let contentRect = NSRect(x: 0, y: 0, width: PanelSize.width, height: PanelSize.minHeight)
+        customPanel = NSPanel(contentRect: contentRect,
+                              styleMask: [.nonactivatingPanel, .fullSizeContentView, .borderless],
+                              backing: .buffered,
+                              defer: false)
+        customPanel.level = .popUpMenu
+        customPanel.hasShadow = true
+        customPanel.isOpaque = false
+        customPanel.backgroundColor = .clear
+        
         installPopoverContent()
 
         sizeObserver = NotificationCenter.default.addObserver(
@@ -104,24 +111,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         let root = PopoverView(model: model)
             .frame(width: PanelSize.width)
         let host = NSHostingController(rootView: root)
-        // Let SwiftUI report intrinsic height so the popover can grow
-        if #available(macOS 13.0, *) {
-            host.sizingOptions = [.intrinsicContentSize]
-        }
-        popover.contentViewController = host
+        customPanel.contentViewController = host
     }
 
     private func applyPopoverSize(_ size: NSSize) {
         let w = PanelSize.width
         let h = min(max(size.height, PanelSize.minHeight), PanelSize.maxHeight)
         let next = NSSize(width: w, height: h)
-        guard abs(popover.contentSize.height - next.height) > 1
-                || abs(popover.contentSize.width - next.width) > 1 else { return }
-        popover.contentSize = next
-        if let host = popover.contentViewController {
-            host.preferredContentSize = next
-            host.view.setFrameSize(next)
-        }
+        let currentFrame = customPanel.frame
+        guard abs(currentFrame.height - next.height) > 1 || abs(currentFrame.width - next.width) > 1 else { return }
+        
+        var newFrame = currentFrame
+        newFrame.origin.y = currentFrame.maxY - next.height
+        newFrame.size = next
+        
+        customPanel.setFrame(newFrame, display: true, animate: false)
     }
 
     private func updateStatusItem() {
@@ -156,16 +160,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     }
 
     @objc private func togglePopover(_ sender: Any?) {
-        guard let button = statusItem.button else { return }
+        guard let button = statusItem.button, let window = button.window else { return }
 
         if let event = NSApp.currentEvent, event.type == .rightMouseUp {
             showContextMenu()
             return
         }
 
-        if popover.isShown {
+        if customPanel.isVisible {
             model.setPopoverVisible(false)
-            popover.performClose(sender)
+            closePanel()
         } else {
             model.setPopoverVisible(true)
             // One light refresh when opening — not every menu-bar tick
@@ -173,11 +177,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             updateStatusItem()
             // Recreate hosting controller so SwiftUI state is fresh & fast
             installPopoverContent()
-            popover.contentSize = NSSize(width: PanelSize.width, height: PanelSize.minHeight)
-            // preferredEdge .minY → popover opens / grows downward from the menu bar
-            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
-            popover.contentViewController?.view.window?.makeKey()
+            
+            let size = NSSize(width: PanelSize.width, height: PanelSize.minHeight)
+            let buttonFrame = button.convert(button.bounds, to: nil)
+            let windowFrame = window.convertToScreen(buttonFrame)
+            let x = windowFrame.midX - (size.width / 2)
+            let y = windowFrame.minY - size.height - 4
+            customPanel.setFrame(NSRect(origin: NSPoint(x: x, y: y), size: size), display: true)
+            
+            customPanel.makeKeyAndOrderFront(nil)
             NSApp.activate(ignoringOtherApps: true)
+            setupEventMonitors()
+            
             // Second pass after SwiftUI lays out nearby list / tabs
             DispatchQueue.main.async { [weak self] in
                 self?.syncPopoverSizeFromHost()
@@ -189,7 +200,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     }
 
     private func syncPopoverSizeFromHost() {
-        guard let view = popover.contentViewController?.view else { return }
+        guard let view = customPanel.contentViewController?.view else { return }
         var fit = view.fittingSize
         if fit.height < 1 {
             fit = view.intrinsicContentSize
@@ -225,9 +236,39 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 
-    // MARK: - NSPopoverDelegate
+    private func closePanel() {
+        customPanel.orderOut(nil)
+        removeEventMonitors()
+    }
 
-    func popoverDidClose(_ notification: Notification) {
-        model.setPopoverVisible(false)
+    private func setupEventMonitors() {
+        eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
+            self?.closePanelAndUpdateState()
+        }
+        localEventMonitor = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
+            guard let self = self else { return event }
+            if event.window != self.customPanel && event.window != self.statusItem.button?.window {
+                self.closePanelAndUpdateState()
+            }
+            return event
+        }
+    }
+
+    private func removeEventMonitors() {
+        if let monitor = eventMonitor {
+            NSEvent.removeMonitor(monitor)
+            eventMonitor = nil
+        }
+        if let localMonitor = localEventMonitor {
+            NSEvent.removeMonitor(localMonitor)
+            localEventMonitor = nil
+        }
+    }
+    
+    private func closePanelAndUpdateState() {
+        if customPanel.isVisible {
+            model.setPopoverVisible(false)
+            closePanel()
+        }
     }
 }
