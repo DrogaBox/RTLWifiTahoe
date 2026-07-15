@@ -1,0 +1,9 @@
+## getSignalStrength_-[WLANClientUtilityModel getSignalStrength]
+addr: 0x10001c7a0  name: -[WLANClientUtilityModel getSignalStrength]
+
+```c
+SEL sel_1 = sel
+int32_t result = 0
+int32_t var_2c = _objc_msgSend(self, "QueryInformation:Data:", 0xd010206, &result)
+return result
+```

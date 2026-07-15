@@ -1,0 +1,55 @@
+## GetSystemUSB3Cap_-[WLANClientUtilityModel GetSystemUSB3Cap]
+addr: 0x10001b660  name: -[WLANClientUtilityModel GetSystemUSB3Cap]
+
+```c
+SEL sel_1 = sel
+uint64_t __size = 0
+int64_t var_28 = 0
+int64_t rax_1
+rax_1.b = 0
+int32_t var_34 = _sysctlbyname("hw.model", nullptr, &__size, nullptr, 0)
+
+if (__size != 0)
+    void* rax_5 = _malloc(__size)
+    void* rax_6
+    rax_6.b = 0
+    void* var_48_1 = rax_5
+    int32_t var_4c_1 = _sysctlbyname("hw.model", rax_5, &__size, nullptr, 0)
+    id rax_8 = _objc_msgSend(clsRef_NSString, "stringWithCString:encoding:")
+    _free(rax_5)
+    struct __NSConstantString* rax_10
+    rax_10.b = 0
+    _NSLog(&cfstr_MachineName:_%@\n, rax_8)
+    int32_t r8_1 = sx.d(_objc_msgSend(rax_8, "isEqualToString:", &cfstr_Macmini6,2))
+    int32_t r8_2
+    
+    if (r8_1 == 0)
+        r8_2 = sx.d(_objc_msgSend(rax_8, "isEqualToString:", &cfstr_MacMini6,2))
+    
+    if (r8_1 == 0 && r8_2 == 0)
+        _objc_msgSend(self, "GetOSVersion")
+        struct __NSConstantString* rax_19
+        rax_19.b = 0
+        _NSLog(&cfstr_GetSystemUSB3Cap():_mOSMajorVersion:%d,_mOSMinorVersion:%d_\n, zx.q(self->mOSMajorVersion), zx.q(self->mOSMinorVersion), 0x4d)
+        
+        if (zx.d(self->mOSMajorVersion) == 0xa && zx.d(self->mOSMinorVersion) s>= 9)
+            self->bSystemUSB3Cap = 1
+        else if (zx.d(self->mOSMajorVersion) == 0xa && zx.d(self->mOSMinorVersion) == 8 && zx.d(self->mOSBugFixVersion) s> 2)
+            self->bSystemUSB3Cap = 1
+    else
+        self->bSystemUSB3Cap = 0
+        struct __NSConstantString* rax_14
+        rax_14.b = 0
+        _NSLog(&cfstr_Macmini6,2\n)
+        int64_t rax_16
+        rax_16.b = 0
+        _NSLog(&cfstr_Macmini6,2\n)
+    
+    if (self->bSystemUSB3Cap != 0 && sx.d(_objc_msgSend(self, "FindUSBHost30:", rax_8)) == 0)
+        self->bSystemUSB3Cap = 0
+        struct __NSConstantString* rax_29
+        rax_29.b = 0
+        _NSLog(&cfstr_U2U3_Get_USB3.0_Error\n)
+
+return self->bSystemUSB3Cap
+```

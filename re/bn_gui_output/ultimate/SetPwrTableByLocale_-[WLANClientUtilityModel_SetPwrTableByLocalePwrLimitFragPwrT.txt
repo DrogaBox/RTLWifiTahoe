@@ -1,0 +1,12 @@
+## SetPwrTableByLocale_-[WLANClientUtilityModel SetPwrTableByLocalePwrLimitFragPwrTableType]
+addr: 0x10001e570  name: -[WLANClientUtilityModel SetPwrTableByLocale:PwrLimitFrag:PwrTableType:]
+
+```c
+SEL sel_1 = sel
+uint32_t SetPwrTableByLocale_1 = SetPwrTableByLocale
+int32_t var_20 = PwrLimitFrag.d
+int64_t var_30 = 0xf14
+void arg_8
+void* var_38 = &arg_8
+return _IOConnectCallStructMethod(zx.q(self->driverConnect), 0xb, var_38, 0xf14, &arg_8, &var_30, var_38, var_30)
+```

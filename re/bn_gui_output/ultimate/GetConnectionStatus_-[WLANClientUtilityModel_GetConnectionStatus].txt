@@ -1,0 +1,9 @@
+## GetConnectionStatus_-[WLANClientUtilityModel GetConnectionStatus]
+addr: 0x10001cb10  name: -[WLANClientUtilityModel GetConnectionStatus]
+
+```c
+SEL sel_1 = sel
+int32_t result = 0
+int32_t var_2c = _objc_msgSend(self, "QueryInformation:Data:", 0x10114, &result)
+return result
+```

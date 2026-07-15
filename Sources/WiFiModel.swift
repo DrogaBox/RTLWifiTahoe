@@ -1344,12 +1344,6 @@ final class WiFiModel: ObservableObject {
                 snap.radioOn = !off
             }
 
-            // Live signal % (StatusBarApp getSignalStrength → OID 0x0D010206)
-            if let pct = RealtekDriver.shared.querySignalPercent(), pct > 0 {
-                snap.signalPercent = pct
-            } else {
-                snap.signalPercent = 0
-            }
             let assocCh = RealtekDriver.shared.queryAssociatedChannel()
             snap.channel = assocCh
 
@@ -1357,6 +1351,14 @@ final class WiFiModel: ObservableObject {
             // and NOT a sticky SSID string left in the kext after a failed join.
             let reallyLinked = hasIP || mediaUp || driver.phyLinked
             let inJoinGrace = Date() < graceUntil
+
+            // Live signal % — only meaningful when PHY is linked; driver caches the last
+            // known value even after disconnect, so skip when not really connected.
+            if reallyLinked, let pct = RealtekDriver.shared.querySignalPercent(), pct > 0 {
+                snap.signalPercent = pct
+            } else {
+                snap.signalPercent = 0
+            }
 
             let liveSSID = RealtekDriver.shared.currentSSID()
             if reallyLinked, let liveSSID, !liveSSID.isEmpty {
@@ -1481,6 +1483,11 @@ final class WiFiModel: ObservableObject {
         }()
         guard let ssid = targetSSID, !ssid.isEmpty, ssid != "—" else { return }
 
+        // Update attempt timestamp FIRST so the cooldown applies even when we
+        // skip (e.g. no password cached). Otherwise every timer fire logs and
+        // queries Keychain/Profiles unnecessarily.
+        lastAutoReconnectAttempt = Date()
+
         let pass = KeychainStore.bestPassword(forSSID: ssid, supportPath: support) ?? ""
         // Only auto-join networks we have a password for (or open — rare)
         let entry = RealtekProfiles.allProfiles(supportPath: support)[ssid]
@@ -1492,7 +1499,6 @@ final class WiFiModel: ObservableObject {
         }
 
         autoReconnectInFlight = true
-        lastAutoReconnectAttempt = Date()
         joinGraceUntil = Date().addingTimeInterval(20)
         rtlog("auto-reconnect → \(ssid)")
         statusText = L10n.tr("model.reconnecting", ssid)
@@ -1801,9 +1807,21 @@ final class WiFiModel: ObservableObject {
                     }
                     if !linked(), let ch = opts.channel {
                         var o = opts
-                        o.channel = ch >= 36 ? 7 : 157
                         o.bssid = nil
-                        rtlog("join: retry alt channel \(o.channel!)")
+                        // Respect forceBand: only try channels on the preferred band
+                        if let fb = opts.forceBand {
+                            let altCh: UInt32
+                            switch fb {
+                            case .g24: altCh = ch == 6 ? 1 : 6   // alternate between ch1 and ch6
+                            case .g5:  altCh = ch == 36 ? 149 : 36 // alternate between ch36 and ch149
+                            }
+                            o.channel = altCh
+                            rtlog("join: retry \(fb.rawValue) ch \(altCh)")
+                        } else {
+                            // Auto: try other band's default channel
+                            o.channel = ch >= 36 ? 7 : 157
+                            rtlog("join: retry alt channel \(o.channel!)")
+                        }
                         r = RealtekDriver.shared.connect(ssid: ssid, password: pass, options: o) || r
                     }
                     if !linked() && opts.authEnc == .wpa2Psk && !pass.isEmpty {
@@ -1817,6 +1835,8 @@ final class WiFiModel: ObservableObject {
                 cont.resume(returning: r)
             }
         }
+        // Force re-dispatch to MainActor before the polling loop
+        await Task.yield()
 
         for i in 0..<6 {
             try? await Task.sleep(nanoseconds: 600_000_000)

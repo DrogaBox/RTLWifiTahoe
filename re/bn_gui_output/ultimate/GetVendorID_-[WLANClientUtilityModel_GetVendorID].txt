@@ -1,0 +1,7 @@
+## GetVendorID_-[WLANClientUtilityModel GetVendorID]
+addr: 0x100019e80  name: -[WLANClientUtilityModel GetVendorID]
+
+```c
+SEL sel_1 = sel
+return self->VendorID
+```

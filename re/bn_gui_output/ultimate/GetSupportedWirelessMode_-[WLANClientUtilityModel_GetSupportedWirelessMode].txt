@@ -1,0 +1,12 @@
+## GetSupportedWirelessMode_-[WLANClientUtilityModel GetSupportedWirelessMode]
+addr: 0x10001f290  name: -[WLANClientUtilityModel GetSupportedWirelessMode]
+
+```c
+SEL sel_1 = sel
+int32_t var_1c = 0xffffffff
+void __b
+void* var_28 = &__b
+_memset(&__b, 0, 4)
+int32_t var_34 = _objc_msgSend(self, "QueryInformation:Data:", 0xff0101bb, &__b)
+return __b.d
+```

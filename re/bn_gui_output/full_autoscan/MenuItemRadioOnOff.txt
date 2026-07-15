@@ -1,0 +1,85 @@
+## MenuItemRadioOnOff
+addr: 0x100012200  bn_name: -[WiFiStatusBarDelegate MenuItemRadioOnOff:]
+
+```c
+int64_t rcx = *___stack_chk_guard
+SEL sel_1 = sel
+id MenuItemRadioOnOff_1 = MenuItemRadioOnOff
+id rax_3
+rax_3.b = 0
+char __filename[0x108]
+int32_t var_14c = ___sprintf_chk(&__filename, 0, 0xff, "%s/%srfoff.rtl", _objc_msgSend(_objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath"), "UTF8String"), _objc_msgSend(data_1001b4d30, "UTF8String"))
+FILE* rax_5 = _fopen(&__filename, "w")
+
+if (sx.d(data_1001b4d2b) != 1)
+    if (_objc_msgSend(self->Model, "turnRfOff") != 0)
+        if (zx.d(_uOSMinorVersion) s<= 0xa)
+            _objc_msgSend(self, "setMenuItemTitle:title:", self->MenuItem_RfOnOff, _TurnRadioONStr)
+        else
+            _objc_msgSend(self->MenuItem_RfOnOff, "vsetWlanFunTitle:", _TurnRadioONStr)
+        
+        _objc_msgSend(self->MenuItem_Status, "vsetStatus:", _StateRfOffStr)
+        data_1001b4d2b = 1
+        _objc_msgSend(self, "DisableAllWlanMenuItem")
+        _objc_msgSend(data_1001b4d38, "setString:", &cfstr_)
+        data_1001b4d68 = 0
+    
+    if (rax_5 == 0)
+        struct __NSConstantString* rax_37
+        rax_37.b = 0
+        _NSLog(&cfstr_MenuItemRadioOnOff_file_open_failed_2222)
+    else
+        int64_t rax_34
+        rax_34.b = 0
+        int32_t var_174_1 = _fprintf(rax_5, "%d\n", zx.q(sx.d(data_1001b4d2b)))
+else
+    int32_t rdx
+    
+    if (sx.d(_bSupportU2U3) != 0)
+        rdx = sx.d(_objc_msgSend(self->Model, "USBSwitch_bNicInU3"))
+    
+    if (sx.d(_bSupportU2U3) == 0 || rdx == 0)
+        if (_objc_msgSend(self->Model, "turnRfOn").b != 0)
+            if (zx.d(_uOSMinorVersion) s<= 0xa)
+                _objc_msgSend(self, "setMenuItemTitle:title:", self->MenuItem_RfOnOff, _TurnRadioOFFStr)
+            else
+                _objc_msgSend(self->MenuItem_RfOnOff, "vsetWlanFunTitle:", _TurnRadioOFFStr)
+            
+            _objc_msgSend(self->MenuItem_Status, "vsetStatus:", _StateRfOnStr)
+            data_1001b4d2b = 0
+            
+            if (_objc_msgSend(self->Model, "IsRTL8180Enabled") != 0)
+                _objc_msgSend(self, "EnableWlanFunMenuItem")
+        
+        if (rax_5 == 0)
+            struct __NSConstantString* rax_26
+            rax_26.b = 0
+            _NSLog(&cfstr_MenuItemRadioOnOff_file_open_failed_1111)
+        else
+            int64_t rax_23
+            rax_23.b = 0
+            int32_t var_164_1 = _fprintf(rax_5, "%d\n", zx.q(sx.d(data_1001b4d2b)))
+    else
+        struct __NSConstantString* rax_10
+        rax_10.b = 0
+        _NSLog(&cfstr_RadioOffOn::U3_To_U2\n)
+        _objc_msgSend(self, "U3_Switch_To_U2")
+        
+        if (zx.d(_uOSMinorVersion) s<= 0xa)
+            _objc_msgSend(self, "setMenuItemTitle:title:", self->MenuItem_RfOnOff, _TurnRadioOFFStr)
+        else
+            _objc_msgSend(self->MenuItem_RfOnOff, "vsetWlanFunTitle:", _TurnRadioOFFStr)
+        
+        _objc_msgSend(self->MenuItem_Status, "vsetStatus:", _StateRfOnStr)
+        data_1001b4d2b = 0
+        _objc_msgSend(self, "EnableWlanFunMenuItem")
+
+if (rax_5 != 0)
+    int32_t var_178_1 = _fclose(rax_5)
+
+if (*___stack_chk_guard == rcx)
+    return 
+
+___stack_chk_fail()
+noreturn
+```

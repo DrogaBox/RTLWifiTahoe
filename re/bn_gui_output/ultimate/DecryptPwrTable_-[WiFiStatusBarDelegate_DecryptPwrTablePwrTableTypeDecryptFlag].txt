@@ -1,0 +1,113 @@
+## DecryptPwrTable_-[WiFiStatusBarDelegate DecryptPwrTablePwrTableTypeDecryptFlag]
+addr: 0x1000094a0  name: -[WiFiStatusBarDelegate DecryptPwrTable:PwrTableType:DecryptFlag:]
+
+```c
+int64_t r9 = *___stack_chk_guard
+SEL sel_1 = sel
+bool rax = DecryptFlag & 1
+bool var_b6 = false
+id var_c8 = nullptr
+int64_t var_d0 = 0
+
+if ((rax & 1) == 0)
+    id DecryptPwrTable_1 = DecryptPwrTable
+    var_c8 = _objc_msgSend(clsRef_NSString, "stringWithContentsOfFile:encoding:error:")
+else
+    id rax_4 = _AES256DecryptWithKey(_objc_msgSend(clsRef_NSData, "dataWithContentsOfFile:", _objc_msgSend(DecryptPwrTable, "stringByExpandingTildeInPath")), &cfstr_realtek)
+    
+    if (rax_4 != 0)
+        var_c8 = _objc_msgSend(_objc_msgSend(clsRef_NSString, "alloc"), "initWithData:encoding:", rax_4, 4)
+
+bool var_91
+
+if (_objc_msgSend(_objc_msgSend(_objc_msgSend(clsRef_NSFileManager, "defaultManager"), "attributesOfItemAtPath:error:", DecryptPwrTable, 0), "fileSize") == 0 || var_c8 == 0)
+    int32_t var_1078_1 = PwrTableType - 1
+    
+    if (PwrTableType != 1)
+        uint32_t var_107c_1 = PwrTableType - 2
+        
+        if (PwrTableType != 2)
+            uint32_t var_1080_1 = PwrTableType - 3
+    
+    if ((rax & 1) != 0 && var_c8 != 0)
+        _objc_msgSend(var_c8, "release")
+    
+    var_91 = var_b6 & 1
+else
+    id obj = _objc_msgSend(var_c8, "componentsSeparatedByString:", &cfstr_\n)
+    char __b_1
+    _memset(&__b_1, 0, 0xf14)
+    int32_t rax_19 = _objc_msgSend(obj, "count")
+    uint32_t PwrTableType_3 = PwrTableType
+    int32_t var_100c_1 = 0
+    void __b
+    int64_t var_1088_1 = &__b
+    int64_t var_1090_1 = 0x10
+    _memset(&__b, 0, 0x40)
+    void var_90
+    id rax_21 = _objc_msgSend(obj, "countByEnumeratingWithState:objects:count:", var_1088_1, &var_90, var_1090_1)
+    
+    if (rax_21 != 0)
+        int64_t* var_1048
+        int64_t rsi_3 = *var_1048
+        int64_t** var_10b0_1 = &var_1048
+        int64_t var_10b8_1 = 0
+        id var_10c0_1 = rax_21
+        
+        while (true)
+            if (**var_10b0_1 != rsi_3)
+                _objc_enumerationMutation(obj)
+            
+            int64_t var_1050
+            id rax_25 = *(var_1050 + (var_10b8_1 << 3))
+            char var_ff4[0xefc]
+            int64_t var_10f0_1 = ___memcpy_chk(&var_ff4[sx.q(mods.dp.d(sx.q(var_100c_1), 0xf)) << 8], _objc_msgSend(rax_25, "UTF8String"), _objc_msgSend(rax_25, "length"), -1)
+            var_ff4[(sx.q(mods.dp.d(sx.q(var_100c_1), 0xf)) << 8) + _objc_msgSend(rax_25, "length")] = 0
+            var_100c_1 += 1
+            void var_2068
+            int32_t var_f8
+            
+            if (mods.dp.d(sx.q(var_100c_1), 0xf) == 0)
+                __b_1 = 1
+                int32_t var_1000_1 = var_100c_1 - 0xf
+                struct objc_object* Model = self->Model
+                uint32_t PwrTableType_2 = PwrTableType
+                char* cmd_1 = "SetPwrTableByLocale:PwrLimitFrag:PwrTableType:"
+                __builtin_memcpy(&var_2068, &__b_1, 0xf10)
+                int32_t var_1158_1 = var_f8
+                void (* const var_1120_1)(void* self, char* cmd) = _objc_msgSend
+                var_b6 = _objc_msgSend(Model, cmd_1) != 0 & 1
+            
+            if (var_100c_1 == rax_19)
+                __b_1 = 0
+                int32_t var_1000_2 = var_100c_1 - mods.dp.d(sx.q(var_100c_1), 0xf)
+                struct objc_object* Model_1 = self->Model
+                uint32_t PwrTableType_1 = PwrTableType
+                char* cmd = "SetPwrTableByLocale:PwrLimitFrag:PwrTableType:"
+                __builtin_memcpy(&var_2068, &__b_1, 0xf10)
+                int32_t var_1158_2 = var_f8
+                void (* const var_1140_1)(void* self, char* cmd) = _objc_msgSend
+                var_b6 = _objc_msgSend(Model_1, cmd) != 0 & 1
+            
+            bool cond:5_1 = var_10b8_1 + 1 u< var_10c0_1
+            var_10b8_1 += 1
+            
+            if (not(cond:5_1))
+                rax_21 = _objc_msgSend(obj, "countByEnumeratingWithState:objects:count:", &__b, &var_90, 0x10)
+                var_10b8_1 = 0
+                var_10c0_1 = rax_21
+                
+                if (rax_21 == 0)
+                    break
+    
+    if ((rax & 1) != 0 && var_c8 != 0)
+        _objc_msgSend(var_c8, "release")
+    
+    var_91 = var_b6 & 1
+
+if (*___stack_chk_guard == r9)
+    return var_91 & 1
+
+___stack_chk_fail()
+noreturn
+```

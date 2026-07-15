@@ -95,6 +95,8 @@ struct JoinOptions: Equatable {
     var wpsPin: String = ""
     var channel: UInt32? = nil
     var bssid: String? = nil
+    /// Force connection to a specific Wi‑Fi band (2.4 / 5 GHz). nil = auto (use any).
+    var forceBand: WiFiBand? = nil
 
     static func `default`(for net: ScannedNetwork) -> JoinOptions {
         var o = JoinOptions()

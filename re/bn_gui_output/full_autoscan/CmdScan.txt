@@ -1,0 +1,57 @@
+## CmdScan
+addr: 0x10003d190  bn_name: _CmdScan
+
+```c
+int32_t rdi
+int32_t var_c = rdi
+int64_t rsi
+int64_t var_18 = rsi
+int32_t i = 0
+int32_t var_24 = 0
+char var_c8038[0xc8000]
+char (* var_c8040)[0xc8000] = &var_c8038
+int32_t var_38 = 0
+int32_t var_c804c = _SetInformationValue(0xff07011a, 0)
+int32_t var_c8050 = _QueryInformation(0xff0101bd, &i)
+
+while (i != 0)
+    uint32_t var_c8054_1 = _sleep(1)
+    int32_t var_c8058_1 = _QueryInformation(0xff0101bd, &i)
+
+int32_t result
+
+if (_QueryInformation(0xff010419, &var_24) == 0)
+    int64_t rax_20
+    rax_20.b = 0
+    result = _printf("GetAvailableNetworksFromDriver failed")
+    int32_t result_1 = result
+else
+    int32_t var_28
+    result = _openAdapter(&var_28)
+    
+    if (result.b != 0)
+        int32_t var_c805c_1
+        
+        var_c805c_1 = var_24 s<= 0x200 ? var_24 : 0x200
+        
+        int32_t var_38_1 = var_c805c_1
+        int64_t var_c8048 = 0x640
+        
+        for (int64_t i_1 = 0; i_1 u< sx.q(var_c8040[1][0].d); i_1 += 1)
+            int64_t var_c8078_1 = ___memset_chk(&var_c8038[i_1 * 0x640], 0, var_c8048, -1)
+            
+            if (_IOConnectCallMethod(zx.q(var_28), 0, &i_1, 1, 0, 0, 0, 0, &(*var_c8040)[i_1 * 0x640], &var_c8048) != 0)
+                int64_t rax_16
+                rax_16.b = 0
+                int32_t var_c8084_1 = _printf("GetNetworkNameAtIndex() failed[%llu]\n", i_1)
+            else
+                int32_t i_2 = i_1.d
+                _wpa_ssid_txt(&(*var_c8040)[i_1 * 0x640], zx.q((*var_c8040)[i_1 * 0x640 + 0x21]))
+                int64_t rax_14
+                rax_14.b = 0
+                int32_t var_c8080_1 = _printf("[%d] %s \n", zx.q(i_2), &_wpa_ssid_txt.ssid_txt)
+        
+        return _closeAdapter(&var_28)
+
+return result
+```

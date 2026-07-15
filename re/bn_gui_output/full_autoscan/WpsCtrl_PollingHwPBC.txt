@@ -1,0 +1,234 @@
+## WpsCtrl_PollingHwPBC
+addr: 0x1000162d0  bn_name: -[WiFiStatusBarDelegate CreateWpaSupplicantConf:]
+
+```c
+int64_t rcx = *___stack_chk_guard
+struct WiFiStatusBarDelegate* self_1 = self
+SEL sel_1 = sel
+id rax_2
+rax_2.b = 0
+char __filename[0x108]
+int32_t var_174 = ___sprintf_chk(&__filename, 0, 0xff, "%s/profile1x.rtl", _objc_msgSend(_objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath"), "UTF8String"))
+FILE* rax_4 = _fopen(&__filename, "w")
+
+if (rax_4 != 0)
+    FILE* rax_5
+    rax_5.b = 0
+    int32_t var_184_1 = _fprintf(rax_4, "network={\n")
+    id rax_8
+    rax_8.b = 0
+    int32_t var_188_1 = _fprintf(rax_4, "ssid="%s"\n", _objc_msgSend(*CreateWpaSupplicantConf, "UTF8String")).d
+    
+    if (CreateWpaSupplicantConf[6].d == 0xd || CreateWpaSupplicantConf[6].d == 0xe)
+        void** rax_10
+        rax_10.b = 0
+        int32_t var_18c_1 = _fprintf(rax_4, "key_mgmt=SAE\n")
+        int64_t rax_12
+        rax_12.b = 0
+        int32_t var_190_1 = _fprintf(rax_4, "ieee80211w=2\n")
+    else if (CreateWpaSupplicantConf[6].d == 7 || CreateWpaSupplicantConf[6].d == 8 || CreateWpaSupplicantConf[6].d == 9 || CreateWpaSupplicantConf[6].d == 0xa)
+        void** rax_15
+        rax_15.b = 0
+        int32_t var_194_1 = _fprintf(rax_4, "key_mgmt=WPA-EAP\n")
+    else if (CreateWpaSupplicantConf[6].d == 0xb)
+        void** rax_18
+        rax_18.b = 0
+        int32_t var_198_1 = _fprintf(rax_4, "key_mgmt=IEEE8021X\n")
+    
+    if (CreateWpaSupplicantConf[6].d == 7 || CreateWpaSupplicantConf[6].d == 8)
+        void** rax_21
+        rax_21.b = 0
+        int32_t var_19c_1 = _fprintf(rax_4, "proto=WPA\n")
+    else if (CreateWpaSupplicantConf[6].d == 9 || CreateWpaSupplicantConf[6].d == 0xa || CreateWpaSupplicantConf[6].d == 0xd || CreateWpaSupplicantConf[6].d == 0xe)
+        void** rax_24
+        rax_24.b = 0
+        int32_t var_1a0_1 = _fprintf(rax_4, "proto=RSN\n")
+    
+    if (CreateWpaSupplicantConf[6].d == 7 || CreateWpaSupplicantConf[6].d == 9)
+        void** rax_27
+        rax_27.b = 0
+        int32_t var_1a4_1 = _fprintf(rax_4, "pairwise=TKIP\n")
+        int64_t rax_29
+        rax_29.b = 0
+        int32_t var_1a8_1 = _fprintf(rax_4, "group=TKIP\n")
+    else if (CreateWpaSupplicantConf[6].d == 8 || CreateWpaSupplicantConf[6].d == 0xa)
+        void** rax_32
+        rax_32.b = 0
+        int32_t var_1ac_1 = _fprintf(rax_4, "pairwise=CCMP\n")
+        int64_t rax_34
+        rax_34.b = 0
+        int32_t var_1b0_1 = _fprintf(rax_4, "group=CCMP TKIP\n")
+    else if (CreateWpaSupplicantConf[6].d == 0xd)
+        id rax_40
+        rax_40.b = 0
+        int32_t var_1bc_1 = _fprintf(rax_4, "sae_password="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[5], "UTF8String"))
+    
+    if (*(CreateWpaSupplicantConf + 0x34) == 1)
+        void** rax_43
+        rax_43.b = 0
+        int32_t var_1cc_1 = _fprintf(rax_4, "eap=PEAP\n")
+        id rax_46
+        rax_46.b = 0
+        int32_t var_1dc_1 = _fprintf(rax_4, "identity="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[7], "UTF8String"))
+        id rax_49
+        rax_49.b = 0
+        int32_t var_1e0_1 = _fprintf(rax_4, "password="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[5], "UTF8String"))
+        int64_t rax_51
+        rax_51.b = 0
+        int32_t var_1e4_1 = _fprintf(rax_4, "phase2="auth=MSCHAPV2"\n").d
+    else if (*(CreateWpaSupplicantConf + 0x34) == 4)
+        void** rax_54
+        rax_54.b = 0
+        int32_t var_1f4_1 = _fprintf(rax_4, "eap=LEAP\n")
+        id rax_57
+        rax_57.b = 0
+        int32_t var_204_1 = _fprintf(rax_4, "identity="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[7], "UTF8String"))
+        id rax_60
+        rax_60.b = 0
+        int32_t var_208_1 = _fprintf(rax_4, "password="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[5], "UTF8String")).d
+    else if (*(CreateWpaSupplicantConf + 0x34) == 3)
+        void** rax_62
+        rax_62.b = 0
+        int32_t var_214_1 = _fprintf(rax_4, "eap=TTLS PEAP\n")
+        id rax_65
+        rax_65.b = 0
+        int32_t var_218_1 = _fprintf(rax_4, "identity="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[7], "UTF8String"))
+        int64_t rax_67
+        rax_67.b = 0
+        int32_t var_224_1 = _fprintf(rax_4, "anonymous_identity="anonymous"\n")
+        id rax_70
+        rax_70.b = 0
+        int32_t var_228_1 = _fprintf(rax_4, "password="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[5], "UTF8String"))
+        id rax_73
+        rax_73.b = 0
+        _NSLog(&cfstr_[params->CACert_lastPathComponent]=%@\n, _objc_msgSend(CreateWpaSupplicantConf[8], "lastPathComponent"))
+        
+        if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:", &cfstr_pem)) != 0)
+        label_100016a94:
+            
+            if (_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:") != 0)
+                _objc_msgSend(clsRef_WiFiPasswordEncrypt, "translateCertKeyFileToPem:", CreateWpaSupplicantConf[8])
+        else
+            if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:")) != 0)
+                goto label_100016a94
+            
+            if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:")) != 0)
+                goto label_100016a94
+            
+            id rax_90 = _objc_msgSend(clsRef_WiFiPasswordEncrypt, "exportCertificateFromKeychain:", CreateWpaSupplicantConf[8])
+            struct objc_class_t* clsRef_NSString_1 = clsRef_NSString
+            _objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath")
+            id rax_92
+            rax_92.b = 0
+            id rax_93 = _objc_msgSend(clsRef_NSString_1, "stringWithFormat:", &cfstr_%@/ca.pem)
+            id var_270_1 = rax_93
+            char var_271_1 = _objc_msgSend(rax_90, "writeToFile:atomically:", rax_93, 1)
+            _objc_msgSend(CreateWpaSupplicantConf[8], "setString:")
+        
+        id rax_99
+        rax_99.b = 0
+        int32_t var_284_1 = _fprintf(rax_4, "ca_cert="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[8], "UTF8String"))
+        int64_t rax_101
+        rax_101.b = 0
+        int32_t var_288_1 = _fprintf(rax_4, "phase2="auth=MSCHAPV2"\n").d
+    else if (*(CreateWpaSupplicantConf + 0x34) == 2)
+        void** rax_102
+        rax_102.b = 0
+        int32_t var_294_1 = _fprintf(rax_4, "eap=TLS\n")
+        id rax_105
+        rax_105.b = 0
+        int32_t var_298_1 = _fprintf(rax_4, "identity="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[7], "UTF8String"))
+        
+        if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:", &cfstr_pem)) != 0)
+        label_100016dd9:
+            
+            if (_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:") != 0)
+                _objc_msgSend(clsRef_WiFiPasswordEncrypt, "translateCertKeyFileToPem:", CreateWpaSupplicantConf[8])
+        else
+            if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:")) != 0)
+                goto label_100016dd9
+            
+            if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:")) != 0)
+                goto label_100016dd9
+            
+            id rax_123 = _objc_msgSend(clsRef_WiFiPasswordEncrypt, "exportCertificateFromKeychain:", CreateWpaSupplicantConf[8])
+            struct objc_class_t* clsRef_NSString_2 = clsRef_NSString
+            _objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath")
+            id rax_125
+            rax_125.b = 0
+            id rax_126 = _objc_msgSend(clsRef_NSString_2, "stringWithFormat:", &cfstr_%@/ca.pem)
+            id var_2e0_1 = rax_126
+            char var_2e1_1 = _objc_msgSend(rax_123, "writeToFile:atomically:", rax_126, 1)
+            _objc_msgSend(CreateWpaSupplicantConf[8], "setString:")
+        
+        id rax_132
+        rax_132.b = 0
+        int32_t var_2f4_1 = _fprintf(rax_4, "ca_cert="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[8], "UTF8String"))
+        int32_t rcx_31 = sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[9], "pathExtension"), "isEqualToString:", &cfstr_pem))
+        int32_t rcx_32
+        
+        if (rcx_31 == 0)
+            rcx_32 = sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[9], "pathExtension"), "isEqualToString:"))
+        
+        if (rcx_31 == 0 && rcx_32 == 0)
+            if (_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[9], "pathExtension"), "isEqualToString:").b != 0)
+                id rax_180
+                rax_180.b = 0
+                int32_t var_3bc_1 = _fprintf(rax_4, "private_key="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[9], "UTF8String"))
+                id rax_183
+                rax_183.b = 0
+                int32_t var_3c0_1 = _fprintf(rax_4, "private_key_passwd="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[0xb], "UTF8String")).d
+            else if (_bAppSigned != 0)
+                struct objc_class_t* clsRef_NSString_4 = clsRef_NSString
+                _objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath")
+                id rax_185
+                rax_185.b = 0
+                id rax_186 = _objc_msgSend(clsRef_NSString_4, "stringWithFormat:", &cfstr_%@/key.pfx)
+                id var_3d8_1 = rax_186
+                char var_3d9_1 = _objc_msgSend(CreateWpaSupplicantConf[0xc], "writeToFile:atomically:", rax_186, 1)
+                _objc_msgSend(CreateWpaSupplicantConf[0xa], "setString:")
+                _objc_msgSend(CreateWpaSupplicantConf[0xb], "setString:")
+                id rax_191
+                rax_191.b = 0
+                int32_t var_3fc_1 = _fprintf(rax_4, "private_key="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[0xa], "UTF8String"))
+                id rax_194
+                rax_194.b = 0
+                int32_t var_400_1 = _fprintf(rax_4, "private_key_passwd="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[0xb], "UTF8String")).d
+        else
+            if (_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[0xa], "pathExtension"), "isEqualToString:") == 0)
+                id rax_147
+                rax_147.b = 0
+                int32_t var_324_1 = _fprintf(rax_4, "client_cert="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[9], "UTF8String"))
+            
+            if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[0xa], "pathExtension"), "isEqualToString:")) == 0 && sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[0xa], "pathExtension"), "isEqualToString:")) == 0 && sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[0xa], "pathExtension"), "isEqualToString:")) == 0 && _bAppSigned != 0)
+                struct objc_class_t* clsRef_NSString_3 = clsRef_NSString
+                _objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath")
+                id rax_162
+                rax_162.b = 0
+                id rax_163 = _objc_msgSend(clsRef_NSString_3, "stringWithFormat:", &cfstr_%@/key.pem)
+                id var_370_1 = rax_163
+                char var_371_1 = _objc_msgSend(CreateWpaSupplicantConf[0xd], "writeToFile:atomically:", rax_163, 1)
+                _objc_msgSend(CreateWpaSupplicantConf[0xa], "setString:")
+                _objc_msgSend(CreateWpaSupplicantConf[0xb], "setString:")
+            
+            id rax_170
+            rax_170.b = 0
+            int32_t var_394_1 = _fprintf(rax_4, "private_key="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[0xa], "UTF8String"))
+            id rax_173
+            rax_173.b = 0
+            int32_t var_398_1 = _fprintf(rax_4, "private_key_passwd="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[0xb], "UTF8String")).d
+    
+    void** rax_195
+    rax_195.b = 0
+    int32_t var_404_1 = _fprintf(rax_4, "priority=20\n")
+    int64_t rax_197
+    rax_197.b = 0
+    int32_t var_408_1 = _fprintf(rax_4, "}\n")
+    int32_t var_40c_1 = _fclose(rax_4)
+
+if (*___stack_chk_guard == rcx)
+    return 
+
+___stack_chk_fail()
+noreturn
+```

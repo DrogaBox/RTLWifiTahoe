@@ -1,0 +1,9 @@
+## turnRfOff
+addr: 0x10001d580  bn_name: -[WLANClientUtilityModel turnRfOff]
+
+```c
+SEL sel_1 = sel
+char var_19 = 1
+char var_29 = _objc_msgSend(self, "SetInformation:Value:")
+return 1
+```

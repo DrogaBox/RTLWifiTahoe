@@ -1,0 +1,27 @@
+## SetInformation_Value
+addr: 0x10001e420  bn_name: -[WLANClientUtilityModel SetInformation:Value:]
+
+```c
+int64_t r9 = *___stack_chk_guard
+SEL sel_1 = sel
+int64_t var_a20 = 0x9d4
+void var_9d8
+void* var_a28 = &var_9d8
+int32_t var_9e4 = 0x9c4
+var_9d8.d = Value
+uint32_t SetInformation_1 = SetInformation
+int32_t var_9e0 = 0
+int32_t var_9dc = 0
+char result
+
+if (_IOConnectCallStructMethod(zx.q(self->driverConnect), 0xa, &SetInformation_1, 0x9d4, &SetInformation_1, &var_a20) == 0)
+    result = 1
+else
+    result = 0
+
+if (*___stack_chk_guard == r9)
+    return result
+
+___stack_chk_fail()
+noreturn
+```

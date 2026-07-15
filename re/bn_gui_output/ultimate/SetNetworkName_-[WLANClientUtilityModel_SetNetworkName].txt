@@ -1,0 +1,20 @@
+## SetNetworkName_-[WLANClientUtilityModel SetNetworkName]
+addr: 0x10001cbd0  name: -[WLANClientUtilityModel SetNetworkName:]
+
+```c
+int64_t rcx = *___stack_chk_guard
+SEL sel_1 = sel
+char var_b1 = 1
+int32_t var_b8 = 0
+void var_98
+int64_t var_d0 = ___memcpy_chk(&var_98, _objc_msgSend(SetNetworkName, "mutableBytes"), _objc_msgSend(SetNetworkName, "length"), 0x84, 0x84)
+int32_t var_18 = _objc_msgSend(SetNetworkName, "length")
+char var_d1 = _objc_msgSend(self, "SetInformation:Buffer:Length:", 0xff070102, &var_98, 0x84)
+char var_b1_1 = 1
+
+if (*___stack_chk_guard == rcx)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```

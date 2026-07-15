@@ -1,0 +1,35 @@
+## DriverServiceClose
+addr: 0x10003d810  bn_name: _isInSupportWlanIC
+
+```c
+int64_t rax = *___stack_chk_guard
+char* __s1 = _CFStringGetCStringPtr(arg1, 0)
+int32_t var_44 = 0
+Boolean var_29
+
+if (__s1 != 0)
+label_10003d89e:
+    int32_t var_48_1 = 0
+    Boolean rcx_1 = 0
+    
+    if (_memcmp(__s1, "RtWlanU", 7) == 0)
+        rcx_1 = 1
+    
+    var_29 = rcx_1
+else
+    char buffer[0x18]
+    
+    if (_CFStringGetCString(arg1, &buffer, 0x14, 0) != 0)
+        __s1 = &buffer
+    
+    if (__s1 != 0)
+        goto label_10003d89e
+    
+    var_29 = 0
+
+if (*___stack_chk_guard == rax)
+    return zx.q(sx.d(var_29))
+
+___stack_chk_fail()
+noreturn
+```

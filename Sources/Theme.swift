@@ -185,7 +185,7 @@ struct ThemePalette {
 
 /// Theme store — not MainActor-isolated so Tahoe.* statics can read it from any context.
 final class ThemeStore: ObservableObject {
-    static let shared = ThemeStore()
+    static var shared = ThemeStore()
 
     @Published var themeID: AppThemeID {
         didSet {

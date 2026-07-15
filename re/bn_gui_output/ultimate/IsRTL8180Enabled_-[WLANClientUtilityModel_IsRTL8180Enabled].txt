@@ -1,0 +1,15 @@
+## IsRTL8180Enabled_-[WLANClientUtilityModel IsRTL8180Enabled]
+addr: 0x10001dc40  name: -[WLANClientUtilityModel IsRTL8180Enabled]
+
+```c
+SEL sel_1 = sel
+int32_t result = 0
+
+if (_objc_msgSend(self, "QueryInformation:Data:", 0xff010418, &result) != 0xffffffff)
+    return result
+
+struct __NSConstantString* rax_2
+rax_2.b = 0
+_NSLog(&cfstr_QueryInformation:_OID_RT_NETWORK_STATUS_failed!\n)
+return 0
+```

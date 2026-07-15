@@ -1,0 +1,37 @@
+## SetInformationBuffer
+addr: 0x10003eda0  bn_name: _SetInformationBuffer
+
+```c
+int64_t rax = *___stack_chk_guard
+int64_t var_a18 = 0x9d4
+int32_t var_9e4 = arg3
+void var_9d8
+int64_t rax_1 = ___memcpy_chk(&var_9d8, arg2, sx.q(arg3), -1)
+int32_t var_9e8 = arg1
+int32_t var_9e0 = 0
+int32_t var_9dc = 0
+int64_t var_a28 = rax_1
+int32_t var_a04
+int32_t var_9ec
+
+if (_openAdapter(&var_a04) != 0)
+    if (_IOConnectCallStructMethod(zx.q(var_a04), 0xa, &var_9e8, 0x9d4, &var_9e8, &var_a18) == 0)
+        int64_t rax_6
+        rax_6.b = 0
+        int32_t var_a40_1 = _printf("SetInformationBuffer:: Set OID 0x%X sucessfully\n", zx.q(arg1))
+        _closeAdapter(&var_a04)
+        var_9ec = 1
+    else
+        int64_t rax_4
+        rax_4.b = 0
+        var_9ec = 0xffffffff
+        int32_t var_a3c_1 = _printf("SetInformationBuffer:: Can not set the OID 0x%X!\n", zx.q(arg1))
+else
+    var_9ec = 0xffffffff
+
+if (*___stack_chk_guard == rax)
+    return zx.q(var_9ec)
+
+___stack_chk_fail()
+noreturn
+```

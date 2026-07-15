@@ -1,0 +1,2970 @@
+## WirelessAssociate
+addr: 0x10001c7f0  bn_name: -[WLANClientUtilityModel WirelessAssociate:]
+
+```c
+SEL sel_1 = sel
+char var_21 = 0
+char rax = _objc_msgSend(self, "SetInformation:Value:", 0xd010115, 0)
+WirelessAssociate[3].b
+char var_31 = rax
+char rax_1 = _objc_msgSend(self, "SetInformation:Value:")
+WirelessAssociate[1]
+char var_41 = rax_1
+char var_42 = _objc_msgSend(self, "SetNetworkName:")
+char rax_3 = _objc_msgSend(self, "setChannel:", zx.q(*(WirelessAssociate + 0x1a)))
+WirelessAssociate[6].d
+char var_51 = rax_3
+char var_52 = _objc_msgSend(self, "SetInformation:Value:")
+
+if (zx.d(WirelessAssociate[3].b) == 1 && (WirelessAssociate[6].d == 3 || WirelessAssociate[6].d == 4))
+    var_21 = 1
+    char var_53_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff030004, 0)
+
+if (WirelessAssociate[6].d == 1 || WirelessAssociate[6].d == 2)
+    int32_t var_28_1 = 0
+    char rax_12 = _objc_msgSend(self, "SetInformation:Value:", 0xff030004, zx.q(*(WirelessAssociate + 0x19)))
+    WirelessAssociate[4]
+    *(WirelessAssociate + 0x19)
+    char var_61_1 = rax_12
+    
+    if (_objc_msgSend(self, "SetWEPKey:AtIndex:") != 0x1a)
+        char var_63_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff010194, 1)
+    else
+        char var_62_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff010194, 2)
+else if (WirelessAssociate[6].d == 3 || WirelessAssociate[6].d == 4 || WirelessAssociate[6].d == 5 || WirelessAssociate[6].d == 6)
+    struct __NSConstantString* rax_23
+    rax_23.b = 0
+    _NSLog(&cfstr_\t_WirelessAssoc():_WPA/WPA2\n)
+    char var_64_1 = _objc_msgSend(self, "SetWPAKey:", WirelessAssociate[5])
+    char var_65_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff010194, zx.q(WirelessAssociate[6].d))
+else
+    struct __NSConstantString* rax_27
+    rax_27.b = 0
+    _NSLog(&cfstr_\t_WirelessAssoc():_OPEN\n)
+    char var_66_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff010194, zx.q(WirelessAssociate[6].d))
+
+char var_67 = _objc_msgSend(self, "SetInformation:Value:", 0xff01041b, 0)
+
+if (var_21 != 0)
+    char var_68_1 = _objc_msgSend(self, "SetWPAKey:", WirelessAssociate[5])
+```
+
+
+## SetWPAKey
+addr: 0x10001df30  bn_name: -[WLANClientUtilityModel SetWPAKey:]
+
+```c
+int64_t r10 = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_2c = 0
+void var_b0
+char var_ca = _objc_msgSend(SetWPAKey, "getCString:maxLength:encoding:", &var_b0, 0x80, 1)
+int32_t var_30 = _objc_msgSend(SetWPAKey, "length")
+char var_cb = _objc_msgSend(self, "SetInformation:Buffer:Length:", 0xff010305, &var_b0, 0x98)
+
+if (*___stack_chk_guard == r10)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## SetWEPKey
+addr: 0x10001d5d0  bn_name: -[WLANClientUtilityModel SetWEPKey:AtIndex:]
+
+```c
+int64_t r14 = *___stack_chk_guard
+SEL sel_1 = sel
+void __b
+_memset(&__b, 0, 0x98)
+int32_t AtIndex_1 = AtIndex
+char var_f1 = _objc_msgSend(SetWEPKey, "getCString:maxLength:encoding:", &__b, 0x80, 1)
+int32_t result = _objc_msgSend(SetWEPKey, "length")
+char var_f2 = _objc_msgSend(self, "SetInformation:Buffer:Length:", 0xff070113, &__b, 0x98)
+
+if (*___stack_chk_guard == r14)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## SetInformation_Buffer_Length
+addr: 0x10001e770  bn_name: -[WLANClientUtilityModel SetInformation:Buffer:Length:]
+
+```c
+int64_t r9 = *___stack_chk_guard
+SEL sel_1 = sel
+int64_t var_a28 = 0x9d4
+int32_t Length_1 = Length
+void var_9d8
+int64_t rax = ___memcpy_chk(&var_9d8, Buffer, sx.q(Length), -1)
+uint32_t SetInformation_1 = SetInformation
+int32_t var_9e0 = 0
+int32_t var_9dc = 0
+int64_t var_a48 = rax
+char result
+
+if (_IOConnectCallStructMethod(zx.q(self->driverConnect), 0xa, &SetInformation_1, 0x9d4, &SetInformation_1, &var_a28) == 0)
+    result = 1
+else
+    result = 0
+
+if (*___stack_chk_guard == r9)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## SetInformation_Value
+addr: 0x10001e420  bn_name: -[WLANClientUtilityModel SetInformation:Value:]
+
+```c
+int64_t r9 = *___stack_chk_guard
+SEL sel_1 = sel
+int64_t var_a20 = 0x9d4
+void var_9d8
+void* var_a28 = &var_9d8
+int32_t var_9e4 = 0x9c4
+var_9d8.d = Value
+uint32_t SetInformation_1 = SetInformation
+int32_t var_9e0 = 0
+int32_t var_9dc = 0
+char result
+
+if (_IOConnectCallStructMethod(zx.q(self->driverConnect), 0xa, &SetInformation_1, 0x9d4, &SetInformation_1, &var_a20) == 0)
+    result = 1
+else
+    result = 0
+
+if (*___stack_chk_guard == r9)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## CmdSsid
+addr: 0x10003ae40  bn_name: _CmdSsid
+
+```c
+int64_t r8 = *___stack_chk_guard
+char __b[0x80]
+_memset(&__b, 0, 0x84)
+
+if (_strcmp(*(arg2 + 0x10), "g") != 0)
+    if (_strcmp(*(arg2 + 0x10), "s") != 0)
+        int64_t rax_41
+        rax_41.b = 0
+        int32_t var_e4_1 = _printf("Usage: MacAccess -ssid [g|s] [ssid].\n")
+    else if (arg1 s< 4)
+        int64_t rax_39
+        rax_39.b = 0
+        int32_t var_e0_1 = _printf("Usage: MacAccess -ssid s [ssid].\n")
+    else if (_strlen(*(arg2 + 0x18)) u> 0x80)
+        uint64_t rax_37
+        rax_37.b = 0
+        int32_t var_dc_1 = _printf("Error input SSID.\n")
+    else
+        int32_t var_b0_1 = 0
+        
+        while (sx.q(var_b0_1) u< _strlen(*(arg2 + 0x18)))
+            __b[sx.q(var_b0_1)] = (*(arg2 + 0x18))[sx.q(var_b0_1)]
+            var_b0_1 += 1
+        
+        int32_t var_18_2 = _strlen(*(arg2 + 0x18))
+        uint64_t rax_27
+        rax_27.b = 0
+        int32_t var_cc_1 = _printf("strlen(argv[3]: %ld\n ", _strlen(*(arg2 + 0x18)))
+        
+        if (_SetInformationBuffer(0xff070102, &__b, 0x84) != 0xffffffff)
+            if (_SetInformationValue(0xff01041b, 0) != 0xffffffff)
+                int64_t rax_35
+                rax_35.b = 0
+                int32_t var_d8_1 = _printf("Set SSID (%s) success.\n", &__b)
+            else
+                int64_t rax_33
+                rax_33.b = 0
+                int32_t var_d4_1 = _printf("Failed to set SSID: %s\n", &__b)
+        else
+            int64_t rax_30
+            rax_30.b = 0
+            int32_t var_d0_1 = _printf("Failed to set SSID: %s\n", &__b)
+else
+    int32_t rax_1 = _QueryInformation(0xff070102, &__b)
+    
+    if (rax_1 s> 0)
+        int64_t rax_2
+        rax_2.b = 0
+        int32_t i = 0
+        int32_t var_b4_1 = _printf("Query SSID : ")
+        
+        for (; i s< rax_1; i += 1)
+            int64_t rax_6
+            rax_6.b = 0
+            int32_t var_b8_1 = _printf("%c", zx.q(sx.d(__b[sx.q(i)])))
+        
+        int64_t rax_10
+        rax_10.b = 0
+        int32_t var_bc_1 = _printf("\n")
+
+int64_t result = *___stack_chk_guard
+
+if (result == r8)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## CmdPassphrase
+addr: 0x10003ce10  bn_name: _CmdPassphrase
+
+```c
+int64_t rax = *___stack_chk_guard
+int32_t var_ac = arg1
+char* __s = *(arg2 + 0x10)
+int32_t rax_2 = _strlen(__s)
+
+if (rax_2 s< 8 || rax_2 s> 0x3f)
+    int64_t rax_3
+    rax_3.b = 0
+    int32_t var_cc_1 = _printf("Invalid passphrase length, %d, valid range is 8-63\n", zx.q(rax_2))
+else
+    int32_t var_24_1 = 0
+    void var_a8
+    int64_t var_d8_1 = ___memcpy_chk(&var_a8, __s, sx.q(rax_2), 0x98)
+    
+    if (_SetInformationBuffer(0xff010305, &var_a8, 0x98) != 0xffffffff)
+        int64_t rax_10
+        rax_10.b = 0
+        int32_t var_e0_1 = _printf("Set passphrase success.\n")
+    else
+        int64_t rax_8
+        rax_8.b = 0
+        int32_t var_dc_1 = _printf("Failed to set passphrase.\n")
+
+int64_t result = *___stack_chk_guard
+
+if (result == rax)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## CmdAkm
+addr: 0x10003c770  bn_name: _CmdAkm
+
+```c
+int32_t var_1c = 0
+int32_t var_20 = 0
+int32_t result
+
+if (_strcmp(*(arg2 + 0x10), "g") != 0)
+    if (_strcmp(*(arg2 + 0x10), "s") != 0)
+        return _printCmdUsage(&(&_CommandPatterns)[sx.q(_g_nCurrCmd) * 4])
+    
+    if (arg1 s< 4)
+        return _printCmdUsage(&(&_CommandPatterns)[sx.q(_g_nCurrCmd) * 4])
+    
+    if (_strcmp(*(arg2 + 0x18), "sharedkey") != 0)
+        var_20 = 0
+        
+        if (_strcmp(*(arg2 + 0x18), "open") == 0)
+            var_1c = 0
+            goto label_10003c9c8
+        
+        if (_strcmp(*(arg2 + 0x18), "wpa-psk") == 0)
+            var_1c = 3
+            goto label_10003c9c8
+        
+        if (_strcmp(*(arg2 + 0x18), "wpa2-psk") == 0)
+            var_1c = 6
+            goto label_10003c9c8
+        
+        int64_t rax_23
+        rax_23.b = 0
+        result = _printf("unknown AKM!")
+        int32_t result_4 = result
+    else
+        var_20 = 1
+    label_10003c9c8:
+        
+        if (_SetInformationValue(0xff01041a, var_20) != 0xffffffff)
+            if (_SetInformationValue(0xff010194, var_1c) != 0xffffffff)
+                int64_t rax_28
+                rax_28.b = 0
+                result = _printf("Set AKM success.\n")
+                int32_t result_1 = result
+            else
+                int64_t rax_27
+                rax_27.b = 0
+                result = _printf("Failed to set AKM.\n")
+                int32_t result_2 = result
+        else
+            int64_t rax_25
+            rax_25.b = 0
+            result = _printf("Failed to set shared key auth.\n")
+            int32_t result_3 = result
+else if (_QueryInformation(0xff010194, &var_1c) != 0xffffffff)
+    uint64_t rcx_1 = zx.q(var_1c)
+    int64_t var_38_1 = rcx_1 - 6
+    
+    if (rcx_1 u> 6)
+        int64_t rax_12
+        rax_12.b = 0
+        result = _printf("unknown encryption method(%d)!\n", zx.q(var_1c))
+        int32_t result_5 = result
+    else
+        switch (rcx_1)
+            case 0
+                uint32_t* const rax_5
+                rax_5.b = 0
+                result = _printf("open\n")
+                int32_t result_11 = result
+            case 1, 2
+                if (_QueryInformation(0xff01041a, &var_20) == 0xffffffff)
+                    int64_t rax_7
+                    rax_7.b = 0
+                    result = _printf("Failed to get shared key authentication mode.\n")
+                    int32_t result_10 = result
+                else if (var_20 == 0)
+                    int64_t rax_9
+                    rax_9.b = 0
+                    result = _printf("open\n")
+                    int32_t result_8 = result
+                else
+                    int64_t rax_8
+                    rax_8.b = 0
+                    result = _printf("sharedkey\n")
+                    int32_t result_9 = result
+            case 3, 4
+                uint32_t* const rax_10
+                rax_10.b = 0
+                result = _printf("wpa-psk\n")
+                int32_t result_7 = result
+            case 5, 6
+                uint32_t* const rax_11
+                rax_11.b = 0
+                result = _printf("wpa2-psk\n")
+                int32_t result_6 = result
+else
+    int64_t rax_2
+    rax_2.b = 0
+    result = _printf("Failed to get encryption method.\n")
+    int32_t result_12 = result
+
+return result
+```
+
+
+## CmdEnc
+addr: 0x10003caa0  bn_name: _CmdEnc
+
+```c
+int32_t var_1c = 0
+int32_t var_20 = 0
+int32_t result
+
+if (_QueryInformation(0xff010194, &var_1c) != 0xffffffff)
+    if (_strcmp(*(arg2 + 0x10), "g") != 0)
+        if (_strcmp(*(arg2 + 0x10), "s") != 0)
+            return _printCmdUsage(&(&_CommandPatterns)[sx.q(_g_nCurrCmd) * 4])
+        
+        if (arg1 s< 4)
+            return _printCmdUsage(&(&_CommandPatterns)[sx.q(_g_nCurrCmd) * 4])
+        
+        int32_t var_20_1
+        
+        if (_strcmp(*(arg2 + 0x18), "none") != 0)
+            if (_strcmp(*(arg2 + 0x18), "wep64") == 0)
+                var_20_1 = 1
+                goto label_10003cd68
+            
+            if (_strcmp(*(arg2 + 0x18), "wep128") == 0)
+                var_20_1 = 2
+                goto label_10003cd68
+            
+            if (_strcmp(*(arg2 + 0x18), "tkip") != 0)
+                if (_strcmp(*(arg2 + 0x18), "aes") != 0)
+                    int64_t rax_26
+                    rax_26.b = 0
+                    result = _printf("Unknown encryption mode!\n")
+                    int32_t result_3 = result
+                else
+                    if (var_1c == 3)
+                        var_20_1 = 4
+                        goto label_10003cd68
+                    
+                    if (var_1c == 6)
+                        var_20_1 = 6
+                        goto label_10003cd68
+                    
+                    int64_t rax_25
+                    rax_25.b = 0
+                    result = _printf("Invalid AKM state!, nCurrEncMethod(%d), please set up AKM first!\n", zx.q(var_1c))
+                    int32_t result_4 = result
+            else
+                if (var_1c == 3)
+                    var_20_1 = 3
+                    goto label_10003cd68
+                
+                if (var_1c == 6)
+                    var_20_1 = 5
+                    goto label_10003cd68
+                
+                int64_t rax_22
+                rax_22.b = 0
+                result = _printf("Invalid AKM state!, nCurrEncMethod(%d), please set up AKM first!\n", zx.q(var_1c))
+                int32_t result_5 = result
+        else
+            var_20_1 = 0
+        label_10003cd68:
+            
+            if (_SetInformationValue(0xff010194, var_20_1) != 0xffffffff)
+                int64_t rax_29
+                rax_29.b = 0
+                result = _printf("Set encryption (0x%X) method success.\n", zx.q(var_20_1))
+                int32_t result_1 = result
+            else
+                int64_t rax_28
+                rax_28.b = 0
+                result = _printf("Failed to set encryption method.\n")
+                int32_t result_2 = result
+    else
+        uint64_t rcx_1 = zx.q(var_1c)
+        int64_t var_38_1 = rcx_1 - 6
+        
+        if (rcx_1 u> 6)
+            int64_t rax_11
+            rax_11.b = 0
+            result = _printf("unknown encryption method(%d)!\n", zx.q(var_1c))
+            int32_t result_6 = result
+        else
+            switch (rcx_1)
+                case 0
+                    uint32_t* const rax_6
+                    rax_6.b = 0
+                    result = _printf("none\n")
+                    int32_t result_11 = result
+                case 1
+                    uint32_t* const rax_7
+                    rax_7.b = 0
+                    result = _printf("wep64\n")
+                    int32_t result_10 = result
+                case 2
+                    uint32_t* const rax_8
+                    rax_8.b = 0
+                    result = _printf("wep128\n")
+                    int32_t result_9 = result
+                case 3, 5
+                    uint32_t* const rax_9
+                    rax_9.b = 0
+                    result = _printf("tkip\n")
+                    int32_t result_8 = result
+                case 4, 6
+                    uint32_t* const rax_10
+                    rax_10.b = 0
+                    result = _printf("aes\n")
+                    int32_t result_7 = result
+else
+    int64_t rax_1
+    rax_1.b = 0
+    result = _printf("Failed to get encryption method.\n")
+    int32_t result_12 = result
+
+return result
+```
+
+
+## CmdScan
+addr: 0x10003d190  bn_name: _CmdScan
+
+```c
+int32_t rdi
+int32_t var_c = rdi
+int64_t rsi
+int64_t var_18 = rsi
+int32_t i = 0
+int32_t var_24 = 0
+char var_c8038[0xc8000]
+char (* var_c8040)[0xc8000] = &var_c8038
+int32_t var_38 = 0
+int32_t var_c804c = _SetInformationValue(0xff07011a, 0)
+int32_t var_c8050 = _QueryInformation(0xff0101bd, &i)
+
+while (i != 0)
+    uint32_t var_c8054_1 = _sleep(1)
+    int32_t var_c8058_1 = _QueryInformation(0xff0101bd, &i)
+
+int32_t result
+
+if (_QueryInformation(0xff010419, &var_24) == 0)
+    int64_t rax_20
+    rax_20.b = 0
+    result = _printf("GetAvailableNetworksFromDriver failed")
+    int32_t result_1 = result
+else
+    int32_t var_28
+    result = _openAdapter(&var_28)
+    
+    if (result.b != 0)
+        int32_t var_c805c_1
+        
+        var_c805c_1 = var_24 s<= 0x200 ? var_24 : 0x200
+        
+        int32_t var_38_1 = var_c805c_1
+        int64_t var_c8048 = 0x640
+        
+        for (int64_t i_1 = 0; i_1 u< sx.q(var_c8040[1][0].d); i_1 += 1)
+            int64_t var_c8078_1 = ___memset_chk(&var_c8038[i_1 * 0x640], 0, var_c8048, -1)
+            
+            if (_IOConnectCallMethod(zx.q(var_28), 0, &i_1, 1, 0, 0, 0, 0, &(*var_c8040)[i_1 * 0x640], &var_c8048) != 0)
+                int64_t rax_16
+                rax_16.b = 0
+                int32_t var_c8084_1 = _printf("GetNetworkNameAtIndex() failed[%llu]\n", i_1)
+            else
+                int32_t i_2 = i_1.d
+                _wpa_ssid_txt(&(*var_c8040)[i_1 * 0x640], zx.q((*var_c8040)[i_1 * 0x640 + 0x21]))
+                int64_t rax_14
+                rax_14.b = 0
+                int32_t var_c8080_1 = _printf("[%d] %s \n", zx.q(i_2), &_wpa_ssid_txt.ssid_txt)
+        
+        return _closeAdapter(&var_28)
+
+return result
+```
+
+
+## SetInformationBuffer
+addr: 0x10003eda0  bn_name: _SetInformationBuffer
+
+```c
+int64_t rax = *___stack_chk_guard
+int64_t var_a18 = 0x9d4
+int32_t var_9e4 = arg3
+void var_9d8
+int64_t rax_1 = ___memcpy_chk(&var_9d8, arg2, sx.q(arg3), -1)
+int32_t var_9e8 = arg1
+int32_t var_9e0 = 0
+int32_t var_9dc = 0
+int64_t var_a28 = rax_1
+int32_t var_a04
+int32_t var_9ec
+
+if (_openAdapter(&var_a04) != 0)
+    if (_IOConnectCallStructMethod(zx.q(var_a04), 0xa, &var_9e8, 0x9d4, &var_9e8, &var_a18) == 0)
+        int64_t rax_6
+        rax_6.b = 0
+        int32_t var_a40_1 = _printf("SetInformationBuffer:: Set OID 0x%X sucessfully\n", zx.q(arg1))
+        _closeAdapter(&var_a04)
+        var_9ec = 1
+    else
+        int64_t rax_4
+        rax_4.b = 0
+        var_9ec = 0xffffffff
+        int32_t var_a3c_1 = _printf("SetInformationBuffer:: Can not set the OID 0x%X!\n", zx.q(arg1))
+else
+    var_9ec = 0xffffffff
+
+if (*___stack_chk_guard == rax)
+    return zx.q(var_9ec)
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## SetInformationValue
+addr: 0x10003ef70  bn_name: _SetInformationValue
+
+```c
+int64_t rax = *___stack_chk_guard
+int64_t var_a10 = 0x9d4
+void var_9d8
+void* var_a18 = &var_9d8
+int32_t var_9e4 = 0x9c4
+var_9d8.d = arg2
+int32_t var_9e8 = arg1
+int32_t var_9e0 = 0
+int32_t var_9dc = 0
+int32_t var_9fc
+int32_t var_9ec
+
+if (_openAdapter(&var_9fc) != 0)
+    if (_IOConnectCallStructMethod(zx.q(var_9fc), 0xa, &var_9e8, 0x9d4, &var_9e8, &var_a10) == 0)
+        int64_t rax_5
+        rax_5.b = 0
+        int32_t var_a30_1 = _printf("SetInformationValue: Set OID 0x%X sucessfully\n", zx.q(arg1))
+        _closeAdapter(&var_9fc)
+        var_9ec = 1
+    else
+        int64_t rax_3
+        rax_3.b = 0
+        var_9ec = 0xffffffff
+        int32_t var_a2c_1 = _printf("SetInformationValue: Can not set the OID 0x%X!\n", zx.q(arg1))
+else
+    var_9ec = 0xffffffff
+
+if (*___stack_chk_guard == rax)
+    return zx.q(var_9ec)
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## turnRfOn
+addr: 0x10001d530  bn_name: -[WLANClientUtilityModel turnRfOn]
+
+```c
+SEL sel_1 = sel
+char var_19 = 1
+char var_29 = _objc_msgSend(self, "SetInformation:Value:")
+return 1
+```
+
+
+## turnRfOff
+addr: 0x10001d580  bn_name: -[WLANClientUtilityModel turnRfOff]
+
+```c
+SEL sel_1 = sel
+char var_19 = 1
+char var_29 = _objc_msgSend(self, "SetInformation:Value:")
+return 1
+```
+
+
+## IsRfOff
+addr: 0x10001dcc0  bn_name: -[WLANClientUtilityModel IsRfOff:]
+
+```c
+SEL sel_1 = sel
+char var_29 = 0
+
+if (_objc_msgSend(self, "QueryInformation:Data:", 0xff818081, &var_29) == 0xffffffff)
+    return 0
+
+if (var_29 == 0)
+    *IsRfOff = 0
+else
+    *IsRfOff = 1
+
+struct __NSConstantString* rax_4
+rax_4.b = 0
+_NSLog(&cfstr_IsRfOff_bRfTurnOff_=_%d\n, zx.q(sx.d(*IsRfOff)))
+return 1
+```
+
+
+## MenuItemRadioOnOff
+addr: 0x100012200  bn_name: -[WiFiStatusBarDelegate MenuItemRadioOnOff:]
+
+```c
+int64_t rcx = *___stack_chk_guard
+SEL sel_1 = sel
+id MenuItemRadioOnOff_1 = MenuItemRadioOnOff
+id rax_3
+rax_3.b = 0
+char __filename[0x108]
+int32_t var_14c = ___sprintf_chk(&__filename, 0, 0xff, "%s/%srfoff.rtl", _objc_msgSend(_objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath"), "UTF8String"), _objc_msgSend(data_1001b4d30, "UTF8String"))
+FILE* rax_5 = _fopen(&__filename, "w")
+
+if (sx.d(data_1001b4d2b) != 1)
+    if (_objc_msgSend(self->Model, "turnRfOff") != 0)
+        if (zx.d(_uOSMinorVersion) s<= 0xa)
+            _objc_msgSend(self, "setMenuItemTitle:title:", self->MenuItem_RfOnOff, _TurnRadioONStr)
+        else
+            _objc_msgSend(self->MenuItem_RfOnOff, "vsetWlanFunTitle:", _TurnRadioONStr)
+        
+        _objc_msgSend(self->MenuItem_Status, "vsetStatus:", _StateRfOffStr)
+        data_1001b4d2b = 1
+        _objc_msgSend(self, "DisableAllWlanMenuItem")
+        _objc_msgSend(data_1001b4d38, "setString:", &cfstr_)
+        data_1001b4d68 = 0
+    
+    if (rax_5 == 0)
+        struct __NSConstantString* rax_37
+        rax_37.b = 0
+        _NSLog(&cfstr_MenuItemRadioOnOff_file_open_failed_2222)
+    else
+        int64_t rax_34
+        rax_34.b = 0
+        int32_t var_174_1 = _fprintf(rax_5, "%d\n", zx.q(sx.d(data_1001b4d2b)))
+else
+    int32_t rdx
+    
+    if (sx.d(_bSupportU2U3) != 0)
+        rdx = sx.d(_objc_msgSend(self->Model, "USBSwitch_bNicInU3"))
+    
+    if (sx.d(_bSupportU2U3) == 0 || rdx == 0)
+        if (_objc_msgSend(self->Model, "turnRfOn").b != 0)
+            if (zx.d(_uOSMinorVersion) s<= 0xa)
+                _objc_msgSend(self, "setMenuItemTitle:title:", self->MenuItem_RfOnOff, _TurnRadioOFFStr)
+            else
+                _objc_msgSend(self->MenuItem_RfOnOff, "vsetWlanFunTitle:", _TurnRadioOFFStr)
+            
+            _objc_msgSend(self->MenuItem_Status, "vsetStatus:", _StateRfOnStr)
+            data_1001b4d2b = 0
+            
+            if (_objc_msgSend(self->Model, "IsRTL8180Enabled") != 0)
+                _objc_msgSend(self, "EnableWlanFunMenuItem")
+        
+        if (rax_5 == 0)
+            struct __NSConstantString* rax_26
+            rax_26.b = 0
+            _NSLog(&cfstr_MenuItemRadioOnOff_file_open_failed_1111)
+        else
+            int64_t rax_23
+            rax_23.b = 0
+            int32_t var_164_1 = _fprintf(rax_5, "%d\n", zx.q(sx.d(data_1001b4d2b)))
+    else
+        struct __NSConstantString* rax_10
+        rax_10.b = 0
+        _NSLog(&cfstr_RadioOffOn::U3_To_U2\n)
+        _objc_msgSend(self, "U3_Switch_To_U2")
+        
+        if (zx.d(_uOSMinorVersion) s<= 0xa)
+            _objc_msgSend(self, "setMenuItemTitle:title:", self->MenuItem_RfOnOff, _TurnRadioOFFStr)
+        else
+            _objc_msgSend(self->MenuItem_RfOnOff, "vsetWlanFunTitle:", _TurnRadioOFFStr)
+        
+        _objc_msgSend(self->MenuItem_Status, "vsetStatus:", _StateRfOnStr)
+        data_1001b4d2b = 0
+        _objc_msgSend(self, "EnableWlanFunMenuItem")
+
+if (rax_5 != 0)
+    int32_t var_178_1 = _fclose(rax_5)
+
+if (*___stack_chk_guard == rcx)
+    return 
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## CheckSoftRF
+addr: 0x1000083f0  bn_name: -[WiFiStatusBarDelegate CheckSoftRF]
+
+```c
+SEL sel_1 = sel
+char var_19 = 0
+id rax_1 = _objc_msgSend(_objc_msgSend(clsRef_NSMutableString, "alloc"), "initWithString:")
+char rax_3 = _objc_msgSend(clsRef_WiFiProfiles, "getSoftRFState:", data_1001b4d30)
+
+if (zx.d(rax_3) == 0)
+    char rax_4 = _objc_msgSend(self->Model, "IsRfOff:", &data_1001b4d2b)
+    data_1001b4d30
+    data_1001b4d2b
+    id var_50_1 = rax_1
+    char var_51_1 = rax_4
+    _objc_msgSend(clsRef_WiFiProfiles, "setSoftRFState:Rf:file:")
+else if (zx.d(rax_3) != 2)
+    data_1001b4d2b = 0
+    char var_53_1 = _objc_msgSend(self->Model, "turnRfOn")
+    _objc_msgSend(self->MenuItem_Status, "vsetStatus:", _StateRfOnStr)
+    _objc_msgSend(self, "EnableWlanFunMenuItem")
+else
+    data_1001b4d2b = 1
+    char var_52_1 = _objc_msgSend(self->Model, "turnRfOff")
+    _objc_msgSend(self->MenuItem_Status, "vsetStatus:", _StateRfOffStr)
+    _objc_msgSend(self, "DisableWlanFunMenuItem")
+
+if (zx.d(_uOSMinorVersion) s<= 0xa)
+    int64_t var_80_1
+    
+    if (sx.d(data_1001b4d2b) == 0)
+        var_80_1 = _TurnRadioOFFStr
+    else
+        var_80_1 = _TurnRadioONStr
+    
+    _objc_msgSend(self, "setMenuItemTitle:title:", self->MenuItem_RfOnOff, var_80_1)
+else
+    int64_t var_68_1
+    
+    if (sx.d(data_1001b4d2b) == 0)
+        var_68_1 = _TurnRadioOFFStr
+    else
+        var_68_1 = _TurnRadioONStr
+    
+    _objc_msgSend(self->MenuItem_RfOnOff, "vsetWlanFunTitle:", var_68_1)
+
+_objc_msgSend(rax_1, "release")
+```
+
+
+## ifconfig
+addr: 0x100002400  bn_name: -[WiFiStatusBarDelegate ifconfig:]
+
+```c
+int64_t r8 = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_130 = 0
+int64_t rax_1 = _objc_msgSend(self->kMyBSDName, "UTF8String")
+char const* const rdi_1 = "down"
+
+if (sx.d(ifconfig) != 0)
+    rdi_1 = &data_10013d215
+
+char const* const rax_3
+rax_3.b = 0
+char __s[0x108]
+int32_t var_14c = ___sprintf_chk(&__s, 0, 0xff, "%d, %d, /usr/bin/sudo, ifconfig, %s, %s", 3, 1, rax_1, rdi_1)
+int64_t rax_6
+rax_6.b = 0
+_NSLog(&cfstr_ifConfigArgs,_strlen()=%d\n, zx.q(_strlen(&__s)))
+int32_t result = _objc_msgSend(self->Model, "SendCommand:", &__s)
+int64_t rax_7
+rax_7.b = 0
+_NSLog(&cfstr_ifconfig::returnVal=%d\n, zx.q(result))
+
+if (*___stack_chk_guard == r8)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## NicIFLinkStatusWatchdog
+addr: 0x10000d650  bn_name: -[WiFiStatusBarDelegate NicIFLinkStatusWatchdog]
+
+```c
+SEL sel_1 = sel
+int32_t rax = _objc_msgSend(self->Model, "GetConnectionStatus")
+
+if (data_1001b4d29 != 0)
+    _objc_msgSend(self, "SetStatusBarImage:param:", 1, zx.q(data_1001b4d29))
+    data_1001b4d29 += 1
+
+if (_bSupplicantShowCert != 0)
+    struct __NSConstantString* rax_3
+    rax_3.b = 0
+    _NSLog(&cfstr_bSupplicantShowCert=T,_return!\n)
+else if (rax != 1)
+    if (_Adapter != 0)
+        struct __NSConstantString* rax_73
+        rax_73.b = 0
+        _NSLog(&cfstr_Connect_==>_Disconnected_\n)
+        _objc_msgSend(self, "UpdateDeassociatedNetwork")
+        
+        if (sx.d(data_1001b4d2b) == 1 || zx.d(data_1001b4d50) == 1)
+            _objc_msgSend(self, "ReconnectInShortTimer")
+            _bRfOnOff_Relink = 1
+            struct __NSConstantString* rax_77
+            rax_77.b = 0
+            _NSLog(&cfstr_Radio_Off_->_Disconnected\n)
+        else
+            data_1001b4da8 += 1
+            struct __NSConstantString* rax_79
+            rax_79.b = 0
+            _NSLog(&cfstr_Adapter.SupplicantFailCnt=%d\n, zx.q(data_1001b4da8))
+            char __b_1
+            _memset(&__b_1, 0, 4)
+            
+            if (zx.d(self->ApplyProfileEncryption) == 3 || zx.d(self->ApplyProfileEncryption) == 4 || zx.d(self->ApplyProfileEncryption) == 5 || zx.d(self->ApplyProfileEncryption) == 6)
+                int32_t var_bc_1 = _objc_msgSend(self->Model, "QueryInformation:Data:", 0xff819048, &__b_1)
+            
+            if (zx.d(__b_1) == 3)
+                struct __NSConstantString* rax_87
+                rax_87.b = 0
+                _NSLog(&cfstr_[11].SUPPLICANT_4WAY_FAIL)
+                data_1001b4d29 = 0
+                _objc_msgSend(self, "handleKeyInvalidOrUntrustCert:", 3)
+            else if (_nReTryConnectTimeOut != 0)
+                _objc_msgSend(self, "ReconnectInShortTimer")
+    
+    _Adapter = 0
+    data_1001b4d68 = 0
+    
+    if (data_1001b4d29 != 0)
+        uint32_t ApplyProfileEncryption = zx.d(self->ApplyProfileEncryption)
+        struct __NSConstantString* rax_92
+        
+        if (ApplyProfileEncryption == 0xd)
+            rax_92.b = 0
+            _NSLog(&cfstr_WPA3,_Disconnect,_LinkingTicket=%d\n, zx.q(sx.d(data_1001b4d29)), ApplyProfileEncryption, 0x98)
+        else
+            ApplyProfileEncryption = zx.d(self->ApplyProfileEncryption)
+            
+            if (ApplyProfileEncryption == 0xe)
+                rax_92.b = 0
+                _NSLog(&cfstr_WPA3,_Disconnect,_LinkingTicket=%d\n, zx.q(sx.d(data_1001b4d29)), ApplyProfileEncryption, 0x98)
+        id rax_96
+        
+        if (sx.d(data_1001b4d29) s<= 0xa)
+            rax_96 = _objc_msgSend(_objc_msgSend(clsRef_WiFiProfiles, "getProfileSSIDkeyEnumerator"), "count")
+        
+        if (sx.d(data_1001b4d29) s> 0xa || rax_96 == 0)
+            _objc_msgSend(self, "SetStatusBarImage:param:", 2, 0)
+            data_1001b4d29 = 0
+            struct __NSConstantString* rax_99
+            rax_99.b = 0
+            _NSLog(&cfstr_[NicIFLinkStatusWatchdog]_set_BarImageMode_Disconnect_and_LinkingTicket=0_\n)
+    
+label_10000e02a:
+    
+    if ((zx.d(_objc_msgSend(self, "NeedReloadRtWlanU")) & 1) == 1)
+        struct __NSConstantString* rax_104
+        rax_104.b = 0
+        _NSLog(&cfstr_NicIFStatusWatchdog_call_NeedReloadRtWlanU=TRUE!\n)
+    
+    if ((_VendorID != 0x7392 || _ProductID != 0xb822) && (_VendorID != 0x7392 || _ProductID != 0xd822) && (_VendorID != 0xb05 || _ProductID != 0x184c))
+        _objc_msgSend(self, "WpsCtrl_PollingHwPBC")
+    
+    if (_objc_msgSend(_objc_msgSend(clsRef_WiFiProfiles, "getProfileSSIDkeyEnumerator"), "count") == 0)
+        _objc_msgSend(self, "handleAutoScan:", 0)
+    else if (sx.d(_Adapter) != 0 || sx.d(data_1001b4d2b) != 0)
+        _objc_msgSend(self, "handleAutoScan:", 0)
+    else
+        if (_nDisconnectedTimer s> 0)
+            char __b
+            _memset(&__b, 0, 4)
+            
+            if (zx.d(self->ApplyProfileEncryption) == 3 || zx.d(self->ApplyProfileEncryption) == 4 || zx.d(self->ApplyProfileEncryption) == 5 || zx.d(self->ApplyProfileEncryption) == 6)
+                int32_t var_c0_1 = _objc_msgSend(self->Model, "QueryInformation:Data:", 0xff819048, &__b)
+            
+            if (zx.d(__b) == 3)
+                data_1001b4da8 += 1
+            
+            if (data_1001b4da8 s<= 2)
+                _nDisconnectedTimer -= 1
+            else
+                struct __NSConstantString* rax_121
+                rax_121.b = 0
+                _NSLog(&cfstr_[22].SUPPLICANT_4WAY_FAIL)
+                data_1001b4d29 = 0
+                _objc_msgSend(self, "SetStatusBarImage:param:", 2, 0)
+                _objc_msgSend(self, "handleKeyInvalidOrUntrustCert:")
+        else if (_nReTryConnectTimeOut s<= 0 || _bWPS_Doing != 0)
+        label_10000e4a4:
+            
+            if (_nReTryConnectTimeOut == 0)
+                if (_objc_msgSend(clsRef_WiFiProfiles, "getNextValidProfile") == 0)
+                    _nReStartReConnectTimerCnt += 1
+                else
+                    struct __NSConstantString* rax_152
+                    rax_152.b = 0
+                    _NSLog(&cfstr_WatchDog_set_default_profile_and_reload\n)
+                    _objc_msgSend(clsRef_WiFiProfiles, "setDefaultProfileState:", 1)
+                    _objc_msgSend(self->WLAN_UtilityCtrl, "ProfilesReloadData")
+                    _nReStartReConnectTimerCnt = 0x3d
+                
+                int32_t temp1_2 = mods.dp.d(sx.q(_nReStartReConnectTimerCnt), 4)
+                
+                if (temp1_2 == 0)
+                    struct __NSConstantString* rax_159
+                    rax_159.b = 0
+                    _NSLog(&cfstr_@@case3:[%d]_count_down_to_restart_re-connect_period_\n, zx.q(_nReStartReConnectTimerCnt), temp1_2, 4)
+                
+                if (_nReStartReConnectTimerCnt s> 0x3c)
+                    struct __NSConstantString* rax_161
+                    rax_161.b = 0
+                    _NSLog(&cfstr_@@case4:_Restart_re-connect_period_\n)
+                    _nReStartReConnectTimerCnt = 0
+                    _nDisconnectedTimer = 0xa
+                    _nReTryConnectTimeOut = 9
+        else
+            if (_objc_msgSend(self->Model, "USBSwitch_bUsbSwitchInProgress") != 0)
+                goto label_10000e4a4
+            
+            if (_objc_msgSend(_objc_msgSend(clsRef_WiFiProfiles, "getDefaultProfileName"), "isEqualToString:") != 0)
+                goto label_10000e4a4
+            
+            _nDisconnectedTimer = 0xa
+            
+            if (sx.d(data_1001b4d2b) != 0)
+                if (sx.d(_bRfOnOff_Relink) != 0)
+                    goto label_10000e32b
+            else if (zx.d(data_1001b4d50) == 0 || sx.d(_bRfOnOff_Relink) != 0)
+            label_10000e32b:
+                _bRfOnOff_Relink = 0
+                struct __NSConstantString* rax_133
+                rax_133.b = 0
+                _NSLog(&cfstr_3333_ApplyTheProfileAndTryToConnect\n)
+                id rax_135
+                rax_135.b = 0
+                _NSLog(&cfstr_\t_[CYC]_trying_reconnect,_getDefaultProfileName=%@\n, _objc_msgSend(clsRef_WiFiProfiles, "getDefaultProfileName"))
+                _objc_msgSend(self, "setApplyProfileInfo:BSSIDKey:AuxDict:", _objc_msgSend(clsRef_WiFiProfiles, "getDefaultProfileName"), 0, _objc_msgSend(clsRef_WiFiProfiles, "getDefaultProfileContent"))
+                _objc_msgSend(self, "ApplyTheProfileAndTryToConnect")
+            
+            _nReTryConnectTimeOut -= 1
+            int32_t temp1_1 = mods.dp.d(sx.q(_nReTryConnectTimeOut), 4)
+            
+            if (temp1_1 == 0)
+                struct __NSConstantString* rax_145
+                rax_145.b = 0
+                _NSLog(&cfstr_@@case2:[%d]th_to_Re-Connect\n, zx.q(_nReTryConnectTimeOut), temp1_1, 4)
+            
+            _nReStartReConnectTimerCnt = 0
+            
+            if (_nReTryConnectTimeOut == 0)
+                id rax_148
+                rax_148.b = 0
+                _NSLog(&cfstr_set_defaultProfile[%@]_state=VALID\n, _objc_msgSend(clsRef_WiFiProfiles, "getDefaultProfileName"))
+                _objc_msgSend(clsRef_WiFiProfiles, "setDefaultProfileState:")
+                _objc_msgSend(self->WLAN_UtilityCtrl, "ProfilesReloadData")
+        
+        _objc_msgSend(self, "handleAutoScan:", 1)
+else
+    if (_Adapter != 0)
+        goto label_10000d8b1
+    
+    int32_t var_20_1 = 0
+    struct __NSConstantString* rax_5
+    rax_5.b = 0
+    _NSLog(&cfstr_bConnected:%d\n, zx.q(sx.d(_Adapter)))
+    
+    if (sx.d(_bSupportU2U3) != 0 && _bWPS_Doing == 0)
+        id rax_8 = _objc_msgSend(_objc_msgSend(clsRef_NSMutableString, "alloc"), "init")
+        char var_2c
+        int32_t var_40_1 = _objc_msgSend(self->Model, "QueryInformation:Data:", 0xff819053, &var_2c)
+        
+        if (var_2c != 0)
+            char var_41_1 = _objc_msgSend(self->Model, "GetBSSID:", rax_8)
+            int64_t rax_13
+            rax_13.b = 0
+            _NSLog(&cfstr_[9][PostLink][U2U3]_StatusWatchdog::BSSID:_%@\n, rax_8)
+            var_20_1 = _objc_msgSend(self, "U2U3_Switch_Process:", rax_8)
+            int64_t rax_15
+            rax_15.b = 0
+            _NSLog(&cfstr_[9][PostLink][U2U3]_StatusWatchdog::BSSID:_%@,_switchState:%d(0:U2U3_SWITCHING_NOOP)\n, rax_8, zx.q(var_20_1), &cfstr_[9][PostLink][U2U3]_StatusWatchdog::BSSID:_%@,_switchState:%d(0:U2U3_SWITCHING_NOOP)\n)
+        
+        _objc_msgSend(rax_8, "release")
+    
+    if (var_20_1 == 0)
+        struct __NSConstantString* rax_19
+        rax_19.b = 0
+        _NSLog(&cfstr_Disconnected_=>_Connected,_set_bUpdateMenu=1\n)
+        _Adapter = 1
+        int32_t rax_20 = _objc_msgSend(self->Model, "QueryInformation:Data:", 0xd010108, &data_1001b4d50)
+        _NicIFLinkStatusWatchdog.bUpdateMenu = 1
+        int32_t var_54_1 = rax_20
+    label_10000d8b1:
+        
+        if (_objc_msgSend(data_1001b4d38, "isEqualToString:", &cfstr_) == 0 && _objc_msgSend(data_1001b4d38, "isEqualToString:", _objc_msgSend(__lastNetStack, "lastObject")) == 0)
+            _objc_msgSend(_objc_msgSend(clsRef_NSUserDefaults, "arUserDefaults"), "setObject:forKey:", data_1001b4d38, &cfstr_Last_Network)
+            int32_t var_30_1 = 0
+            
+            while (sx.q(var_30_1) u< _objc_msgSend(__lastNetStack, "count"))
+                if (_objc_msgSend(data_1001b4d38, "isEqualToString:", _objc_msgSend(__lastNetStack, "objectAtIndex:", sx.q(var_30_1))) != 0)
+                    _objc_msgSend(__lastNetStack, "removeObjectAtIndex:", sx.q(var_30_1))
+                
+                var_30_1 += 1
+            
+            _objc_msgSend(__lastNetStack, "addObject:", _objc_msgSend(clsRef_NSString, "stringWithString:", data_1001b4d38))
+            int64_t rax_39
+            rax_39.b = 0
+            _NSLog(&cfstr_ADD::_lastNetStack_%@,_count=%d_and_set_bUpdateMenu=1\n, __lastNetStack, zx.q(_objc_msgSend(__lastNetStack, "count")), &cfstr_ADD::_lastNetStack_%@,_count=%d_and_set_bUpdateMenu=1\n)
+            _NicIFLinkStatusWatchdog.bUpdateMenu = 1
+        
+        if (zx.d(_NicIFLinkStatusWatchdog.bUpdateMenu) == 0 || _bWPS_Doing != 0)
+            _objc_msgSend(self, "SetStatusBarImage:param:", 0, zx.q(_objc_msgSend(self->Model, "getSignalStrength")))
+        else if (zx.d(self->ApplyProfileEncryption) == 3 || zx.d(self->ApplyProfileEncryption) == 4 || zx.d(self->ApplyProfileEncryption) == 5 || zx.d(self->ApplyProfileEncryption) == 6)
+            char __b_2
+            _memset(&__b_2, 0, 4)
+            int32_t var_9c_1 = _objc_msgSend(self->Model, "QueryInformation:Data:", 0xff819048, &__b_2)
+            
+            if (zx.d(__b_2) == 3)
+                struct __NSConstantString* rax_48
+                rax_48.b = 0
+                _NSLog(&cfstr_[00].SUPPLICANT_4WAY_FAIL)
+            
+            if (zx.d(__b_2) == 1)
+            label_10000db9b:
+                struct __NSConstantString* rax_53
+                rax_53.b = 0
+                _NSLog(&cfstr_SUPPLICANT_4WAY_SUCCESS(%d)_or_bSetIPAddress,_set_bUpdateMenu=0\n, zx.q(__b_2))
+                data_1001b4d29 = 0
+                _objc_msgSend(self, "UpdateAssociatedNetwork")
+                _NicIFLinkStatusWatchdog.bUpdateMenu = 0
+            else if (sx.d(_objc_msgSend(self, "bSetIPAddress")) != 0)
+                goto label_10000db9b
+        else if (zx.d(self->ApplyProfileEncryption) == 0)
+            struct __NSConstantString* rax_69
+            rax_69.b = 0
+            _NSLog(&cfstr_OPEN::_UpdateAssociatedNetwork_(%d),_set_bUpdateMenu=0\n, zx.q(self->ApplyProfileEncryption), 0x98)
+            data_1001b4d29 = 0
+            _objc_msgSend(self, "UpdateAssociatedNetwork")
+            _NicIFLinkStatusWatchdog.bUpdateMenu = 0
+        else
+            if (zx.d(self->ApplyProfileEncryption) == 0xd)
+                struct __NSConstantString* rax_57
+                rax_57.b = 0
+                _NSLog(&cfstr_WPA3_\n)
+            
+            if (_objc_msgSend(self, "bSetIPAddress") != 0)
+                data_1001b4d29 = 0
+                
+                if (zx.d(self->ApplyProfileEncryption) == 0xd)
+                    struct __NSConstantString* rax_62
+                    rax_62.b = 0
+                    _NSLog(&cfstr_111_WPA3_get_IP\n)
+                
+                id rax_65
+                rax_65.b = 0
+                _NSLog(&cfstr_\t_[CYC]_before_UpdateAssociatedNetwork,_getDefaultProfileName=%@,_set_bUpdateMenu=0\n, _objc_msgSend(clsRef_WiFiProfiles, "getDefaultProfileName"))
+                _objc_msgSend(self, "UpdateAssociatedNetwork")
+                int64_t rax_67
+                rax_67.b = 0
+                _NSLog(&cfstr_\t_[CYC]_after_UpdateAssociatedNetwork,_getDefaultProfileName=%@,_set_bUpdateMenu=0\n, _objc_msgSend(clsRef_WiFiProfiles, "getDefaultProfileName"))
+                _NicIFLinkStatusWatchdog.bUpdateMenu = 0
+        
+        goto label_10000e02a
+    
+    _objc_msgSend(self, "ReconnectInShortTimer")
+```
+
+
+## UpdateAssociatedNetwork
+addr: 0x100011080  bn_name: -[WiFiStatusBarDelegate UpdateAssociatedNetwork]
+
+```c
+SEL sel_1 = sel
+int64_t var_20 = 0
+
+if (_objc_msgSend(data_1001b4d38, "isEqualToString:") != 0)
+    return 
+
+char var_31_1 = _objc_msgSend(self->Model, "GetBSSID:", data_1001b4d48)
+id rax_3 = _objc_msgSend(self->dropDownMenu, "itemWithTitle:", data_1001b4d38)
+
+if (rax_3 == 0)
+    struct __NSConstantString* rax_23
+    rax_23.b = 0
+    _NSLog(&cfstr_UpdateAssociatedNetwork_::_missing_connection_item_(_%@_)\n, data_1001b4d38)
+    _objc_msgSend(self, "StatusBar_GetAvailableNetworks")
+else
+    _objc_msgSend(self, "SetStatusBarImage:param:", 0, zx.q(_objc_msgSend(rax_3, "vgetStrength")))
+    int32_t rax_6 = _objc_msgSend(self->dropDownMenu, "indexOfItem:", rax_3)
+    _objc_msgSend(rax_3, "vsetCurrent:", 1)
+    _objc_msgSend(rax_3, "vsetProfileIcon:", 1)
+    
+    if (sx.d(_objc_msgSend(rax_3, "VAvailableNetworkType")) == 0)
+        _bOptionKeyPressed
+        int32_t var_28_1 = 3
+        
+        if (_objc_msgSend(self->dropDownMenu, "indexOfItem:", self->MenuItem_Uninstall) != -1)
+            var_28_1 = 4
+        
+        _objc_msgSend(rax_3, "setTag:", sx.q(rax_6))
+        struct __NSConstantString* rax_15
+        rax_15.b = 0
+        _NSLog(&cfstr_UpdateAssociatedNetwork::_%@_[%d]_==>_[%d]\n, data_1001b4d38, zx.q(rax_6), zx.q(var_28_1))
+        
+        if (rax_6 != var_28_1)
+            _objc_msgSend(self->dropDownMenu, "removeItem:", rax_3)
+            _objc_msgSend(self->dropDownMenu, "insertItem:atIndex:", rax_3, sx.q(var_28_1))
+    
+    _objc_msgSend(self->dropDownMenu, "update")
+
+_objc_msgSend(self->WLAN_UtilityCtrl, "WiFiTableViewReloadData")
+_objc_msgSend(clsRef_WiFiProfiles, "setDefaultProfileState:", 1)
+_objc_msgSend(self->WLAN_UtilityCtrl, "ProfilesReloadData")
+```
+
+
+## UpdateDeassociatedNetwork
+addr: 0x100011390  bn_name: -[WiFiStatusBarDelegate UpdateProfiledNetwork:]
+
+```c
+SEL sel_1 = sel
+int64_t var_28 = 0
+id UpdateProfiledNetwork_1 = UpdateProfiledNetwork
+id rax = _objc_msgSend(self->dropDownMenu, "itemWithTitle:")
+
+if (rax != 0)
+    _objc_msgSend(rax, "vsetProfileIcon:", 1)
+
+_objc_msgSend(self->WLAN_UtilityCtrl, "ProfilesReloadData")
+_nReTryConnectTimeOut = 9
+```
+
+
+## MenuItemDeleteProfile
+addr: 0x100012790  bn_name: -[WiFiStatusBarDelegate MenuItemClickToJoinNetwork:]
+
+```c
+SEL sel_1 = sel
+char var_42_1
+__builtin_memset(&var_42_1, 0, 0x12)
+int32_t var_48 = 0
+char __b
+_memset(&__b, 0, 4)
+
+if (_bWPS_Doing != 0)
+    return 
+
+id var_38_1
+
+if (_objc_msgSend(MenuItemClickToJoinNetwork, "isKindOfClass:", _objc_msgSend(clsRef_VAvailableNetworkMenuItem, "class")) != 0)
+    var_38_1 = _objc_msgSend(_objc_msgSend(clsRef_NSString, "alloc"), "initWithString:", _objc_msgSend(MenuItemClickToJoinNetwork, "vgetSSID"))
+    
+    if (_objc_msgSend(MenuItemClickToJoinNetwork, "state") != 1)
+        goto label_100012970
+    
+    struct __NSConstantString* rax_12
+    rax_12.b = 0
+    _NSLog(&cfstr_MenuItemClickToJoinNetwork::__RtMenuItem_is_OnState\n)
+    _objc_msgSend(var_38_1, "release")
+    return 
+
+int32_t rax_13 = _objc_msgSend(MenuItemClickToJoinNetwork, "selectedRow")
+id rax_15 = _objc_msgSend(clsRef_WiFiStatusBarDelegate, "TitleOfCellAtColumn:col:row:", MenuItemClickToJoinNetwork, 1, sx.q(rax_13))
+var_38_1 = _objc_msgSend(_objc_msgSend(clsRef_NSString, "alloc"), "initWithString:", rax_15)
+label_100012970:
+id rax_21 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", var_38_1), "mutableCopy")
+id rax_23 = _objc_msgSend(self, "selectNetworkForMultipleBSSID:", rax_21)
+int64_t var_30_1 = _objc_msgSend(rax_21, "objectForKey:", rax_23)
+int32_t rax_27 = _objc_msgSend(self, "CheckJoinCondition:", var_38_1)
+
+if (rax_27 u> 0)
+    struct __NSConstantString* rax_29
+    rax_29.b = 0
+    _NSLog(&cfstr_AddToProfileAvailableNetworks::_SSID:%@_CheckAdhocChannel_WPANONE_failed\n, var_38_1)
+    _objc_msgSend(var_38_1, "release")
+    _objc_msgSend(rax_21, "release")
+    _objc_msgSend(self->WLAN_UtilityCtrl, "winCtrl_JoinConditionAlert:status:", 0, zx.q(rax_27))
+    return 
+
+char rax_31 = _objc_msgSend(_objc_msgSend(var_30_1, "objectForKey:", &cfstr_bHiddenAP), "boolValue")
+
+if (zx.d(_objc_msgSend(_objc_msgSend(var_30_1, "objectForKey:", &cfstr_Site_Encry), "unsignedCharValue")) == 0 && rax_31 == 0)
+    struct __NSConstantString* rax_35
+    rax_35.b = 0
+    _NSLog(&cfstr_joinNetwork[1]::_open-none_&&_non-hidden_AP/Adhoc:_%@\n, var_38_1)
+    _objc_msgSend(var_30_1, "setObject:forKey:", _objc_msgSend(clsRef_NSNumber, "numberWithUnsignedChar:", 0), &cfstr_profilesState)
+    _objc_msgSend(var_30_1, "setObject:forKey:", _objc_msgSend(clsRef_NSNumber, "numberWithUnsignedChar:", 0), &cfstr_PreferrAuth_Encry)
+    _objc_msgSend(clsRef_WiFiProfiles, "storeWiFiProfile:BSSIDDict:", var_38_1, var_30_1)
+    _objc_msgSend(self, "UpdateProfiledNetwork:", var_38_1)
+    struct __NSConstantString* rax_42
+    rax_42.b = 0
+    _NSLog(&cfstr_[7][PreLink][U2U3]_MenuItemClickToJoinNetwork[OPEN]::BSSID:_%@\n, rax_23)
+    int64_t rax_44
+    rax_44.b = 0
+    _NSLog(&cfstr_[7][PreLink][U2U3]_MenuItemClickToJoinNetwork[OPEN]::BSSID:_%@\n, rax_23)
+    id var_c8_1 = rax_23
+    int32_t var_cc_1 = _objc_msgSend(self, "U2U3_Switch_Process:", rax_23)
+    _objc_msgSend(self, "setApplyProfileInfo:BSSIDKey:AuxDict:")
+    _objc_msgSend(self, "ApplyTheProfileAndTryToConnect")
+    _objc_msgSend(var_38_1, "release")
+    _objc_msgSend(rax_21, "release")
+    return 
+
+id rax_47 = _objc_msgSend(clsRef_WiFiProfiles, "getPasswordForSSID:BSSIDDict:", var_38_1, var_30_1)
+
+if (rax_47 == 0)
+    _objc_msgSend(self->WLAN_UtilityCtrl, "ShowSettingDialog:BSSIDDict:", var_38_1, var_30_1)
+else
+    char var_71_1 = 0
+    int64_t var_80_1 = 0
+    char rax_49 = _objc_msgSend(_objc_msgSend(rax_47, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    id rax_50 = _objc_msgSend(rax_47, "objectForKey:", &cfstr_Password)
+    int32_t r8_4
+    
+    if (rax_50 != 0)
+        r8_4 = sx.d(_objc_msgSend(rax_50, "isEqualToString:", &cfstr_))
+    
+    if (rax_50 == 0 || r8_4 != 0)
+        struct __NSConstantString* rax_53
+        rax_53.b = 0
+        _NSLog(&cfstr_joinNetwork[2]:_Password_get_failed\n)
+    
+    struct __NSConstantString* rax_55
+    rax_55.b = 0
+    _NSLog(&cfstr_joinNetwork[2]::_SSID:%@,_PreferrEncry=%d,_password=%@, var_38_1, zx.q(rax_49), rax_50)
+    int32_t var_d0_1 = _objc_msgSend(self->Model, "QueryInformation:Data:", 0xff0101bb, &__b)
+    int64_t rax_57
+    rax_57.b = 0
+    char var_53
+    char var_52
+    char var_51
+    _NSLog(&cfstr_WirelessMode:0x%x%x%x%x_\n, zx.q(__b), zx.q(var_53), zx.q(var_52), zx.q(var_51))
+    _objc_msgSend(clsRef_WiFiProfiles, "setProfileToDefaultState:", var_38_1)
+    id rax_59
+    rax_59.b = 0
+    _NSLog(&cfstr_[8][PreLink][U2U3]_MenuItemClickToJoinNetwork[SEC]::BSSID:_%@\n, self->ApplyProfileBSSID, &cfstr_[8][PreLink][U2U3]_MenuItemClickToJoinNetwork[SEC]::BSSID:_%@\n)
+    NSMutableString* ApplyProfileBSSID = self->ApplyProfileBSSID
+    id var_f0_1 = var_38_1
+    int32_t var_f4_1 = _objc_msgSend(self, "U2U3_Switch_Process:")
+    _objc_msgSend(self, "setApplyProfileInfo:BSSIDKey:AuxDict:")
+    _objc_msgSend(self, "ApplyTheProfileAndTryToConnect")
+
+_objc_msgSend(var_38_1, "release")
+_objc_msgSend(rax_21, "release")
+```
+
+
+## MenuItemWPS
+addr: 0x100012790  bn_name: -[WiFiStatusBarDelegate MenuItemClickToJoinNetwork:]
+
+```c
+SEL sel_1 = sel
+char var_42_1
+__builtin_memset(&var_42_1, 0, 0x12)
+int32_t var_48 = 0
+char __b
+_memset(&__b, 0, 4)
+
+if (_bWPS_Doing != 0)
+    return 
+
+id var_38_1
+
+if (_objc_msgSend(MenuItemClickToJoinNetwork, "isKindOfClass:", _objc_msgSend(clsRef_VAvailableNetworkMenuItem, "class")) != 0)
+    var_38_1 = _objc_msgSend(_objc_msgSend(clsRef_NSString, "alloc"), "initWithString:", _objc_msgSend(MenuItemClickToJoinNetwork, "vgetSSID"))
+    
+    if (_objc_msgSend(MenuItemClickToJoinNetwork, "state") != 1)
+        goto label_100012970
+    
+    struct __NSConstantString* rax_12
+    rax_12.b = 0
+    _NSLog(&cfstr_MenuItemClickToJoinNetwork::__RtMenuItem_is_OnState\n)
+    _objc_msgSend(var_38_1, "release")
+    return 
+
+int32_t rax_13 = _objc_msgSend(MenuItemClickToJoinNetwork, "selectedRow")
+id rax_15 = _objc_msgSend(clsRef_WiFiStatusBarDelegate, "TitleOfCellAtColumn:col:row:", MenuItemClickToJoinNetwork, 1, sx.q(rax_13))
+var_38_1 = _objc_msgSend(_objc_msgSend(clsRef_NSString, "alloc"), "initWithString:", rax_15)
+label_100012970:
+id rax_21 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", var_38_1), "mutableCopy")
+id rax_23 = _objc_msgSend(self, "selectNetworkForMultipleBSSID:", rax_21)
+int64_t var_30_1 = _objc_msgSend(rax_21, "objectForKey:", rax_23)
+int32_t rax_27 = _objc_msgSend(self, "CheckJoinCondition:", var_38_1)
+
+if (rax_27 u> 0)
+    struct __NSConstantString* rax_29
+    rax_29.b = 0
+    _NSLog(&cfstr_AddToProfileAvailableNetworks::_SSID:%@_CheckAdhocChannel_WPANONE_failed\n, var_38_1)
+    _objc_msgSend(var_38_1, "release")
+    _objc_msgSend(rax_21, "release")
+    _objc_msgSend(self->WLAN_UtilityCtrl, "winCtrl_JoinConditionAlert:status:", 0, zx.q(rax_27))
+    return 
+
+char rax_31 = _objc_msgSend(_objc_msgSend(var_30_1, "objectForKey:", &cfstr_bHiddenAP), "boolValue")
+
+if (zx.d(_objc_msgSend(_objc_msgSend(var_30_1, "objectForKey:", &cfstr_Site_Encry), "unsignedCharValue")) == 0 && rax_31 == 0)
+    struct __NSConstantString* rax_35
+    rax_35.b = 0
+    _NSLog(&cfstr_joinNetwork[1]::_open-none_&&_non-hidden_AP/Adhoc:_%@\n, var_38_1)
+    _objc_msgSend(var_30_1, "setObject:forKey:", _objc_msgSend(clsRef_NSNumber, "numberWithUnsignedChar:", 0), &cfstr_profilesState)
+    _objc_msgSend(var_30_1, "setObject:forKey:", _objc_msgSend(clsRef_NSNumber, "numberWithUnsignedChar:", 0), &cfstr_PreferrAuth_Encry)
+    _objc_msgSend(clsRef_WiFiProfiles, "storeWiFiProfile:BSSIDDict:", var_38_1, var_30_1)
+    _objc_msgSend(self, "UpdateProfiledNetwork:", var_38_1)
+    struct __NSConstantString* rax_42
+    rax_42.b = 0
+    _NSLog(&cfstr_[7][PreLink][U2U3]_MenuItemClickToJoinNetwork[OPEN]::BSSID:_%@\n, rax_23)
+    int64_t rax_44
+    rax_44.b = 0
+    _NSLog(&cfstr_[7][PreLink][U2U3]_MenuItemClickToJoinNetwork[OPEN]::BSSID:_%@\n, rax_23)
+    id var_c8_1 = rax_23
+    int32_t var_cc_1 = _objc_msgSend(self, "U2U3_Switch_Process:", rax_23)
+    _objc_msgSend(self, "setApplyProfileInfo:BSSIDKey:AuxDict:")
+    _objc_msgSend(self, "ApplyTheProfileAndTryToConnect")
+    _objc_msgSend(var_38_1, "release")
+    _objc_msgSend(rax_21, "release")
+    return 
+
+id rax_47 = _objc_msgSend(clsRef_WiFiProfiles, "getPasswordForSSID:BSSIDDict:", var_38_1, var_30_1)
+
+if (rax_47 == 0)
+    _objc_msgSend(self->WLAN_UtilityCtrl, "ShowSettingDialog:BSSIDDict:", var_38_1, var_30_1)
+else
+    char var_71_1 = 0
+    int64_t var_80_1 = 0
+    char rax_49 = _objc_msgSend(_objc_msgSend(rax_47, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    id rax_50 = _objc_msgSend(rax_47, "objectForKey:", &cfstr_Password)
+    int32_t r8_4
+    
+    if (rax_50 != 0)
+        r8_4 = sx.d(_objc_msgSend(rax_50, "isEqualToString:", &cfstr_))
+    
+    if (rax_50 == 0 || r8_4 != 0)
+        struct __NSConstantString* rax_53
+        rax_53.b = 0
+        _NSLog(&cfstr_joinNetwork[2]:_Password_get_failed\n)
+    
+    struct __NSConstantString* rax_55
+    rax_55.b = 0
+    _NSLog(&cfstr_joinNetwork[2]::_SSID:%@,_PreferrEncry=%d,_password=%@, var_38_1, zx.q(rax_49), rax_50)
+    int32_t var_d0_1 = _objc_msgSend(self->Model, "QueryInformation:Data:", 0xff0101bb, &__b)
+    int64_t rax_57
+    rax_57.b = 0
+    char var_53
+    char var_52
+    char var_51
+    _NSLog(&cfstr_WirelessMode:0x%x%x%x%x_\n, zx.q(__b), zx.q(var_53), zx.q(var_52), zx.q(var_51))
+    _objc_msgSend(clsRef_WiFiProfiles, "setProfileToDefaultState:", var_38_1)
+    id rax_59
+    rax_59.b = 0
+    _NSLog(&cfstr_[8][PreLink][U2U3]_MenuItemClickToJoinNetwork[SEC]::BSSID:_%@\n, self->ApplyProfileBSSID, &cfstr_[8][PreLink][U2U3]_MenuItemClickToJoinNetwork[SEC]::BSSID:_%@\n)
+    NSMutableString* ApplyProfileBSSID = self->ApplyProfileBSSID
+    id var_f0_1 = var_38_1
+    int32_t var_f4_1 = _objc_msgSend(self, "U2U3_Switch_Process:")
+    _objc_msgSend(self, "setApplyProfileInfo:BSSIDKey:AuxDict:")
+    _objc_msgSend(self, "ApplyTheProfileAndTryToConnect")
+
+_objc_msgSend(var_38_1, "release")
+_objc_msgSend(rax_21, "release")
+```
+
+
+## WpsCtrl_PollingHwPBC
+addr: 0x1000162d0  bn_name: -[WiFiStatusBarDelegate CreateWpaSupplicantConf:]
+
+```c
+int64_t rcx = *___stack_chk_guard
+struct WiFiStatusBarDelegate* self_1 = self
+SEL sel_1 = sel
+id rax_2
+rax_2.b = 0
+char __filename[0x108]
+int32_t var_174 = ___sprintf_chk(&__filename, 0, 0xff, "%s/profile1x.rtl", _objc_msgSend(_objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath"), "UTF8String"))
+FILE* rax_4 = _fopen(&__filename, "w")
+
+if (rax_4 != 0)
+    FILE* rax_5
+    rax_5.b = 0
+    int32_t var_184_1 = _fprintf(rax_4, "network={\n")
+    id rax_8
+    rax_8.b = 0
+    int32_t var_188_1 = _fprintf(rax_4, "ssid="%s"\n", _objc_msgSend(*CreateWpaSupplicantConf, "UTF8String")).d
+    
+    if (CreateWpaSupplicantConf[6].d == 0xd || CreateWpaSupplicantConf[6].d == 0xe)
+        void** rax_10
+        rax_10.b = 0
+        int32_t var_18c_1 = _fprintf(rax_4, "key_mgmt=SAE\n")
+        int64_t rax_12
+        rax_12.b = 0
+        int32_t var_190_1 = _fprintf(rax_4, "ieee80211w=2\n")
+    else if (CreateWpaSupplicantConf[6].d == 7 || CreateWpaSupplicantConf[6].d == 8 || CreateWpaSupplicantConf[6].d == 9 || CreateWpaSupplicantConf[6].d == 0xa)
+        void** rax_15
+        rax_15.b = 0
+        int32_t var_194_1 = _fprintf(rax_4, "key_mgmt=WPA-EAP\n")
+    else if (CreateWpaSupplicantConf[6].d == 0xb)
+        void** rax_18
+        rax_18.b = 0
+        int32_t var_198_1 = _fprintf(rax_4, "key_mgmt=IEEE8021X\n")
+    
+    if (CreateWpaSupplicantConf[6].d == 7 || CreateWpaSupplicantConf[6].d == 8)
+        void** rax_21
+        rax_21.b = 0
+        int32_t var_19c_1 = _fprintf(rax_4, "proto=WPA\n")
+    else if (CreateWpaSupplicantConf[6].d == 9 || CreateWpaSupplicantConf[6].d == 0xa || CreateWpaSupplicantConf[6].d == 0xd || CreateWpaSupplicantConf[6].d == 0xe)
+        void** rax_24
+        rax_24.b = 0
+        int32_t var_1a0_1 = _fprintf(rax_4, "proto=RSN\n")
+    
+    if (CreateWpaSupplicantConf[6].d == 7 || CreateWpaSupplicantConf[6].d == 9)
+        void** rax_27
+        rax_27.b = 0
+        int32_t var_1a4_1 = _fprintf(rax_4, "pairwise=TKIP\n")
+        int64_t rax_29
+        rax_29.b = 0
+        int32_t var_1a8_1 = _fprintf(rax_4, "group=TKIP\n")
+    else if (CreateWpaSupplicantConf[6].d == 8 || CreateWpaSupplicantConf[6].d == 0xa)
+        void** rax_32
+        rax_32.b = 0
+        int32_t var_1ac_1 = _fprintf(rax_4, "pairwise=CCMP\n")
+        int64_t rax_34
+        rax_34.b = 0
+        int32_t var_1b0_1 = _fprintf(rax_4, "group=CCMP TKIP\n")
+    else if (CreateWpaSupplicantConf[6].d == 0xd)
+        id rax_40
+        rax_40.b = 0
+        int32_t var_1bc_1 = _fprintf(rax_4, "sae_password="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[5], "UTF8String"))
+    
+    if (*(CreateWpaSupplicantConf + 0x34) == 1)
+        void** rax_43
+        rax_43.b = 0
+        int32_t var_1cc_1 = _fprintf(rax_4, "eap=PEAP\n")
+        id rax_46
+        rax_46.b = 0
+        int32_t var_1dc_1 = _fprintf(rax_4, "identity="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[7], "UTF8String"))
+        id rax_49
+        rax_49.b = 0
+        int32_t var_1e0_1 = _fprintf(rax_4, "password="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[5], "UTF8String"))
+        int64_t rax_51
+        rax_51.b = 0
+        int32_t var_1e4_1 = _fprintf(rax_4, "phase2="auth=MSCHAPV2"\n").d
+    else if (*(CreateWpaSupplicantConf + 0x34) == 4)
+        void** rax_54
+        rax_54.b = 0
+        int32_t var_1f4_1 = _fprintf(rax_4, "eap=LEAP\n")
+        id rax_57
+        rax_57.b = 0
+        int32_t var_204_1 = _fprintf(rax_4, "identity="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[7], "UTF8String"))
+        id rax_60
+        rax_60.b = 0
+        int32_t var_208_1 = _fprintf(rax_4, "password="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[5], "UTF8String")).d
+    else if (*(CreateWpaSupplicantConf + 0x34) == 3)
+        void** rax_62
+        rax_62.b = 0
+        int32_t var_214_1 = _fprintf(rax_4, "eap=TTLS PEAP\n")
+        id rax_65
+        rax_65.b = 0
+        int32_t var_218_1 = _fprintf(rax_4, "identity="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[7], "UTF8String"))
+        int64_t rax_67
+        rax_67.b = 0
+        int32_t var_224_1 = _fprintf(rax_4, "anonymous_identity="anonymous"\n")
+        id rax_70
+        rax_70.b = 0
+        int32_t var_228_1 = _fprintf(rax_4, "password="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[5], "UTF8String"))
+        id rax_73
+        rax_73.b = 0
+        _NSLog(&cfstr_[params->CACert_lastPathComponent]=%@\n, _objc_msgSend(CreateWpaSupplicantConf[8], "lastPathComponent"))
+        
+        if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:", &cfstr_pem)) != 0)
+        label_100016a94:
+            
+            if (_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:") != 0)
+                _objc_msgSend(clsRef_WiFiPasswordEncrypt, "translateCertKeyFileToPem:", CreateWpaSupplicantConf[8])
+        else
+            if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:")) != 0)
+                goto label_100016a94
+            
+            if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:")) != 0)
+                goto label_100016a94
+            
+            id rax_90 = _objc_msgSend(clsRef_WiFiPasswordEncrypt, "exportCertificateFromKeychain:", CreateWpaSupplicantConf[8])
+            struct objc_class_t* clsRef_NSString_1 = clsRef_NSString
+            _objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath")
+            id rax_92
+            rax_92.b = 0
+            id rax_93 = _objc_msgSend(clsRef_NSString_1, "stringWithFormat:", &cfstr_%@/ca.pem)
+            id var_270_1 = rax_93
+            char var_271_1 = _objc_msgSend(rax_90, "writeToFile:atomically:", rax_93, 1)
+            _objc_msgSend(CreateWpaSupplicantConf[8], "setString:")
+        
+        id rax_99
+        rax_99.b = 0
+        int32_t var_284_1 = _fprintf(rax_4, "ca_cert="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[8], "UTF8String"))
+        int64_t rax_101
+        rax_101.b = 0
+        int32_t var_288_1 = _fprintf(rax_4, "phase2="auth=MSCHAPV2"\n").d
+    else if (*(CreateWpaSupplicantConf + 0x34) == 2)
+        void** rax_102
+        rax_102.b = 0
+        int32_t var_294_1 = _fprintf(rax_4, "eap=TLS\n")
+        id rax_105
+        rax_105.b = 0
+        int32_t var_298_1 = _fprintf(rax_4, "identity="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[7], "UTF8String"))
+        
+        if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:", &cfstr_pem)) != 0)
+        label_100016dd9:
+            
+            if (_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:") != 0)
+                _objc_msgSend(clsRef_WiFiPasswordEncrypt, "translateCertKeyFileToPem:", CreateWpaSupplicantConf[8])
+        else
+            if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:")) != 0)
+                goto label_100016dd9
+            
+            if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[8], "pathExtension"), "isEqualToString:")) != 0)
+                goto label_100016dd9
+            
+            id rax_123 = _objc_msgSend(clsRef_WiFiPasswordEncrypt, "exportCertificateFromKeychain:", CreateWpaSupplicantConf[8])
+            struct objc_class_t* clsRef_NSString_2 = clsRef_NSString
+            _objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath")
+            id rax_125
+            rax_125.b = 0
+            id rax_126 = _objc_msgSend(clsRef_NSString_2, "stringWithFormat:", &cfstr_%@/ca.pem)
+            id var_2e0_1 = rax_126
+            char var_2e1_1 = _objc_msgSend(rax_123, "writeToFile:atomically:", rax_126, 1)
+            _objc_msgSend(CreateWpaSupplicantConf[8], "setString:")
+        
+        id rax_132
+        rax_132.b = 0
+        int32_t var_2f4_1 = _fprintf(rax_4, "ca_cert="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[8], "UTF8String"))
+        int32_t rcx_31 = sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[9], "pathExtension"), "isEqualToString:", &cfstr_pem))
+        int32_t rcx_32
+        
+        if (rcx_31 == 0)
+            rcx_32 = sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[9], "pathExtension"), "isEqualToString:"))
+        
+        if (rcx_31 == 0 && rcx_32 == 0)
+            if (_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[9], "pathExtension"), "isEqualToString:").b != 0)
+                id rax_180
+                rax_180.b = 0
+                int32_t var_3bc_1 = _fprintf(rax_4, "private_key="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[9], "UTF8String"))
+                id rax_183
+                rax_183.b = 0
+                int32_t var_3c0_1 = _fprintf(rax_4, "private_key_passwd="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[0xb], "UTF8String")).d
+            else if (_bAppSigned != 0)
+                struct objc_class_t* clsRef_NSString_4 = clsRef_NSString
+                _objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath")
+                id rax_185
+                rax_185.b = 0
+                id rax_186 = _objc_msgSend(clsRef_NSString_4, "stringWithFormat:", &cfstr_%@/key.pfx)
+                id var_3d8_1 = rax_186
+                char var_3d9_1 = _objc_msgSend(CreateWpaSupplicantConf[0xc], "writeToFile:atomically:", rax_186, 1)
+                _objc_msgSend(CreateWpaSupplicantConf[0xa], "setString:")
+                _objc_msgSend(CreateWpaSupplicantConf[0xb], "setString:")
+                id rax_191
+                rax_191.b = 0
+                int32_t var_3fc_1 = _fprintf(rax_4, "private_key="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[0xa], "UTF8String"))
+                id rax_194
+                rax_194.b = 0
+                int32_t var_400_1 = _fprintf(rax_4, "private_key_passwd="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[0xb], "UTF8String")).d
+        else
+            if (_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[0xa], "pathExtension"), "isEqualToString:") == 0)
+                id rax_147
+                rax_147.b = 0
+                int32_t var_324_1 = _fprintf(rax_4, "client_cert="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[9], "UTF8String"))
+            
+            if (sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[0xa], "pathExtension"), "isEqualToString:")) == 0 && sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[0xa], "pathExtension"), "isEqualToString:")) == 0 && sx.d(_objc_msgSend(_objc_msgSend(CreateWpaSupplicantConf[0xa], "pathExtension"), "isEqualToString:")) == 0 && _bAppSigned != 0)
+                struct objc_class_t* clsRef_NSString_3 = clsRef_NSString
+                _objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath")
+                id rax_162
+                rax_162.b = 0
+                id rax_163 = _objc_msgSend(clsRef_NSString_3, "stringWithFormat:", &cfstr_%@/key.pem)
+                id var_370_1 = rax_163
+                char var_371_1 = _objc_msgSend(CreateWpaSupplicantConf[0xd], "writeToFile:atomically:", rax_163, 1)
+                _objc_msgSend(CreateWpaSupplicantConf[0xa], "setString:")
+                _objc_msgSend(CreateWpaSupplicantConf[0xb], "setString:")
+            
+            id rax_170
+            rax_170.b = 0
+            int32_t var_394_1 = _fprintf(rax_4, "private_key="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[0xa], "UTF8String"))
+            id rax_173
+            rax_173.b = 0
+            int32_t var_398_1 = _fprintf(rax_4, "private_key_passwd="%s"\n", _objc_msgSend(CreateWpaSupplicantConf[0xb], "UTF8String")).d
+    
+    void** rax_195
+    rax_195.b = 0
+    int32_t var_404_1 = _fprintf(rax_4, "priority=20\n")
+    int64_t rax_197
+    rax_197.b = 0
+    int32_t var_408_1 = _fprintf(rax_4, "}\n")
+    int32_t var_40c_1 = _fclose(rax_4)
+
+if (*___stack_chk_guard == rcx)
+    return 
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## WpsWinCtrl_Update_WPS_Scan_List
+addr: 0x1000179a0  bn_name: -[WiFiStatusBarDelegate startWpaSupplicant]
+
+```c
+int64_t rax = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_22c = 0
+char var_239 = _objc_msgSend(self->Model, "SetInformation:Value:", 0xd010115, 0)
+id rax_9
+rax_9.b = 0
+char __s[0x208]
+int32_t var_264 = ___sprintf_chk(&__s, 0, 0x200, "%d, %d, /usr/bin/sudo, %s/Contents/MacOS/wpa_supplicant, -Dosx, -i%s, -c%s/profile1x.rtl", 3, 1, _objc_msgSend(_objc_msgSend(_objc_msgSend(clsRef_NSBundle, "mainBundle"), "bundlePath"), "UTF8String"), _objc_msgSend(self->kMyBSDName, "UTF8String"), _objc_msgSend(_objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath"), "UTF8String"))
+int64_t rax_12
+rax_12.b = 0
+_NSLog(&cfstr_startWpaSupplicant,_strlen()=%d\n, zx.q(_strlen(&__s)))
+int32_t result = _objc_msgSend(self->Model, "SendCommand:", &__s)
+int64_t rax_13
+rax_13.b = 0
+_NSLog(&cfstr_startWpaSupplicant_::_returnVal=_%d\n, zx.q(result))
+
+if (*___stack_chk_guard == rax)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## startWpaSupplicant
+addr: 0x1000179a0  bn_name: -[WiFiStatusBarDelegate startWpaSupplicant]
+
+```c
+int64_t rax = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_22c = 0
+char var_239 = _objc_msgSend(self->Model, "SetInformation:Value:", 0xd010115, 0)
+id rax_9
+rax_9.b = 0
+char __s[0x208]
+int32_t var_264 = ___sprintf_chk(&__s, 0, 0x200, "%d, %d, /usr/bin/sudo, %s/Contents/MacOS/wpa_supplicant, -Dosx, -i%s, -c%s/profile1x.rtl", 3, 1, _objc_msgSend(_objc_msgSend(_objc_msgSend(clsRef_NSBundle, "mainBundle"), "bundlePath"), "UTF8String"), _objc_msgSend(self->kMyBSDName, "UTF8String"), _objc_msgSend(_objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath"), "UTF8String"))
+int64_t rax_12
+rax_12.b = 0
+_NSLog(&cfstr_startWpaSupplicant,_strlen()=%d\n, zx.q(_strlen(&__s)))
+int32_t result = _objc_msgSend(self->Model, "SendCommand:", &__s)
+int64_t rax_13
+rax_13.b = 0
+_NSLog(&cfstr_startWpaSupplicant_::_returnVal=_%d\n, zx.q(result))
+
+if (*___stack_chk_guard == rax)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## MenuItemClickToJoinNetwork
+addr: 0x100012790  bn_name: -[WiFiStatusBarDelegate MenuItemClickToJoinNetwork:]
+
+```c
+SEL sel_1 = sel
+char var_42_1
+__builtin_memset(&var_42_1, 0, 0x12)
+int32_t var_48 = 0
+char __b
+_memset(&__b, 0, 4)
+
+if (_bWPS_Doing != 0)
+    return 
+
+id var_38_1
+
+if (_objc_msgSend(MenuItemClickToJoinNetwork, "isKindOfClass:", _objc_msgSend(clsRef_VAvailableNetworkMenuItem, "class")) != 0)
+    var_38_1 = _objc_msgSend(_objc_msgSend(clsRef_NSString, "alloc"), "initWithString:", _objc_msgSend(MenuItemClickToJoinNetwork, "vgetSSID"))
+    
+    if (_objc_msgSend(MenuItemClickToJoinNetwork, "state") != 1)
+        goto label_100012970
+    
+    struct __NSConstantString* rax_12
+    rax_12.b = 0
+    _NSLog(&cfstr_MenuItemClickToJoinNetwork::__RtMenuItem_is_OnState\n)
+    _objc_msgSend(var_38_1, "release")
+    return 
+
+int32_t rax_13 = _objc_msgSend(MenuItemClickToJoinNetwork, "selectedRow")
+id rax_15 = _objc_msgSend(clsRef_WiFiStatusBarDelegate, "TitleOfCellAtColumn:col:row:", MenuItemClickToJoinNetwork, 1, sx.q(rax_13))
+var_38_1 = _objc_msgSend(_objc_msgSend(clsRef_NSString, "alloc"), "initWithString:", rax_15)
+label_100012970:
+id rax_21 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", var_38_1), "mutableCopy")
+id rax_23 = _objc_msgSend(self, "selectNetworkForMultipleBSSID:", rax_21)
+int64_t var_30_1 = _objc_msgSend(rax_21, "objectForKey:", rax_23)
+int32_t rax_27 = _objc_msgSend(self, "CheckJoinCondition:", var_38_1)
+
+if (rax_27 u> 0)
+    struct __NSConstantString* rax_29
+    rax_29.b = 0
+    _NSLog(&cfstr_AddToProfileAvailableNetworks::_SSID:%@_CheckAdhocChannel_WPANONE_failed\n, var_38_1)
+    _objc_msgSend(var_38_1, "release")
+    _objc_msgSend(rax_21, "release")
+    _objc_msgSend(self->WLAN_UtilityCtrl, "winCtrl_JoinConditionAlert:status:", 0, zx.q(rax_27))
+    return 
+
+char rax_31 = _objc_msgSend(_objc_msgSend(var_30_1, "objectForKey:", &cfstr_bHiddenAP), "boolValue")
+
+if (zx.d(_objc_msgSend(_objc_msgSend(var_30_1, "objectForKey:", &cfstr_Site_Encry), "unsignedCharValue")) == 0 && rax_31 == 0)
+    struct __NSConstantString* rax_35
+    rax_35.b = 0
+    _NSLog(&cfstr_joinNetwork[1]::_open-none_&&_non-hidden_AP/Adhoc:_%@\n, var_38_1)
+    _objc_msgSend(var_30_1, "setObject:forKey:", _objc_msgSend(clsRef_NSNumber, "numberWithUnsignedChar:", 0), &cfstr_profilesState)
+    _objc_msgSend(var_30_1, "setObject:forKey:", _objc_msgSend(clsRef_NSNumber, "numberWithUnsignedChar:", 0), &cfstr_PreferrAuth_Encry)
+    _objc_msgSend(clsRef_WiFiProfiles, "storeWiFiProfile:BSSIDDict:", var_38_1, var_30_1)
+    _objc_msgSend(self, "UpdateProfiledNetwork:", var_38_1)
+    struct __NSConstantString* rax_42
+    rax_42.b = 0
+    _NSLog(&cfstr_[7][PreLink][U2U3]_MenuItemClickToJoinNetwork[OPEN]::BSSID:_%@\n, rax_23)
+    int64_t rax_44
+    rax_44.b = 0
+    _NSLog(&cfstr_[7][PreLink][U2U3]_MenuItemClickToJoinNetwork[OPEN]::BSSID:_%@\n, rax_23)
+    id var_c8_1 = rax_23
+    int32_t var_cc_1 = _objc_msgSend(self, "U2U3_Switch_Process:", rax_23)
+    _objc_msgSend(self, "setApplyProfileInfo:BSSIDKey:AuxDict:")
+    _objc_msgSend(self, "ApplyTheProfileAndTryToConnect")
+    _objc_msgSend(var_38_1, "release")
+    _objc_msgSend(rax_21, "release")
+    return 
+
+id rax_47 = _objc_msgSend(clsRef_WiFiProfiles, "getPasswordForSSID:BSSIDDict:", var_38_1, var_30_1)
+
+if (rax_47 == 0)
+    _objc_msgSend(self->WLAN_UtilityCtrl, "ShowSettingDialog:BSSIDDict:", var_38_1, var_30_1)
+else
+    char var_71_1 = 0
+    int64_t var_80_1 = 0
+    char rax_49 = _objc_msgSend(_objc_msgSend(rax_47, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    id rax_50 = _objc_msgSend(rax_47, "objectForKey:", &cfstr_Password)
+    int32_t r8_4
+    
+    if (rax_50 != 0)
+        r8_4 = sx.d(_objc_msgSend(rax_50, "isEqualToString:", &cfstr_))
+    
+    if (rax_50 == 0 || r8_4 != 0)
+        struct __NSConstantString* rax_53
+        rax_53.b = 0
+        _NSLog(&cfstr_joinNetwork[2]:_Password_get_failed\n)
+    
+    struct __NSConstantString* rax_55
+    rax_55.b = 0
+    _NSLog(&cfstr_joinNetwork[2]::_SSID:%@,_PreferrEncry=%d,_password=%@, var_38_1, zx.q(rax_49), rax_50)
+    int32_t var_d0_1 = _objc_msgSend(self->Model, "QueryInformation:Data:", 0xff0101bb, &__b)
+    int64_t rax_57
+    rax_57.b = 0
+    char var_53
+    char var_52
+    char var_51
+    _NSLog(&cfstr_WirelessMode:0x%x%x%x%x_\n, zx.q(__b), zx.q(var_53), zx.q(var_52), zx.q(var_51))
+    _objc_msgSend(clsRef_WiFiProfiles, "setProfileToDefaultState:", var_38_1)
+    id rax_59
+    rax_59.b = 0
+    _NSLog(&cfstr_[8][PreLink][U2U3]_MenuItemClickToJoinNetwork[SEC]::BSSID:_%@\n, self->ApplyProfileBSSID, &cfstr_[8][PreLink][U2U3]_MenuItemClickToJoinNetwork[SEC]::BSSID:_%@\n)
+    NSMutableString* ApplyProfileBSSID = self->ApplyProfileBSSID
+    id var_f0_1 = var_38_1
+    int32_t var_f4_1 = _objc_msgSend(self, "U2U3_Switch_Process:")
+    _objc_msgSend(self, "setApplyProfileInfo:BSSIDKey:AuxDict:")
+    _objc_msgSend(self, "ApplyTheProfileAndTryToConnect")
+
+_objc_msgSend(var_38_1, "release")
+_objc_msgSend(rax_21, "release")
+```
+
+
+## MenuItemDiagnosticsTool
+addr: 0x100013b40  bn_name: -[WiFiStatusBarDelegate setApplyProfileInfo:BSSIDKey:AuxDict:]
+
+```c
+SEL sel_1 = sel
+char var_7c_1
+__builtin_memset(&var_7c_1, 0, 0x4c)
+int64_t var_90_1
+__builtin_memset(&var_90_1, 0, 0x11)
+_objc_msgSend(self->ApplyProfileSSID, "setString:", applyProfileInfo)
+id var_48 = _objc_msgSend(applyProfileInfo, "dataUsingEncoding:", 4)
+
+if (var_48 == 0)
+    var_48 = _objc_msgSend(applyProfileInfo, "dataUsingEncoding:", 0xa)
+    id rax_2
+    rax_2.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::_Non-Eng:_bdSSID=%@\n, applyProfileInfo)
+
+_objc_msgSend(self->ApplyProfileHexSSID, "setData:", var_48)
+int64_t var_88_1
+uint8_t var_80_1
+uint8_t var_7b_1
+uint8_t var_7a_1
+uint8_t var_79_1
+int64_t var_78_1
+int64_t var_70_1
+int64_t var_68_1
+id var_60_1
+id var_58_1
+int64_t var_50_1
+
+if (BSSIDKey != 0 && AuxDict == 0)
+    struct __NSConstantString* rax_6
+    rax_6.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::[Case_1][OPEN_NONE]_\n)
+    id rax_8 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", applyProfileInfo), "mutableCopy")
+    id rax_10 = _objc_msgSend(rax_8, "objectForKey:", BSSIDKey)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", BSSIDKey)
+    
+    if (_objc_msgSend(rax_10, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(rax_10, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    var_7a_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(rax_10, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    _objc_msgSend(rax_8, "release")
+else if (BSSIDKey == 0 && AuxDict != 0)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", &cfstr_)
+    
+    if (_objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    int64_t rax_31
+    rax_31.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::[Case_2][1]_Create_a_profile_or_[2]_Apply_a_profile_form_ProfileTable\n)
+    var_7a_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    
+    if (zx.d(var_7a_1) == 8 || zx.d(var_7a_1) == 7 || zx.d(var_7a_1) == 0xa || zx.d(var_7a_1) == 9 || zx.d(var_7a_1) == 0xb)
+        var_7b_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_EAP), "unsignedCharValue")
+        var_50_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_UserName)
+        
+        if (zx.d(var_7b_1) == 2)
+            var_68_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert)
+            var_70_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key)
+            var_78_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_passwd)
+            var_88_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert_data)
+            var_90_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_data)
+        
+        if (zx.d(var_7b_1) == 3 || zx.d(var_7b_1) == 2)
+            var_60_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_ca_cert)
+else if (BSSIDKey != 0 && AuxDict != 0)
+    struct __NSConstantString* rax_62
+    rax_62.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::Case_3_\n)
+    id rax_64 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", applyProfileInfo), "mutableCopy")
+    id rax_66 = _objc_msgSend(rax_64, "objectForKey:", BSSIDKey)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", BSSIDKey)
+    
+    if (_objc_msgSend(rax_66, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(rax_66, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(rax_66, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(rax_66, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    var_7a_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    
+    if (zx.d(var_7a_1) == 8 || zx.d(var_7a_1) == 7 || zx.d(var_7a_1) == 0xa || zx.d(var_7a_1) == 9 || zx.d(var_7a_1) == 0xb)
+        var_7b_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_EAP), "unsignedCharValue")
+        var_50_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_UserName)
+        
+        if (zx.d(var_7b_1) == 2)
+            var_68_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert)
+            var_70_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key)
+            var_78_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_passwd)
+            var_88_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert_data)
+            var_90_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_data)
+        
+        if (zx.d(var_7b_1) == 3 || zx.d(var_7b_1) == 2)
+            var_60_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_ca_cert)
+    
+    _objc_msgSend(rax_64, "release")
+
+self->ApplyProfileNetworkType = var_79_1
+self->ApplyProfileChannel = zx.d(var_7c_1)
+self->ApplyProfileEncryption = var_7a_1
+
+if (_objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+    struct __NSConstantString* rax_107
+    rax_107.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::ApplyProfileHexSSID=_%@_\n, self->ApplyProfileHexSSID, 0x80)
+
+_objc_msgSend(self->ApplyProfileWEPKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileUserName1X, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileCACert, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileClientCert, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfilePrivateKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", &cfstr_)
+
+if (zx.d(self->ApplyProfileEncryption) == 1 || zx.d(self->ApplyProfileEncryption) == 2)
+    self->ApplyProfileDefaultKeyID = var_80_1
+    id var_b8_1 = var_58_1
+    _objc_msgSend(self->ApplyProfileWEPKey, "setString:")
+else if (zx.d(self->ApplyProfileEncryption) == 0xa || zx.d(self->ApplyProfileEncryption) == 9 || zx.d(self->ApplyProfileEncryption) == 8 || zx.d(self->ApplyProfileEncryption) == 7 || zx.d(self->ApplyProfileEncryption) == 0xb)
+    self->ApplyProfileEAPMethod = var_7b_1
+    _objc_msgSend(self->ApplyProfileUserName1X, "setString:", var_50_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 2)
+        _objc_msgSend(self->ApplyProfileClientCert, "setString:", var_68_1)
+        int32_t r8_4 = sx.d(_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:", &cfstr_pem))
+        int32_t rcx_55
+        
+        if (r8_4 == 0)
+            rcx_55 = sx.d(_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:"))
+        
+        if (r8_4 == 0 && rcx_55 == 0)
+            if (_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:") == 0)
+                _objc_msgSend(self->ApplyProfileClientCert_IdentityData, "setData:", var_88_1)
+            else
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+        else
+            _objc_msgSend(self->ApplyProfilePrivateKey, "setString:", var_70_1)
+            
+            if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:", &cfstr_pem)) != 0)
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:")) != 0)
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:")) == 0)
+                _objc_msgSend(self->ApplyProfilePrivateKey_KeychainData, "setData:", var_90_1)
+            else
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 3 || zx.d(self->ApplyProfileEAPMethod) == 2)
+        _objc_msgSend(self->ApplyProfileCACert, "setString:", var_60_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 1 || zx.d(self->ApplyProfileEAPMethod) == 3 || zx.d(self->ApplyProfileEAPMethod) == 4)
+        _objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", var_58_1)
+else if (zx.d(self->ApplyProfileEncryption) s> 0)
+    _objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", var_58_1)
+```
+
+
+## MenuItemEditPreferredNetworks
+addr: 0x100013b40  bn_name: -[WiFiStatusBarDelegate setApplyProfileInfo:BSSIDKey:AuxDict:]
+
+```c
+SEL sel_1 = sel
+char var_7c_1
+__builtin_memset(&var_7c_1, 0, 0x4c)
+int64_t var_90_1
+__builtin_memset(&var_90_1, 0, 0x11)
+_objc_msgSend(self->ApplyProfileSSID, "setString:", applyProfileInfo)
+id var_48 = _objc_msgSend(applyProfileInfo, "dataUsingEncoding:", 4)
+
+if (var_48 == 0)
+    var_48 = _objc_msgSend(applyProfileInfo, "dataUsingEncoding:", 0xa)
+    id rax_2
+    rax_2.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::_Non-Eng:_bdSSID=%@\n, applyProfileInfo)
+
+_objc_msgSend(self->ApplyProfileHexSSID, "setData:", var_48)
+int64_t var_88_1
+uint8_t var_80_1
+uint8_t var_7b_1
+uint8_t var_7a_1
+uint8_t var_79_1
+int64_t var_78_1
+int64_t var_70_1
+int64_t var_68_1
+id var_60_1
+id var_58_1
+int64_t var_50_1
+
+if (BSSIDKey != 0 && AuxDict == 0)
+    struct __NSConstantString* rax_6
+    rax_6.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::[Case_1][OPEN_NONE]_\n)
+    id rax_8 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", applyProfileInfo), "mutableCopy")
+    id rax_10 = _objc_msgSend(rax_8, "objectForKey:", BSSIDKey)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", BSSIDKey)
+    
+    if (_objc_msgSend(rax_10, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(rax_10, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    var_7a_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(rax_10, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    _objc_msgSend(rax_8, "release")
+else if (BSSIDKey == 0 && AuxDict != 0)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", &cfstr_)
+    
+    if (_objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    int64_t rax_31
+    rax_31.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::[Case_2][1]_Create_a_profile_or_[2]_Apply_a_profile_form_ProfileTable\n)
+    var_7a_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    
+    if (zx.d(var_7a_1) == 8 || zx.d(var_7a_1) == 7 || zx.d(var_7a_1) == 0xa || zx.d(var_7a_1) == 9 || zx.d(var_7a_1) == 0xb)
+        var_7b_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_EAP), "unsignedCharValue")
+        var_50_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_UserName)
+        
+        if (zx.d(var_7b_1) == 2)
+            var_68_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert)
+            var_70_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key)
+            var_78_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_passwd)
+            var_88_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert_data)
+            var_90_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_data)
+        
+        if (zx.d(var_7b_1) == 3 || zx.d(var_7b_1) == 2)
+            var_60_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_ca_cert)
+else if (BSSIDKey != 0 && AuxDict != 0)
+    struct __NSConstantString* rax_62
+    rax_62.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::Case_3_\n)
+    id rax_64 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", applyProfileInfo), "mutableCopy")
+    id rax_66 = _objc_msgSend(rax_64, "objectForKey:", BSSIDKey)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", BSSIDKey)
+    
+    if (_objc_msgSend(rax_66, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(rax_66, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(rax_66, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(rax_66, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    var_7a_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    
+    if (zx.d(var_7a_1) == 8 || zx.d(var_7a_1) == 7 || zx.d(var_7a_1) == 0xa || zx.d(var_7a_1) == 9 || zx.d(var_7a_1) == 0xb)
+        var_7b_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_EAP), "unsignedCharValue")
+        var_50_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_UserName)
+        
+        if (zx.d(var_7b_1) == 2)
+            var_68_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert)
+            var_70_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key)
+            var_78_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_passwd)
+            var_88_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert_data)
+            var_90_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_data)
+        
+        if (zx.d(var_7b_1) == 3 || zx.d(var_7b_1) == 2)
+            var_60_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_ca_cert)
+    
+    _objc_msgSend(rax_64, "release")
+
+self->ApplyProfileNetworkType = var_79_1
+self->ApplyProfileChannel = zx.d(var_7c_1)
+self->ApplyProfileEncryption = var_7a_1
+
+if (_objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+    struct __NSConstantString* rax_107
+    rax_107.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::ApplyProfileHexSSID=_%@_\n, self->ApplyProfileHexSSID, 0x80)
+
+_objc_msgSend(self->ApplyProfileWEPKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileUserName1X, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileCACert, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileClientCert, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfilePrivateKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", &cfstr_)
+
+if (zx.d(self->ApplyProfileEncryption) == 1 || zx.d(self->ApplyProfileEncryption) == 2)
+    self->ApplyProfileDefaultKeyID = var_80_1
+    id var_b8_1 = var_58_1
+    _objc_msgSend(self->ApplyProfileWEPKey, "setString:")
+else if (zx.d(self->ApplyProfileEncryption) == 0xa || zx.d(self->ApplyProfileEncryption) == 9 || zx.d(self->ApplyProfileEncryption) == 8 || zx.d(self->ApplyProfileEncryption) == 7 || zx.d(self->ApplyProfileEncryption) == 0xb)
+    self->ApplyProfileEAPMethod = var_7b_1
+    _objc_msgSend(self->ApplyProfileUserName1X, "setString:", var_50_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 2)
+        _objc_msgSend(self->ApplyProfileClientCert, "setString:", var_68_1)
+        int32_t r8_4 = sx.d(_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:", &cfstr_pem))
+        int32_t rcx_55
+        
+        if (r8_4 == 0)
+            rcx_55 = sx.d(_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:"))
+        
+        if (r8_4 == 0 && rcx_55 == 0)
+            if (_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:") == 0)
+                _objc_msgSend(self->ApplyProfileClientCert_IdentityData, "setData:", var_88_1)
+            else
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+        else
+            _objc_msgSend(self->ApplyProfilePrivateKey, "setString:", var_70_1)
+            
+            if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:", &cfstr_pem)) != 0)
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:")) != 0)
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:")) == 0)
+                _objc_msgSend(self->ApplyProfilePrivateKey_KeychainData, "setData:", var_90_1)
+            else
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 3 || zx.d(self->ApplyProfileEAPMethod) == 2)
+        _objc_msgSend(self->ApplyProfileCACert, "setString:", var_60_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 1 || zx.d(self->ApplyProfileEAPMethod) == 3 || zx.d(self->ApplyProfileEAPMethod) == 4)
+        _objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", var_58_1)
+else if (zx.d(self->ApplyProfileEncryption) s> 0)
+    _objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", var_58_1)
+```
+
+
+## MenuItemUninstall
+addr: 0x100013b40  bn_name: -[WiFiStatusBarDelegate setApplyProfileInfo:BSSIDKey:AuxDict:]
+
+```c
+SEL sel_1 = sel
+char var_7c_1
+__builtin_memset(&var_7c_1, 0, 0x4c)
+int64_t var_90_1
+__builtin_memset(&var_90_1, 0, 0x11)
+_objc_msgSend(self->ApplyProfileSSID, "setString:", applyProfileInfo)
+id var_48 = _objc_msgSend(applyProfileInfo, "dataUsingEncoding:", 4)
+
+if (var_48 == 0)
+    var_48 = _objc_msgSend(applyProfileInfo, "dataUsingEncoding:", 0xa)
+    id rax_2
+    rax_2.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::_Non-Eng:_bdSSID=%@\n, applyProfileInfo)
+
+_objc_msgSend(self->ApplyProfileHexSSID, "setData:", var_48)
+int64_t var_88_1
+uint8_t var_80_1
+uint8_t var_7b_1
+uint8_t var_7a_1
+uint8_t var_79_1
+int64_t var_78_1
+int64_t var_70_1
+int64_t var_68_1
+id var_60_1
+id var_58_1
+int64_t var_50_1
+
+if (BSSIDKey != 0 && AuxDict == 0)
+    struct __NSConstantString* rax_6
+    rax_6.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::[Case_1][OPEN_NONE]_\n)
+    id rax_8 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", applyProfileInfo), "mutableCopy")
+    id rax_10 = _objc_msgSend(rax_8, "objectForKey:", BSSIDKey)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", BSSIDKey)
+    
+    if (_objc_msgSend(rax_10, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(rax_10, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    var_7a_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(rax_10, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    _objc_msgSend(rax_8, "release")
+else if (BSSIDKey == 0 && AuxDict != 0)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", &cfstr_)
+    
+    if (_objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    int64_t rax_31
+    rax_31.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::[Case_2][1]_Create_a_profile_or_[2]_Apply_a_profile_form_ProfileTable\n)
+    var_7a_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    
+    if (zx.d(var_7a_1) == 8 || zx.d(var_7a_1) == 7 || zx.d(var_7a_1) == 0xa || zx.d(var_7a_1) == 9 || zx.d(var_7a_1) == 0xb)
+        var_7b_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_EAP), "unsignedCharValue")
+        var_50_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_UserName)
+        
+        if (zx.d(var_7b_1) == 2)
+            var_68_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert)
+            var_70_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key)
+            var_78_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_passwd)
+            var_88_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert_data)
+            var_90_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_data)
+        
+        if (zx.d(var_7b_1) == 3 || zx.d(var_7b_1) == 2)
+            var_60_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_ca_cert)
+else if (BSSIDKey != 0 && AuxDict != 0)
+    struct __NSConstantString* rax_62
+    rax_62.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::Case_3_\n)
+    id rax_64 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", applyProfileInfo), "mutableCopy")
+    id rax_66 = _objc_msgSend(rax_64, "objectForKey:", BSSIDKey)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", BSSIDKey)
+    
+    if (_objc_msgSend(rax_66, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(rax_66, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(rax_66, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(rax_66, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    var_7a_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    
+    if (zx.d(var_7a_1) == 8 || zx.d(var_7a_1) == 7 || zx.d(var_7a_1) == 0xa || zx.d(var_7a_1) == 9 || zx.d(var_7a_1) == 0xb)
+        var_7b_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_EAP), "unsignedCharValue")
+        var_50_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_UserName)
+        
+        if (zx.d(var_7b_1) == 2)
+            var_68_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert)
+            var_70_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key)
+            var_78_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_passwd)
+            var_88_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert_data)
+            var_90_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_data)
+        
+        if (zx.d(var_7b_1) == 3 || zx.d(var_7b_1) == 2)
+            var_60_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_ca_cert)
+    
+    _objc_msgSend(rax_64, "release")
+
+self->ApplyProfileNetworkType = var_79_1
+self->ApplyProfileChannel = zx.d(var_7c_1)
+self->ApplyProfileEncryption = var_7a_1
+
+if (_objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+    struct __NSConstantString* rax_107
+    rax_107.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::ApplyProfileHexSSID=_%@_\n, self->ApplyProfileHexSSID, 0x80)
+
+_objc_msgSend(self->ApplyProfileWEPKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileUserName1X, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileCACert, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileClientCert, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfilePrivateKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", &cfstr_)
+
+if (zx.d(self->ApplyProfileEncryption) == 1 || zx.d(self->ApplyProfileEncryption) == 2)
+    self->ApplyProfileDefaultKeyID = var_80_1
+    id var_b8_1 = var_58_1
+    _objc_msgSend(self->ApplyProfileWEPKey, "setString:")
+else if (zx.d(self->ApplyProfileEncryption) == 0xa || zx.d(self->ApplyProfileEncryption) == 9 || zx.d(self->ApplyProfileEncryption) == 8 || zx.d(self->ApplyProfileEncryption) == 7 || zx.d(self->ApplyProfileEncryption) == 0xb)
+    self->ApplyProfileEAPMethod = var_7b_1
+    _objc_msgSend(self->ApplyProfileUserName1X, "setString:", var_50_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 2)
+        _objc_msgSend(self->ApplyProfileClientCert, "setString:", var_68_1)
+        int32_t r8_4 = sx.d(_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:", &cfstr_pem))
+        int32_t rcx_55
+        
+        if (r8_4 == 0)
+            rcx_55 = sx.d(_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:"))
+        
+        if (r8_4 == 0 && rcx_55 == 0)
+            if (_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:") == 0)
+                _objc_msgSend(self->ApplyProfileClientCert_IdentityData, "setData:", var_88_1)
+            else
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+        else
+            _objc_msgSend(self->ApplyProfilePrivateKey, "setString:", var_70_1)
+            
+            if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:", &cfstr_pem)) != 0)
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:")) != 0)
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:")) == 0)
+                _objc_msgSend(self->ApplyProfilePrivateKey_KeychainData, "setData:", var_90_1)
+            else
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 3 || zx.d(self->ApplyProfileEAPMethod) == 2)
+        _objc_msgSend(self->ApplyProfileCACert, "setString:", var_60_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 1 || zx.d(self->ApplyProfileEAPMethod) == 3 || zx.d(self->ApplyProfileEAPMethod) == 4)
+        _objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", var_58_1)
+else if (zx.d(self->ApplyProfileEncryption) s> 0)
+    _objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", var_58_1)
+```
+
+
+## openAdapter
+addr: 0x10003d900  bn_name: _openAdapter
+
+```c
+char var_21 = 0
+mach_port_name_t name
+int32_t var_1c
+
+if (_IOMasterPort(0, &name) == 0)
+    if (_IOServiceGetMatchingServices(zx.q(name), _IOServiceMatching("IOEthernetController"), &var_1c) == 0)
+        while (true)
+            int32_t rax_7 = _IOIteratorNext(zx.q(var_1c))
+            
+            if (rax_7 == 0)
+                break
+            
+            if (rax_7 != 0)
+                CFStringRef rax_8 = _IORegistryEntryCreateCFProperty(zx.q(rax_7), &cfstr_IOClass, *_kCFAllocatorDefault, 0)
+                
+                if (rax_8 != 0)
+                    if (_CFGetTypeID(rax_8) == _CFStringGetTypeID())
+                        if (_isInSupportWlanIC(rax_8) != 0)
+                            int32_t rax_15 = _IOServiceOpen(zx.q(rax_7), zx.q(*_mach_task_self_), 0, arg1)
+                            char* var_38_1 = _CFStringGetCStringPtr(rax_8, 0)
+                            
+                            if (rax_15 == 0)
+                                var_21 = 1
+                                int32_t var_58_1 = _IOObjectRelease(zx.q(rax_7))
+                                _CFRelease(rax_8)
+                                break
+                        
+                        _CFRelease(rax_8)
+                    else
+                        CFTypeID rax_12
+                        rax_12.b = 0
+                        int32_t var_54_1 = _printf("sssssss\n")
+                        _CFRelease(rax_8)
+        
+        int32_t var_5c_1 = _IOObjectRelease(zx.q(var_1c))
+    else
+        int64_t rax_5
+        rax_5.b = 0
+        int32_t var_44_1 = _printf("CmdLine - Error: No matching services!")
+        int32_t var_48_1 = _mach_port_deallocate(*_mach_task_self_, name)
+else
+    int64_t rax_1
+    rax_1.b = 0
+    int32_t var_3c_1 = _printf("Error: IOMasterPort!")
+
+if (var_21 == 0)
+    int64_t rax_19
+    rax_19.b = 0
+    int32_t var_60_1 = _printf("No Adapter found!\n")
+
+return zx.q(sx.d(var_21))
+```
+
+
+## DriverServiceOpen
+addr: 0x10003d810  bn_name: _isInSupportWlanIC
+
+```c
+int64_t rax = *___stack_chk_guard
+char* __s1 = _CFStringGetCStringPtr(arg1, 0)
+int32_t var_44 = 0
+Boolean var_29
+
+if (__s1 != 0)
+label_10003d89e:
+    int32_t var_48_1 = 0
+    Boolean rcx_1 = 0
+    
+    if (_memcmp(__s1, "RtWlanU", 7) == 0)
+        rcx_1 = 1
+    
+    var_29 = rcx_1
+else
+    char buffer[0x18]
+    
+    if (_CFStringGetCString(arg1, &buffer, 0x14, 0) != 0)
+        __s1 = &buffer
+    
+    if (__s1 != 0)
+        goto label_10003d89e
+    
+    var_29 = 0
+
+if (*___stack_chk_guard == rax)
+    return zx.q(sx.d(var_29))
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## DriverServiceClose
+addr: 0x10003d810  bn_name: _isInSupportWlanIC
+
+```c
+int64_t rax = *___stack_chk_guard
+char* __s1 = _CFStringGetCStringPtr(arg1, 0)
+int32_t var_44 = 0
+Boolean var_29
+
+if (__s1 != 0)
+label_10003d89e:
+    int32_t var_48_1 = 0
+    Boolean rcx_1 = 0
+    
+    if (_memcmp(__s1, "RtWlanU", 7) == 0)
+        rcx_1 = 1
+    
+    var_29 = rcx_1
+else
+    char buffer[0x18]
+    
+    if (_CFStringGetCString(arg1, &buffer, 0x14, 0) != 0)
+        __s1 = &buffer
+    
+    if (__s1 != 0)
+        goto label_10003d89e
+    
+    var_29 = 0
+
+if (*___stack_chk_guard == rax)
+    return zx.q(sx.d(var_29))
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## ApplyTheProfileAndTryToConnect
+addr: 0x100014c90  bn_name: -[WiFiStatusBarDelegate ApplyTheProfileAndTryToConnect]
+
+```c
+SEL sel_1 = sel
+char var_19 = 0
+data_1001b4da8 = 0
+struct __NSConstantString* rax_1
+rax_1.b = 0
+_NSLog(&cfstr_ApplyTheProfileAndTryToConnect_===>\n)
+
+if (zx.d(data_1001b4d50) != zx.d(self->ApplyProfileNetworkType))
+    struct __NSConstantString* rax_3
+    rax_3.b = 0
+    _NSLog(&cfstr_NetworkType(%d)_has_been_modified_->(%d)\n, zx.q(data_1001b4d50), zx.q(self->ApplyProfileNetworkType))
+    var_19 = 1
+
+if (_objc_msgSend(data_1001b4d38, "isEqualToString:", self->ApplyProfileSSID) == 0)
+    _objc_msgSend(self, "ResetSwitchU2U3FailCnt")
+    struct __NSConstantString* rax_8
+    rax_8.b = 0
+    _NSLog(&cfstr_NetworkName(%@)_has_been_modified_->(%@)\n, data_1001b4d38, self->ApplyProfileSSID, 0x78)
+    var_19 = 1
+
+if (zx.d(data_1001b4d52) != self->ApplyProfileChannel)
+    struct __NSConstantString* rax_11
+    rax_11.b = 0
+    _NSLog(&cfstr_Channel(%d)_has_been_modified_->_(%d)\n, zx.q(data_1001b4d52), zx.q(self->ApplyProfileChannel))
+    var_19 = 1
+
+if (data_1001b4d68 != zx.d(self->ApplyProfileEncryption))
+    struct __NSConstantString* rax_14
+    rax_14.b = 0
+    _NSLog(&cfstr_DataEncryption(%d)_has_been_modified->(%d)\n, zx.q(data_1001b4d68), zx.q(self->ApplyProfileEncryption))
+    var_19 = 1
+
+if (zx.d(self->ApplyProfileEncryption) == 1 || zx.d(self->ApplyProfileEncryption) == 2)
+    if (zx.d(data_1001b4d51) != zx.d(self->ApplyProfileDefaultKeyID))
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d58, "isEqualToString:", self->ApplyProfileWEPKey) == 0)
+        var_19 = 1
+else if (zx.d(self->ApplyProfileEncryption) == 3 || zx.d(self->ApplyProfileEncryption) == 4 || zx.d(self->ApplyProfileEncryption) == 5 || zx.d(self->ApplyProfileEncryption) == 6)
+    if (_objc_msgSend(data_1001b4d60, "isEqualToString:", self->ApplyProfileWPAPSKKey) == 0)
+        struct __NSConstantString* rax_27
+        rax_27.b = 0
+        _NSLog(&cfstr_The_WPA(2)_key_has_been_modified_%@->%@, data_1001b4d60, self->ApplyProfileWPAPSKKey)
+        var_19 = 1
+else if (zx.d(self->ApplyProfileEncryption) == 7 || zx.d(self->ApplyProfileEncryption) == 8 || zx.d(self->ApplyProfileEncryption) == 9 || zx.d(self->ApplyProfileEncryption) == 0xa || zx.d(self->ApplyProfileEncryption) == 0xb)
+    if (data_1001b4d6c != zx.d(self->ApplyProfileEAPMethod))
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d70, "isEqualToString:", self->ApplyProfileUserName1X) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d60, "isEqualToString:", self->ApplyProfileWPAPSKKey) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d78, "isEqualToString:", self->ApplyProfileCACert) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d80, "isEqualToString:", self->ApplyProfileClientCert) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d88, "isEqualToString:", self->ApplyProfilePrivateKey) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d90, "isEqualToString:", self->ApplyProfilePrivateKeyPwd) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d98, "isEqualToData:", self->ApplyProfileClientCert_IdentityData) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4da0, "isEqualToData:", self->ApplyProfilePrivateKey_KeychainData) == 0)
+        var_19 = 1
+
+if (sx.d(var_19) != 0)
+label_1000151cb:
+    char var_1a_1 = 0
+    
+    if (_Adapter != 0)
+        _Adapter = 0
+        data_1001b4d29 = 0
+        struct __NSConstantString* rax_53
+        rax_53.b = 0
+        _NSLog(&cfstr_ApplyTheProfileAndTryToConnect():_set_LinkingTicket=0_and_UpdateDeassociatedNetwork!\n)
+        _objc_msgSend(self, "UpdateDeassociatedNetwork")
+    
+    _objc_msgSend(self, "SetStatusBarImage:param:", 1, 0)
+    data_1001b4d29 = 1
+    data_1001b4d50 = self->ApplyProfileNetworkType
+    NSMutableString* ApplyProfileSSID = self->ApplyProfileSSID
+    _objc_msgSend(data_1001b4d38, "setString:")
+    _objc_msgSend(data_1001b4d40, "setData:", self->ApplyProfileHexSSID)
+    data_1001b4d52 = (self->ApplyProfileChannel).b
+    data_1001b4d68 = zx.d(self->ApplyProfileEncryption)
+    
+    if (zx.d(data_1001b4d50) == 1 && (data_1001b4d68 == 3 || data_1001b4d68 == 4))
+        char var_1a_2 = 1
+    
+    if (data_1001b4d68 == 1 || data_1001b4d68 == 2)
+        data_1001b4d51 = self->ApplyProfileDefaultKeyID
+        _objc_msgSend(data_1001b4d58, "setString:", self->ApplyProfileWEPKey)
+    else if (data_1001b4d68 == 0xd || data_1001b4d68 == 3 || data_1001b4d68 == 4 || data_1001b4d68 == 5 || data_1001b4d68 == 6)
+        if (data_1001b4d68 == 0xd)
+            struct __NSConstantString* rax_63
+            rax_63.b = 0
+            _NSLog(&cfstr_set_Adapter.AssocParams.WPAPSKey=ApplyProfileWPAPSKKey!!!\n)
+        
+        _objc_msgSend(data_1001b4d60, "setString:", self->ApplyProfileWPAPSKKey)
+    else if (data_1001b4d68 == 0xe || data_1001b4d68 == 7 || data_1001b4d68 == 8 || data_1001b4d68 == 9 || data_1001b4d68 == 0xa || data_1001b4d68 == 0xb)
+        data_1001b4d6c = zx.d(self->ApplyProfileEAPMethod)
+        _objc_msgSend(data_1001b4d70, "setString:", self->ApplyProfileUserName1X)
+        _objc_msgSend(data_1001b4d60, "setString:", self->ApplyProfileWPAPSKKey)
+        _objc_msgSend(data_1001b4d78, "setString:", self->ApplyProfileCACert)
+        _objc_msgSend(data_1001b4d80, "setString:", self->ApplyProfileClientCert)
+        int32_t r8_4 = sx.d(_objc_msgSend(_objc_msgSend(self->ApplyProfileClientCert, "pathExtension"), "isEqualToString:", &cfstr_pem))
+        int32_t r8_5
+        
+        if (r8_4 == 0)
+            r8_5 = sx.d(_objc_msgSend(_objc_msgSend(self->ApplyProfileClientCert, "pathExtension"), "isEqualToString:", &cfstr_der))
+        
+        if (r8_4 == 0 && r8_5 == 0)
+            if (_objc_msgSend(_objc_msgSend(self->ApplyProfileClientCert, "pathExtension"), "isEqualToString:", &cfstr_pfx) == 0)
+                _objc_msgSend(data_1001b4d98, "setData:", self->ApplyProfileClientCert_IdentityData)
+            else
+                _objc_msgSend(data_1001b4d90, "setString:", self->ApplyProfilePrivateKeyPwd)
+        else
+            _objc_msgSend(data_1001b4d88, "setString:", self->ApplyProfilePrivateKey)
+            
+            if (sx.d(_objc_msgSend(_objc_msgSend(self->ApplyProfilePrivateKey, "pathExtension"), "isEqualToString:", &cfstr_pem)) != 0)
+                _objc_msgSend(data_1001b4d90, "setString:", self->ApplyProfilePrivateKeyPwd)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(self->ApplyProfilePrivateKey, "pathExtension"), "isEqualToString:", &cfstr_der)) != 0)
+                _objc_msgSend(data_1001b4d90, "setString:", self->ApplyProfilePrivateKeyPwd)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(self->ApplyProfilePrivateKey, "pathExtension"), "isEqualToString:", &cfstr_pfx)) == 0)
+                _objc_msgSend(data_1001b4da0, "setData:", self->ApplyProfilePrivateKey_KeychainData)
+            else
+                _objc_msgSend(data_1001b4d90, "setString:", self->ApplyProfilePrivateKeyPwd)
+    
+    if (_EnterpriseCapability != 0)
+        struct __NSConstantString* rax_100
+        rax_100.b = 0
+        _NSLog(&cfstr_\t\t_[CYC]_ApplyTheProfileAndTryToConnect():_stopWpaSupplicant!\n)
+        _objc_msgSend(self, "stopWpaSupplicant")
+        uint32_t var_34_1 = _sleep(1)
+    
+    if (data_1001b4d68 == 0xe || data_1001b4d68 == 7 || data_1001b4d68 == 8 || data_1001b4d68 == 9 || data_1001b4d68 == 0xa || data_1001b4d68 == 0xb)
+        if ((zx.d(_EnterpriseCapability) & 7) != 0)
+            _objc_msgSend(self, "CreateWpaSupplicantConf:", &data_1001b4d38)
+            struct __NSConstantString* rax_105
+            rax_105.b = 0
+            _NSLog(&cfstr_\t\t_[CYC]_ApplyTheProfileAndTryToConnect():_startWpaSupplicant!\n)
+            int32_t var_38_1 = _objc_msgSend(self, "startWpaSupplicant")
+    else if (data_1001b4d68 != 0xd)
+        _objc_msgSend(self->Model, "WirelessAssociate:", &data_1001b4d38)
+    else if ((zx.d(_EnterpriseCapability) & 0x10) != 0)
+        _objc_msgSend(self, "CreateWpaSupplicantConf:", &data_1001b4d38)
+        struct __NSConstantString* rax_110
+        rax_110.b = 0
+        _NSLog(&cfstr_\t\t_[CYC]_ApplyTheProfileAndTryToConnect():_WPA3_AES_startWpaSupplicant!\n)
+        int32_t var_3c_1 = _objc_msgSend(self, "startWpaSupplicant")
+    
+    _nDisconnectedTimer = 0xa
+else if (_Adapter == 0 && zx.d(data_1001b4d50) != 1)
+    goto label_1000151cb
+```
+
+
+## setApplyProfileInfo
+addr: 0x100013b40  bn_name: -[WiFiStatusBarDelegate setApplyProfileInfo:BSSIDKey:AuxDict:]
+
+```c
+SEL sel_1 = sel
+char var_7c_1
+__builtin_memset(&var_7c_1, 0, 0x4c)
+int64_t var_90_1
+__builtin_memset(&var_90_1, 0, 0x11)
+_objc_msgSend(self->ApplyProfileSSID, "setString:", applyProfileInfo)
+id var_48 = _objc_msgSend(applyProfileInfo, "dataUsingEncoding:", 4)
+
+if (var_48 == 0)
+    var_48 = _objc_msgSend(applyProfileInfo, "dataUsingEncoding:", 0xa)
+    id rax_2
+    rax_2.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::_Non-Eng:_bdSSID=%@\n, applyProfileInfo)
+
+_objc_msgSend(self->ApplyProfileHexSSID, "setData:", var_48)
+int64_t var_88_1
+uint8_t var_80_1
+uint8_t var_7b_1
+uint8_t var_7a_1
+uint8_t var_79_1
+int64_t var_78_1
+int64_t var_70_1
+int64_t var_68_1
+id var_60_1
+id var_58_1
+int64_t var_50_1
+
+if (BSSIDKey != 0 && AuxDict == 0)
+    struct __NSConstantString* rax_6
+    rax_6.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::[Case_1][OPEN_NONE]_\n)
+    id rax_8 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", applyProfileInfo), "mutableCopy")
+    id rax_10 = _objc_msgSend(rax_8, "objectForKey:", BSSIDKey)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", BSSIDKey)
+    
+    if (_objc_msgSend(rax_10, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(rax_10, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    var_7a_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(rax_10, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    _objc_msgSend(rax_8, "release")
+else if (BSSIDKey == 0 && AuxDict != 0)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", &cfstr_)
+    
+    if (_objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    int64_t rax_31
+    rax_31.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::[Case_2][1]_Create_a_profile_or_[2]_Apply_a_profile_form_ProfileTable\n)
+    var_7a_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    
+    if (zx.d(var_7a_1) == 8 || zx.d(var_7a_1) == 7 || zx.d(var_7a_1) == 0xa || zx.d(var_7a_1) == 9 || zx.d(var_7a_1) == 0xb)
+        var_7b_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_EAP), "unsignedCharValue")
+        var_50_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_UserName)
+        
+        if (zx.d(var_7b_1) == 2)
+            var_68_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert)
+            var_70_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key)
+            var_78_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_passwd)
+            var_88_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert_data)
+            var_90_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_data)
+        
+        if (zx.d(var_7b_1) == 3 || zx.d(var_7b_1) == 2)
+            var_60_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_ca_cert)
+else if (BSSIDKey != 0 && AuxDict != 0)
+    struct __NSConstantString* rax_62
+    rax_62.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::Case_3_\n)
+    id rax_64 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", applyProfileInfo), "mutableCopy")
+    id rax_66 = _objc_msgSend(rax_64, "objectForKey:", BSSIDKey)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", BSSIDKey)
+    
+    if (_objc_msgSend(rax_66, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(rax_66, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(rax_66, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(rax_66, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    var_7a_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    
+    if (zx.d(var_7a_1) == 8 || zx.d(var_7a_1) == 7 || zx.d(var_7a_1) == 0xa || zx.d(var_7a_1) == 9 || zx.d(var_7a_1) == 0xb)
+        var_7b_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_EAP), "unsignedCharValue")
+        var_50_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_UserName)
+        
+        if (zx.d(var_7b_1) == 2)
+            var_68_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert)
+            var_70_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key)
+            var_78_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_passwd)
+            var_88_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert_data)
+            var_90_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_data)
+        
+        if (zx.d(var_7b_1) == 3 || zx.d(var_7b_1) == 2)
+            var_60_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_ca_cert)
+    
+    _objc_msgSend(rax_64, "release")
+
+self->ApplyProfileNetworkType = var_79_1
+self->ApplyProfileChannel = zx.d(var_7c_1)
+self->ApplyProfileEncryption = var_7a_1
+
+if (_objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+    struct __NSConstantString* rax_107
+    rax_107.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::ApplyProfileHexSSID=_%@_\n, self->ApplyProfileHexSSID, 0x80)
+
+_objc_msgSend(self->ApplyProfileWEPKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileUserName1X, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileCACert, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileClientCert, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfilePrivateKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", &cfstr_)
+
+if (zx.d(self->ApplyProfileEncryption) == 1 || zx.d(self->ApplyProfileEncryption) == 2)
+    self->ApplyProfileDefaultKeyID = var_80_1
+    id var_b8_1 = var_58_1
+    _objc_msgSend(self->ApplyProfileWEPKey, "setString:")
+else if (zx.d(self->ApplyProfileEncryption) == 0xa || zx.d(self->ApplyProfileEncryption) == 9 || zx.d(self->ApplyProfileEncryption) == 8 || zx.d(self->ApplyProfileEncryption) == 7 || zx.d(self->ApplyProfileEncryption) == 0xb)
+    self->ApplyProfileEAPMethod = var_7b_1
+    _objc_msgSend(self->ApplyProfileUserName1X, "setString:", var_50_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 2)
+        _objc_msgSend(self->ApplyProfileClientCert, "setString:", var_68_1)
+        int32_t r8_4 = sx.d(_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:", &cfstr_pem))
+        int32_t rcx_55
+        
+        if (r8_4 == 0)
+            rcx_55 = sx.d(_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:"))
+        
+        if (r8_4 == 0 && rcx_55 == 0)
+            if (_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:") == 0)
+                _objc_msgSend(self->ApplyProfileClientCert_IdentityData, "setData:", var_88_1)
+            else
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+        else
+            _objc_msgSend(self->ApplyProfilePrivateKey, "setString:", var_70_1)
+            
+            if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:", &cfstr_pem)) != 0)
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:")) != 0)
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:")) == 0)
+                _objc_msgSend(self->ApplyProfilePrivateKey_KeychainData, "setData:", var_90_1)
+            else
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 3 || zx.d(self->ApplyProfileEAPMethod) == 2)
+        _objc_msgSend(self->ApplyProfileCACert, "setString:", var_60_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 1 || zx.d(self->ApplyProfileEAPMethod) == 3 || zx.d(self->ApplyProfileEAPMethod) == 4)
+        _objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", var_58_1)
+else if (zx.d(self->ApplyProfileEncryption) s> 0)
+    _objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", var_58_1)
+```
+
+
+## DoDefaultProfilesApply
+addr: 0x100013b40  bn_name: -[WiFiStatusBarDelegate setApplyProfileInfo:BSSIDKey:AuxDict:]
+
+```c
+SEL sel_1 = sel
+char var_7c_1
+__builtin_memset(&var_7c_1, 0, 0x4c)
+int64_t var_90_1
+__builtin_memset(&var_90_1, 0, 0x11)
+_objc_msgSend(self->ApplyProfileSSID, "setString:", applyProfileInfo)
+id var_48 = _objc_msgSend(applyProfileInfo, "dataUsingEncoding:", 4)
+
+if (var_48 == 0)
+    var_48 = _objc_msgSend(applyProfileInfo, "dataUsingEncoding:", 0xa)
+    id rax_2
+    rax_2.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::_Non-Eng:_bdSSID=%@\n, applyProfileInfo)
+
+_objc_msgSend(self->ApplyProfileHexSSID, "setData:", var_48)
+int64_t var_88_1
+uint8_t var_80_1
+uint8_t var_7b_1
+uint8_t var_7a_1
+uint8_t var_79_1
+int64_t var_78_1
+int64_t var_70_1
+int64_t var_68_1
+id var_60_1
+id var_58_1
+int64_t var_50_1
+
+if (BSSIDKey != 0 && AuxDict == 0)
+    struct __NSConstantString* rax_6
+    rax_6.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::[Case_1][OPEN_NONE]_\n)
+    id rax_8 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", applyProfileInfo), "mutableCopy")
+    id rax_10 = _objc_msgSend(rax_8, "objectForKey:", BSSIDKey)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", BSSIDKey)
+    
+    if (_objc_msgSend(rax_10, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(rax_10, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    var_7a_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(rax_10, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(rax_10, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    _objc_msgSend(rax_8, "release")
+else if (BSSIDKey == 0 && AuxDict != 0)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", &cfstr_)
+    
+    if (_objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    int64_t rax_31
+    rax_31.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::[Case_2][1]_Create_a_profile_or_[2]_Apply_a_profile_form_ProfileTable\n)
+    var_7a_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    
+    if (zx.d(var_7a_1) == 8 || zx.d(var_7a_1) == 7 || zx.d(var_7a_1) == 0xa || zx.d(var_7a_1) == 9 || zx.d(var_7a_1) == 0xb)
+        var_7b_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_EAP), "unsignedCharValue")
+        var_50_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_UserName)
+        
+        if (zx.d(var_7b_1) == 2)
+            var_68_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert)
+            var_70_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key)
+            var_78_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_passwd)
+            var_88_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert_data)
+            var_90_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_data)
+        
+        if (zx.d(var_7b_1) == 3 || zx.d(var_7b_1) == 2)
+            var_60_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_ca_cert)
+else if (BSSIDKey != 0 && AuxDict != 0)
+    struct __NSConstantString* rax_62
+    rax_62.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::Case_3_\n)
+    id rax_64 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", applyProfileInfo), "mutableCopy")
+    id rax_66 = _objc_msgSend(rax_64, "objectForKey:", BSSIDKey)
+    _objc_msgSend(self->ApplyProfileBSSID, "setString:", BSSIDKey)
+    
+    if (_objc_msgSend(rax_66, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+        _objc_msgSend(self->ApplyProfileHexSSID, "setData:", _objc_msgSend(rax_66, "objectForKey:", &cfstr_bNonEngSSID))
+    
+    var_79_1 = _objc_msgSend(_objc_msgSend(rax_66, "objectForKey:", &cfstr_NetworkType), "boolValue")
+    var_7c_1 = _objc_msgSend(_objc_msgSend(rax_66, "objectForKey:", &cfstr_Channel), "unsignedCharValue")
+    var_7a_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    var_58_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_Password)
+    var_80_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_WepKeyID), "intValue")
+    
+    if (zx.d(var_7a_1) == 8 || zx.d(var_7a_1) == 7 || zx.d(var_7a_1) == 0xa || zx.d(var_7a_1) == 9 || zx.d(var_7a_1) == 0xb)
+        var_7b_1 = _objc_msgSend(_objc_msgSend(AuxDict, "objectForKey:", &cfstr_EAP), "unsignedCharValue")
+        var_50_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_UserName)
+        
+        if (zx.d(var_7b_1) == 2)
+            var_68_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert)
+            var_70_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key)
+            var_78_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_passwd)
+            var_88_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_client_cert_data)
+            var_90_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_private_key_data)
+        
+        if (zx.d(var_7b_1) == 3 || zx.d(var_7b_1) == 2)
+            var_60_1 = _objc_msgSend(AuxDict, "objectForKey:", &cfstr_ca_cert)
+    
+    _objc_msgSend(rax_64, "release")
+
+self->ApplyProfileNetworkType = var_79_1
+self->ApplyProfileChannel = zx.d(var_7c_1)
+self->ApplyProfileEncryption = var_7a_1
+
+if (_objc_msgSend(AuxDict, "objectForKey:", &cfstr_bNonEngSSID) != 0)
+    struct __NSConstantString* rax_107
+    rax_107.b = 0
+    _NSLog(&cfstr_setApplyProfileInfo::ApplyProfileHexSSID=_%@_\n, self->ApplyProfileHexSSID, 0x80)
+
+_objc_msgSend(self->ApplyProfileWEPKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileUserName1X, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileCACert, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfileClientCert, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfilePrivateKey, "setString:", &cfstr_)
+_objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", &cfstr_)
+
+if (zx.d(self->ApplyProfileEncryption) == 1 || zx.d(self->ApplyProfileEncryption) == 2)
+    self->ApplyProfileDefaultKeyID = var_80_1
+    id var_b8_1 = var_58_1
+    _objc_msgSend(self->ApplyProfileWEPKey, "setString:")
+else if (zx.d(self->ApplyProfileEncryption) == 0xa || zx.d(self->ApplyProfileEncryption) == 9 || zx.d(self->ApplyProfileEncryption) == 8 || zx.d(self->ApplyProfileEncryption) == 7 || zx.d(self->ApplyProfileEncryption) == 0xb)
+    self->ApplyProfileEAPMethod = var_7b_1
+    _objc_msgSend(self->ApplyProfileUserName1X, "setString:", var_50_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 2)
+        _objc_msgSend(self->ApplyProfileClientCert, "setString:", var_68_1)
+        int32_t r8_4 = sx.d(_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:", &cfstr_pem))
+        int32_t rcx_55
+        
+        if (r8_4 == 0)
+            rcx_55 = sx.d(_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:"))
+        
+        if (r8_4 == 0 && rcx_55 == 0)
+            if (_objc_msgSend(_objc_msgSend(var_68_1, "pathExtension"), "isEqualToString:") == 0)
+                _objc_msgSend(self->ApplyProfileClientCert_IdentityData, "setData:", var_88_1)
+            else
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+        else
+            _objc_msgSend(self->ApplyProfilePrivateKey, "setString:", var_70_1)
+            
+            if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:", &cfstr_pem)) != 0)
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:")) != 0)
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(var_70_1, "pathExtension"), "isEqualToString:")) == 0)
+                _objc_msgSend(self->ApplyProfilePrivateKey_KeychainData, "setData:", var_90_1)
+            else
+                _objc_msgSend(self->ApplyProfilePrivateKeyPwd, "setString:", var_78_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 3 || zx.d(self->ApplyProfileEAPMethod) == 2)
+        _objc_msgSend(self->ApplyProfileCACert, "setString:", var_60_1)
+    
+    if (zx.d(self->ApplyProfileEAPMethod) == 1 || zx.d(self->ApplyProfileEAPMethod) == 3 || zx.d(self->ApplyProfileEAPMethod) == 4)
+        _objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", var_58_1)
+else if (zx.d(self->ApplyProfileEncryption) s> 0)
+    _objc_msgSend(self->ApplyProfileWPAPSKKey, "setString:", var_58_1)
+```

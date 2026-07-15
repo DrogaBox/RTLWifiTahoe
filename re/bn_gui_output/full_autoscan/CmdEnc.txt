@@ -1,0 +1,117 @@
+## CmdEnc
+addr: 0x10003caa0  bn_name: _CmdEnc
+
+```c
+int32_t var_1c = 0
+int32_t var_20 = 0
+int32_t result
+
+if (_QueryInformation(0xff010194, &var_1c) != 0xffffffff)
+    if (_strcmp(*(arg2 + 0x10), "g") != 0)
+        if (_strcmp(*(arg2 + 0x10), "s") != 0)
+            return _printCmdUsage(&(&_CommandPatterns)[sx.q(_g_nCurrCmd) * 4])
+        
+        if (arg1 s< 4)
+            return _printCmdUsage(&(&_CommandPatterns)[sx.q(_g_nCurrCmd) * 4])
+        
+        int32_t var_20_1
+        
+        if (_strcmp(*(arg2 + 0x18), "none") != 0)
+            if (_strcmp(*(arg2 + 0x18), "wep64") == 0)
+                var_20_1 = 1
+                goto label_10003cd68
+            
+            if (_strcmp(*(arg2 + 0x18), "wep128") == 0)
+                var_20_1 = 2
+                goto label_10003cd68
+            
+            if (_strcmp(*(arg2 + 0x18), "tkip") != 0)
+                if (_strcmp(*(arg2 + 0x18), "aes") != 0)
+                    int64_t rax_26
+                    rax_26.b = 0
+                    result = _printf("Unknown encryption mode!\n")
+                    int32_t result_3 = result
+                else
+                    if (var_1c == 3)
+                        var_20_1 = 4
+                        goto label_10003cd68
+                    
+                    if (var_1c == 6)
+                        var_20_1 = 6
+                        goto label_10003cd68
+                    
+                    int64_t rax_25
+                    rax_25.b = 0
+                    result = _printf("Invalid AKM state!, nCurrEncMethod(%d), please set up AKM first!\n", zx.q(var_1c))
+                    int32_t result_4 = result
+            else
+                if (var_1c == 3)
+                    var_20_1 = 3
+                    goto label_10003cd68
+                
+                if (var_1c == 6)
+                    var_20_1 = 5
+                    goto label_10003cd68
+                
+                int64_t rax_22
+                rax_22.b = 0
+                result = _printf("Invalid AKM state!, nCurrEncMethod(%d), please set up AKM first!\n", zx.q(var_1c))
+                int32_t result_5 = result
+        else
+            var_20_1 = 0
+        label_10003cd68:
+            
+            if (_SetInformationValue(0xff010194, var_20_1) != 0xffffffff)
+                int64_t rax_29
+                rax_29.b = 0
+                result = _printf("Set encryption (0x%X) method success.\n", zx.q(var_20_1))
+                int32_t result_1 = result
+            else
+                int64_t rax_28
+                rax_28.b = 0
+                result = _printf("Failed to set encryption method.\n")
+                int32_t result_2 = result
+    else
+        uint64_t rcx_1 = zx.q(var_1c)
+        int64_t var_38_1 = rcx_1 - 6
+        
+        if (rcx_1 u> 6)
+            int64_t rax_11
+            rax_11.b = 0
+            result = _printf("unknown encryption method(%d)!\n", zx.q(var_1c))
+            int32_t result_6 = result
+        else
+            switch (rcx_1)
+                case 0
+                    uint32_t* const rax_6
+                    rax_6.b = 0
+                    result = _printf("none\n")
+                    int32_t result_11 = result
+                case 1
+                    uint32_t* const rax_7
+                    rax_7.b = 0
+                    result = _printf("wep64\n")
+                    int32_t result_10 = result
+                case 2
+                    uint32_t* const rax_8
+                    rax_8.b = 0
+                    result = _printf("wep128\n")
+                    int32_t result_9 = result
+                case 3, 5
+                    uint32_t* const rax_9
+                    rax_9.b = 0
+                    result = _printf("tkip\n")
+                    int32_t result_8 = result
+                case 4, 6
+                    uint32_t* const rax_10
+                    rax_10.b = 0
+                    result = _printf("aes\n")
+                    int32_t result_7 = result
+else
+    int64_t rax_1
+    rax_1.b = 0
+    result = _printf("Failed to get encryption method.\n")
+    int32_t result_12 = result
+
+return result
+```

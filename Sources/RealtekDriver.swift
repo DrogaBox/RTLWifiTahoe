@@ -9,48 +9,8 @@ import Darwin
 //   Set OID:    IOConnectCallStructMethod(conn, 10, &req, 0x9d4, &req, &sz)
 //   Get BSS[i]: IOConnectCallMethod(conn, 0, &index, 1, nil, 0, nil, nil, buf, &0x640)
 
-private let kOIDBufSize: Int = 0x9D4
-private let kOIDDataMax: Int = 0x9C4
-private let kOIDDataOff: Int = 0x10
-private let kNetInfoSize: Int = 0x640
-
-private let kSelQuery: UInt32 = 9
-private let kSelSet: UInt32 = 10
-private let kSelGetNetworkAtIndex: UInt32 = 0
-
 /// When true, log every OID (connect path). Routine UI polls stay quiet.
 private var verboseOIDLog = false
-
-// OIDs from StatusBarApp (CmdScan / CmdSsid / CmdAkm / CmdPassphrase / WirelessAssociate)
-private let OID_RT_SET_SCAN: UInt32 = 0xFF_07_01_1A
-private let OID_RT_GET_SCAN_IN_PROGRESS: UInt32 = 0xFF_01_01_BD
-private let OID_BSS_NUMBER: UInt32 = 0xFF_01_04_19
-private let OID_RT_SSID: UInt32 = 0xFF_07_01_02          // CmdSsid get/set buffer 0x84
-private let OID_RT_PASSPHRASE: UInt32 = 0xFF_01_03_05    // CmdPassphrase buffer 0x98
-private let OID_RT_AKM: UInt32 = 0xFF_01_01_94           // 0=open 3=wpa-psk 6=wpa2-psk
-private let OID_RT_SHARED_KEY_FLAG: UInt32 = 0xFF_01_04_1A // 0=normal 1=sharedkey
-private let OID_RT_CONNECT: UInt32 = 0xFF_01_04_1B       // trigger associate after SSID/AKM/PSK
-private let OID_RT_CHANNEL: UInt32 = 0xFF_01_01_82       // setChannel
-private let OID_RT_RF: UInt32 = 0xFF_81_80_81            // 0=RF on, 1=RF off (turnRfOn/Off)
-private let OID_802_11_INFRASTRUCTURE_MODE: UInt32 = 0x0D_01_01_08
-private let OID_802_11_DISASSOCIATE: UInt32 = 0x0D_01_01_15
-private let OID_802_11_BSSID: UInt32 = 0x0D_01_01_01
-/// GetConnectionStatus (StatusBarApp) — returns 1 when associated
-private let OID_RT_CONNECTION_STATUS: UInt32 = 0x00_01_01_14
-/// Signal strength 0…100 — StatusBarApp `getSignalStrength` / MacAccess `-rssi`
-/// (QueryInformation:Data: with OID 0x0D010206). NOT 0x0D010106 (returns 0 here).
-private let OID_RT_SIGNAL_STRENGTH: UInt32 = 0x0D_01_02_06
-
-// CmdNetworkType: adhoc=1, infra=0, auto=3  (BN + live query when StatusBarApp connected)
-private let NETTYPE_INFRA: UInt32 = 0
-private let NETTYPE_ADHOC: UInt32 = 1
-private let NETTYPE_AUTO: UInt32 = 3
-
-// AKM / Enc values (CmdAkm + CmdEnc string map; PreferrAuth_Encry)
-private let AKM_OPEN: UInt32 = 0
-private let AKM_WPA_PSK: UInt32 = 3
-private let AKM_WPA2_PSK: UInt32 = 6
-// CmdEnc: none=0 wep64=1 wep128=2 tkip=3/4 aes=5/6 — AES maps to 6
 
 final class RealtekDriver {
     static let shared = RealtekDriver()
@@ -199,7 +159,7 @@ final class RealtekDriver {
             }
         }
         if verboseOIDLog {
-            if maxLen <= 4, let out {
+            if maxLen >= 4, let out {
                 let v = out.load(as: UInt32.self)
                 rtlog(String(format: "queryOID 0x%08X ok dlen=%u val=%u", oid, dataLen, v))
             } else {
@@ -400,6 +360,15 @@ final class RealtekDriver {
         if let channel { opts.channel = channel }
         if let bssid { opts.bssid = bssid }
 
+        // If forceBand is set but no channel, pick a typical channel for that band
+        if opts.channel == nil, let band = opts.forceBand {
+            switch band {
+            case .g24: opts.channel = 6   // Typical 2.4 GHz channel
+            case .g5:  opts.channel = 36  // Typical 5 GHz channel
+            }
+            rtlog("forceBand \(band.rawValue) → ch \(opts.channel!)")
+        }
+
         verboseOIDLog = true
         defer { verboseOIDLog = false }
 
@@ -423,8 +392,10 @@ final class RealtekDriver {
         let pass = password
         let isOpen = opts.authEnc == .open || pass.isEmpty
         let authEnc = isOpen ? RTAuthEnc.open.rawValue : opts.authEnc.rawValue
-        let netType = opts.networkType.rawValue
-        rtlog("authEnc=\(authEnc) netType=\(netType) isOpen=\(isOpen) adhoc=\(opts.networkType == .adhoc)")
+        // Coerce .auto → .infrastructure: netType=3 causes L2 dead on some driver versions.
+        let effectiveType: RTNetworkType = opts.networkType == .auto ? .infrastructure : opts.networkType
+        let netType = effectiveType.rawValue
+        rtlog("authEnc=\(authEnc) netType=\(netType) isOpen=\(isOpen) adhoc=\(opts.networkType == .adhoc)  (effective: \(effectiveType.shortLabel))")
 
         waitScanIdle(timeoutSec: 5)
 
@@ -637,11 +608,13 @@ final class RealtekDriver {
     /// Example: table key `0e84…` (U/L=1) vs real AP `0c84…` (U/L=0).
     private static func looksLikeRealBSSID(_ mac: [UInt8]) -> Bool {
         guard mac.count == 6 else { return false }
+        // Broadcast / null
         if mac.allSatisfy({ $0 == 0 }) || mac.allSatisfy({ $0 == 0xFF }) { return false }
-        // bit0 = multicast
+        // bit0 = multicast — no AP should have this
         if (mac[0] & 0x01) != 0 { return false }
-        // bit1 = locally administered — Realtek scan keys use this; real APs usually don't
-        if (mac[0] & 0x02) != 0 { return false }
+        // NOTE: we do NOT filter bit1 (locally administered). Many modern routers,
+        // mesh systems, and ISP gateways use local-admin MACs (0x02 set). The classic
+        // StatusBarApp doesn't filter these — neither should we.
         return true
     }
 

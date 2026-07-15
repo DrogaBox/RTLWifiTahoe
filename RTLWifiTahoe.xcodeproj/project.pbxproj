@@ -1,0 +1,348 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B0846E8B8E6930595D752942 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F3B0D64A4A123F18597482; };
+		42A58C3295F8C67DE3666671 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EDF48B48BFA0BB2FAB30D0; };
+		7DA3FB6D0E14D514DB7D4D78 /* NetProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55F9C0C06249DBB0D901D5D; };
+		D4C0D7B761B86DA8039700BA /* RealtekProfiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31A379D4CA3ADB4330DB837; };
+		0C73F2BDE431941934E334C8 /* LoginItemHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BCA12E217F7F566CE57554; };
+		3625713C30C808217B8847C9 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5C0C361331F4E601917EDC; };
+		6BDE76ABA2AF30C03101FA96 /* SignalIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18B149B8B4D5443FA35A1D8; };
+		8714FE742C401A0EFA348A0C /* SignalLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C27AD6CA6108884B80DD72; };
+		33DF37383DADA90F7E51D125 /* RTLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335EC5E701D5BC91A6B59A06; };
+		AD00E92D6C6329F914BF4E8E /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AED95A1D86D62360A4E3D6; };
+		74C42E1452E03E1827C4CB8D /* AppNotify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A431E7F4F79585AE8AE471; };
+		983A7F412F791B5F0059CBB5 /* SupportAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDE069F46AD28473600FB5F; };
+		D8D4F6B0E590AECC17C4D9AF /* JoinOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F465A4E5B15AAFE8800FC761; };
+		0FD03C3457BD66131AB12589 /* RealtekDriverProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C70DCD050646C3AE7DDBA68; };
+		9D2D368AADB4184113696A58 /* RealtekDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD235776952CF908056D843E; };
+		AA1F5ED5CCAC043F9E8B022A /* MockRealtekDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB594546D45E9AFC7B36A2D; };
+		D515F31FB3FD4C6FCBE10B9C /* WiFiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E7EC0E4F0C0F443247305D; };
+		85EF0FD918A9E0BB3F8397CF /* NetworkScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E0CFAB2397E47496EFD7D8; };
+		97351F463F30A104E5DFD8F6 /* JoinPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAF3354418FBF9D6DE63E13; };
+		C979FDF08E7D63CD52A09994 /* DNSSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D02C89F0D26610D4F080EB; };
+		11F184D11F0EEDD19BF96FBC /* StatusTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF328DB7E00FB3BADD99066; };
+		EE41E82C1D1A124AD9DA4994 /* ProfilesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA401741D6821AA505BAFD9; };
+		85BA6080E76DB10B1281FBD4 /* SettingsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D82E87B668247977BF8D1A5; };
+		2A6FACBCDDEC13C7F8B453E5 /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5648FB540BB114A30F95E1; };
+		89EFC91391D4EB1E4031FA7E /* AppMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3805628E9F984FE777E52C9; };
+		A45E9321A568BC4EF41C19FD /* SwiftUI in Frameworks */ = {isa = PBXBuildFile; fileRef = EF2E8A30A9A29D625D48D7BE; };
+		856729696897A80752B3B41A /* AppKit in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E154B4CA6CAB8BD5BA5317; };
+		07EF84D6ADC0CD9EDC21520E /* Network in Frameworks */ = {isa = PBXBuildFile; fileRef = 76C0ABFC441910755B751727; };
+		B70EDC308B300A1889D79C99 /* IOKit in Frameworks */ = {isa = PBXBuildFile; fileRef = BA34F9605E9A3E0BDDFB00E4; };
+		7F96175063D101EAA5E51582 /* SystemConfiguration in Frameworks */ = {isa = PBXBuildFile; fileRef = B1503956DA386F4315670CE1; };
+		8330F58CF2B6BE5098B1B636 /* Combine in Frameworks */ = {isa = PBXBuildFile; fileRef = DC7B49EB3C64DB894A4AF16A; };
+		C08958F26AEF4B056E6DF5A5 /* Security in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBB76E5C8B110194A5386A3; };
+		35E7BA0EA8123E40758B4167 /* UserNotifications in Frameworks */ = {isa = PBXBuildFile; fileRef = CD07D61A2B0A36B1C40A1E31; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F1F3B0D64A4A123F18597482 /* L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/L10n.swift"; sourceTree = SOURCE_ROOT; };
+		E2EDF48B48BFA0BB2FAB30D0 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Models.swift"; sourceTree = SOURCE_ROOT; };
+		D55F9C0C06249DBB0D901D5D /* NetProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/NetProbe.swift"; sourceTree = SOURCE_ROOT; };
+		C31A379D4CA3ADB4330DB837 /* RealtekProfiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/RealtekProfiles.swift"; sourceTree = SOURCE_ROOT; };
+		E4BCA12E217F7F566CE57554 /* LoginItemHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/LoginItemHelper.swift"; sourceTree = SOURCE_ROOT; };
+		0C5C0C361331F4E601917EDC /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Theme.swift"; sourceTree = SOURCE_ROOT; };
+		A18B149B8B4D5443FA35A1D8 /* SignalIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/SignalIcon.swift"; sourceTree = SOURCE_ROOT; };
+		35C27AD6CA6108884B80DD72 /* SignalLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/SignalLevel.swift"; sourceTree = SOURCE_ROOT; };
+		335EC5E701D5BC91A6B59A06 /* RTLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/RTLog.swift"; sourceTree = SOURCE_ROOT; };
+		80AED95A1D86D62360A4E3D6 /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/KeychainStore.swift"; sourceTree = SOURCE_ROOT; };
+		66A431E7F4F79585AE8AE471 /* AppNotify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/AppNotify.swift"; sourceTree = SOURCE_ROOT; };
+		ECDE069F46AD28473600FB5F /* SupportAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/SupportAudio.swift"; sourceTree = SOURCE_ROOT; };
+		F465A4E5B15AAFE8800FC761 /* JoinOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/JoinOptions.swift"; sourceTree = SOURCE_ROOT; };
+		3C70DCD050646C3AE7DDBA68 /* RealtekDriverProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/RealtekDriverProtocol.swift"; sourceTree = SOURCE_ROOT; };
+		FD235776952CF908056D843E /* RealtekDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/RealtekDriver.swift"; sourceTree = SOURCE_ROOT; };
+		8CB594546D45E9AFC7B36A2D /* MockRealtekDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/MockRealtekDriver.swift"; sourceTree = SOURCE_ROOT; };
+		84E7EC0E4F0C0F443247305D /* WiFiModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/WiFiModel.swift"; sourceTree = SOURCE_ROOT; };
+		55E0CFAB2397E47496EFD7D8 /* NetworkScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/NetworkScan.swift"; sourceTree = SOURCE_ROOT; };
+		EBAF3354418FBF9D6DE63E13 /* JoinPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/JoinPanel.swift"; sourceTree = SOURCE_ROOT; };
+		24D02C89F0D26610D4F080EB /* DNSSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/DNSSectionView.swift"; sourceTree = SOURCE_ROOT; };
+		EDF328DB7E00FB3BADD99066 /* StatusTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/StatusTab.swift"; sourceTree = SOURCE_ROOT; };
+		CDA401741D6821AA505BAFD9 /* ProfilesTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/ProfilesTab.swift"; sourceTree = SOURCE_ROOT; };
+		8D82E87B668247977BF8D1A5 /* SettingsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/SettingsTab.swift"; sourceTree = SOURCE_ROOT; };
+		0E5648FB540BB114A30F95E1 /* PopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/PopoverView.swift"; sourceTree = SOURCE_ROOT; };
+		D3805628E9F984FE777E52C9 /* AppMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/AppMain.swift"; sourceTree = SOURCE_ROOT; };
+		EF2E8A30A9A29D625D48D7BE /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = "/System/Library/Frameworks/SwiftUI.framework"; sourceTree = SDKROOT; };
+		65E154B4CA6CAB8BD5BA5317 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = "/System/Library/Frameworks/AppKit.framework"; sourceTree = SDKROOT; };
+		76C0ABFC441910755B751727 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = "/System/Library/Frameworks/Network.framework"; sourceTree = SDKROOT; };
+		BA34F9605E9A3E0BDDFB00E4 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = "/System/Library/Frameworks/IOKit.framework"; sourceTree = SDKROOT; };
+		B1503956DA386F4315670CE1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = "/System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; };
+		DC7B49EB3C64DB894A4AF16A /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = "/System/Library/Frameworks/Combine.framework"; sourceTree = SDKROOT; };
+		0DBB76E5C8B110194A5386A3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = "/System/Library/Frameworks/Security.framework"; sourceTree = SDKROOT; };
+		CD07D61A2B0A36B1C40A1E31 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = "/System/Library/Frameworks/UserNotifications.framework"; sourceTree = SDKROOT; };
+		A97C29AD63741CF438998CE6 /* RTLWifiTahoe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RTLWifiTahoe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBC1A6187DDFEBB71FC440A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		29B2D46AA747A59804D46E1F = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A45E9321A568BC4EF41C19FD /* SwiftUI in Frameworks */,
+				856729696897A80752B3B41A /* AppKit in Frameworks */,
+				07EF84D6ADC0CD9EDC21520E /* Network in Frameworks */,
+				B70EDC308B300A1889D79C99 /* IOKit in Frameworks */,
+				7F96175063D101EAA5E51582 /* SystemConfiguration in Frameworks */,
+				8330F58CF2B6BE5098B1B636 /* Combine in Frameworks */,
+				C08958F26AEF4B056E6DF5A5 /* Security in Frameworks */,
+				35E7BA0EA8123E40758B4167 /* UserNotifications in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5928955287B8089ED2177128 = {
+			isa = PBXGroup;
+			children = (
+				D685C104AFFBCF83C7CB0FB6,
+				175C932161BEBF3B8BB1F58C,
+				BF7A2D27A78D590BDEF15AF2,
+				CBC1A6187DDFEBB71FC440A0,
+			);
+			sourceTree = "<group>";
+		};
+		D685C104AFFBCF83C7CB0FB6 = {
+			isa = PBXGroup;
+			children = (
+				F1F3B0D64A4A123F18597482,
+				E2EDF48B48BFA0BB2FAB30D0,
+				D55F9C0C06249DBB0D901D5D,
+				C31A379D4CA3ADB4330DB837,
+				E4BCA12E217F7F566CE57554,
+				0C5C0C361331F4E601917EDC,
+				A18B149B8B4D5443FA35A1D8,
+				35C27AD6CA6108884B80DD72,
+				335EC5E701D5BC91A6B59A06,
+				80AED95A1D86D62360A4E3D6,
+				66A431E7F4F79585AE8AE471,
+				ECDE069F46AD28473600FB5F,
+				F465A4E5B15AAFE8800FC761,
+				3C70DCD050646C3AE7DDBA68,
+				FD235776952CF908056D843E,
+				8CB594546D45E9AFC7B36A2D,
+				84E7EC0E4F0C0F443247305D,
+				55E0CFAB2397E47496EFD7D8,
+				EBAF3354418FBF9D6DE63E13,
+				24D02C89F0D26610D4F080EB,
+				EDF328DB7E00FB3BADD99066,
+				CDA401741D6821AA505BAFD9,
+				8D82E87B668247977BF8D1A5,
+				0E5648FB540BB114A30F95E1,
+				D3805628E9F984FE777E52C9,
+			);
+			name = Sources;
+			path = "";
+			sourceTree = SOURCE_ROOT;
+		};
+		175C932161BEBF3B8BB1F58C = {
+			isa = PBXGroup;
+			children = (
+				EF2E8A30A9A29D625D48D7BE,
+				65E154B4CA6CAB8BD5BA5317,
+				76C0ABFC441910755B751727,
+				BA34F9605E9A3E0BDDFB00E4,
+				B1503956DA386F4315670CE1,
+				DC7B49EB3C64DB894A4AF16A,
+				0DBB76E5C8B110194A5386A3,
+				CD07D61A2B0A36B1C40A1E31,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BF7A2D27A78D590BDEF15AF2 = {
+			isa = PBXGroup;
+			children = (
+				A97C29AD63741CF438998CE6,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		42AEFBAE01D2DFD981F7DA7D = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 32885C7FE4702D6377A1C1A9;
+			buildPhases = (
+				E7209FB05162B7572F88D05E,
+				29B2D46AA747A59804D46E1F,
+				66F8606E9F0A136E2228EBCB,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = RTLWifiTahoe;
+			productName = RTLWifiTahoe;
+			productReference = A97C29AD63741CF438998CE6;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		63A9F0EA7BB98050796B649E = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = BE4F1ED45498D0DB984F8AA4;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (en, es, Base);
+			mainGroup = 5928955287B8089ED2177128;
+			productRefGroup = BF7A2D27A78D590BDEF15AF2;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				42AEFBAE01D2DFD981F7DA7D,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		66F8606E9F0A136E2228EBCB = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E7209FB05162B7572F88D05E = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0846E8B8E6930595D752942 /* L10n.swift in Sources */,
+				42A58C3295F8C67DE3666671 /* Models.swift in Sources */,
+				7DA3FB6D0E14D514DB7D4D78 /* NetProbe.swift in Sources */,
+				D4C0D7B761B86DA8039700BA /* RealtekProfiles.swift in Sources */,
+				0C73F2BDE431941934E334C8 /* LoginItemHelper.swift in Sources */,
+				3625713C30C808217B8847C9 /* Theme.swift in Sources */,
+				6BDE76ABA2AF30C03101FA96 /* SignalIcon.swift in Sources */,
+				8714FE742C401A0EFA348A0C /* SignalLevel.swift in Sources */,
+				33DF37383DADA90F7E51D125 /* RTLog.swift in Sources */,
+				AD00E92D6C6329F914BF4E8E /* KeychainStore.swift in Sources */,
+				74C42E1452E03E1827C4CB8D /* AppNotify.swift in Sources */,
+				983A7F412F791B5F0059CBB5 /* SupportAudio.swift in Sources */,
+				D8D4F6B0E590AECC17C4D9AF /* JoinOptions.swift in Sources */,
+				0FD03C3457BD66131AB12589 /* RealtekDriverProtocol.swift in Sources */,
+				9D2D368AADB4184113696A58 /* RealtekDriver.swift in Sources */,
+				AA1F5ED5CCAC043F9E8B022A /* MockRealtekDriver.swift in Sources */,
+				D515F31FB3FD4C6FCBE10B9C /* WiFiModel.swift in Sources */,
+				85EF0FD918A9E0BB3F8397CF /* NetworkScan.swift in Sources */,
+				97351F463F30A104E5DFD8F6 /* JoinPanel.swift in Sources */,
+				C979FDF08E7D63CD52A09994 /* DNSSectionView.swift in Sources */,
+				11F184D11F0EEDD19BF96FBC /* StatusTab.swift in Sources */,
+				EE41E82C1D1A124AD9DA4994 /* ProfilesTab.swift in Sources */,
+				85BA6080E76DB10B1281FBD4 /* SettingsTab.swift in Sources */,
+				2A6FACBCDDEC13C7F8B453E5 /* PopoverView.swift in Sources */,
+				89EFC91391D4EB1E4031FA7E /* AppMain.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		71307F56FE0F050CBFE8BD6D = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = macosx;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D4147F9DEB4AD84BF3A14790 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		12653BB3A8FD0E8749A549D2 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drogabox.rtlwifitahoe;
+				PRODUCT_NAME = "RTL Wi-Fi Tahoe";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		89DC1C44C857E7A88B9FADAA = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drogabox.rtlwifitahoe;
+				PRODUCT_NAME = "RTL Wi-Fi Tahoe";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BE4F1ED45498D0DB984F8AA4 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				71307F56FE0F050CBFE8BD6D,
+				D4147F9DEB4AD84BF3A14790,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		32885C7FE4702D6377A1C1A9 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				12653BB3A8FD0E8749A549D2,
+				89DC1C44C857E7A88B9FADAA,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 63A9F0EA7BB98050796B649E;
+}

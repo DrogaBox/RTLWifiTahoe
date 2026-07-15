@@ -1,0 +1,27 @@
+## SetInformation_Buffer_Length
+addr: 0x10001e770  bn_name: -[WLANClientUtilityModel SetInformation:Buffer:Length:]
+
+```c
+int64_t r9 = *___stack_chk_guard
+SEL sel_1 = sel
+int64_t var_a28 = 0x9d4
+int32_t Length_1 = Length
+void var_9d8
+int64_t rax = ___memcpy_chk(&var_9d8, Buffer, sx.q(Length), -1)
+uint32_t SetInformation_1 = SetInformation
+int32_t var_9e0 = 0
+int32_t var_9dc = 0
+int64_t var_a48 = rax
+char result
+
+if (_IOConnectCallStructMethod(zx.q(self->driverConnect), 0xa, &SetInformation_1, 0x9d4, &SetInformation_1, &var_a28) == 0)
+    result = 1
+else
+    result = 0
+
+if (*___stack_chk_guard == r9)
+    return result
+
+___stack_chk_fail()
+noreturn
+```

@@ -1,0 +1,46 @@
+## UpdateAssociatedNetwork
+addr: 0x100011080  bn_name: -[WiFiStatusBarDelegate UpdateAssociatedNetwork]
+
+```c
+SEL sel_1 = sel
+int64_t var_20 = 0
+
+if (_objc_msgSend(data_1001b4d38, "isEqualToString:") != 0)
+    return 
+
+char var_31_1 = _objc_msgSend(self->Model, "GetBSSID:", data_1001b4d48)
+id rax_3 = _objc_msgSend(self->dropDownMenu, "itemWithTitle:", data_1001b4d38)
+
+if (rax_3 == 0)
+    struct __NSConstantString* rax_23
+    rax_23.b = 0
+    _NSLog(&cfstr_UpdateAssociatedNetwork_::_missing_connection_item_(_%@_)\n, data_1001b4d38)
+    _objc_msgSend(self, "StatusBar_GetAvailableNetworks")
+else
+    _objc_msgSend(self, "SetStatusBarImage:param:", 0, zx.q(_objc_msgSend(rax_3, "vgetStrength")))
+    int32_t rax_6 = _objc_msgSend(self->dropDownMenu, "indexOfItem:", rax_3)
+    _objc_msgSend(rax_3, "vsetCurrent:", 1)
+    _objc_msgSend(rax_3, "vsetProfileIcon:", 1)
+    
+    if (sx.d(_objc_msgSend(rax_3, "VAvailableNetworkType")) == 0)
+        _bOptionKeyPressed
+        int32_t var_28_1 = 3
+        
+        if (_objc_msgSend(self->dropDownMenu, "indexOfItem:", self->MenuItem_Uninstall) != -1)
+            var_28_1 = 4
+        
+        _objc_msgSend(rax_3, "setTag:", sx.q(rax_6))
+        struct __NSConstantString* rax_15
+        rax_15.b = 0
+        _NSLog(&cfstr_UpdateAssociatedNetwork::_%@_[%d]_==>_[%d]\n, data_1001b4d38, zx.q(rax_6), zx.q(var_28_1))
+        
+        if (rax_6 != var_28_1)
+            _objc_msgSend(self->dropDownMenu, "removeItem:", rax_3)
+            _objc_msgSend(self->dropDownMenu, "insertItem:atIndex:", rax_3, sx.q(var_28_1))
+    
+    _objc_msgSend(self->dropDownMenu, "update")
+
+_objc_msgSend(self->WLAN_UtilityCtrl, "WiFiTableViewReloadData")
+_objc_msgSend(clsRef_WiFiProfiles, "setDefaultProfileState:", 1)
+_objc_msgSend(self->WLAN_UtilityCtrl, "ProfilesReloadData")
+```

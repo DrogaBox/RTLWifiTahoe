@@ -1,0 +1,60 @@
+## USBSwitch_U3ToU2_-[WLANClientUtilityModel USBSwitch_U3ToU2]
+addr: 0x10001bb90  name: -[WLANClientUtilityModel USBSwitch_U3ToU2]
+
+```c
+SEL sel_1 = sel
+int32_t var_1c = 0
+int32_t var_3c = 0
+char __b_2
+_memset(&__b_2, 0, 4)
+char __b_1
+_memset(&__b_1, 0, 4)
+int32_t var_28 = 0
+char __b
+_memset(&__b, 0, 4)
+int32_t result
+
+if (self->bCurrentUSB3Cap == 0)
+    struct __NSConstantString* rax_14
+    rax_14.b = 0
+    _NSLog(&cfstr_USBSwitch_U3ToU2::bSupportU2U3(%d)_.._<==\n, zx.q(sx.d(self->bCurrentUSB3Cap)), 0x51)
+    result = 0
+else
+    int32_t var_40_1 = _objc_msgSend(self, "QueryInformation:Data:", 0xff819055, &__b_2)
+    int64_t rax_2
+    rax_2.b = 0
+    _NSLog(&cfstr_USBSwitch_U3ToU2::usbModePre=%d_\n, zx.q(__b_2))
+    
+    if (zx.d(__b_2) != 2)
+        result = 0
+    else
+        self->bUsbSwitchInProgress = 1
+        int32_t var_28_1 = 1
+        char var_49_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff819054, 1)
+        _objc_msgSend(self, "USBSwitch_WaitForNicBack")
+        int32_t var_5c_1 = _objc_msgSend(self, "QueryInformation:Data:")
+        int64_t rax_7
+        rax_7.b = 0
+        _NSLog(&cfstr_USBSwitch_U3ToU2::Result_[%d_->_%d]\n, zx.q(__b_2), zx.q(__b_1), &cfstr_USBSwitch_U3ToU2::Result_[%d_->_%d]\n)
+        
+        if (zx.d(__b_1) != 2)
+            result = 1
+        else
+            struct __NSConstantString* rax_9
+            rax_9.b = 0
+            _NSLog(&cfstr_USBSwitch_U3ToU2::_Failed...\n)
+            result = 2
+        
+        self->bUsbSwitchInProgress = 0
+        int32_t var_28_2 = 0
+        char var_5d_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff819054, 0)
+
+int32_t var_64 = _objc_msgSend(self, "QueryInformation:Data:", 0xff0101bb, &__b)
+int64_t rax_17
+rax_17.b = 0
+char var_2b
+char var_2a
+char var_29
+_NSLog(&cfstr_WirelessMode:0x%x%x%x%x_\n, zx.q(__b), zx.q(var_2b), zx.q(var_2a), zx.q(var_29))
+return result
+```

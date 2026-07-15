@@ -1,0 +1,112 @@
+## MenuItemClickToJoinNetwork
+addr: 0x100012790  bn_name: -[WiFiStatusBarDelegate MenuItemClickToJoinNetwork:]
+
+```c
+SEL sel_1 = sel
+char var_42_1
+__builtin_memset(&var_42_1, 0, 0x12)
+int32_t var_48 = 0
+char __b
+_memset(&__b, 0, 4)
+
+if (_bWPS_Doing != 0)
+    return 
+
+id var_38_1
+
+if (_objc_msgSend(MenuItemClickToJoinNetwork, "isKindOfClass:", _objc_msgSend(clsRef_VAvailableNetworkMenuItem, "class")) != 0)
+    var_38_1 = _objc_msgSend(_objc_msgSend(clsRef_NSString, "alloc"), "initWithString:", _objc_msgSend(MenuItemClickToJoinNetwork, "vgetSSID"))
+    
+    if (_objc_msgSend(MenuItemClickToJoinNetwork, "state") != 1)
+        goto label_100012970
+    
+    struct __NSConstantString* rax_12
+    rax_12.b = 0
+    _NSLog(&cfstr_MenuItemClickToJoinNetwork::__RtMenuItem_is_OnState\n)
+    _objc_msgSend(var_38_1, "release")
+    return 
+
+int32_t rax_13 = _objc_msgSend(MenuItemClickToJoinNetwork, "selectedRow")
+id rax_15 = _objc_msgSend(clsRef_WiFiStatusBarDelegate, "TitleOfCellAtColumn:col:row:", MenuItemClickToJoinNetwork, 1, sx.q(rax_13))
+var_38_1 = _objc_msgSend(_objc_msgSend(clsRef_NSString, "alloc"), "initWithString:", rax_15)
+label_100012970:
+id rax_21 = _objc_msgSend(_objc_msgSend(data_10027cdb0, "objectForKey:", var_38_1), "mutableCopy")
+id rax_23 = _objc_msgSend(self, "selectNetworkForMultipleBSSID:", rax_21)
+int64_t var_30_1 = _objc_msgSend(rax_21, "objectForKey:", rax_23)
+int32_t rax_27 = _objc_msgSend(self, "CheckJoinCondition:", var_38_1)
+
+if (rax_27 u> 0)
+    struct __NSConstantString* rax_29
+    rax_29.b = 0
+    _NSLog(&cfstr_AddToProfileAvailableNetworks::_SSID:%@_CheckAdhocChannel_WPANONE_failed\n, var_38_1)
+    _objc_msgSend(var_38_1, "release")
+    _objc_msgSend(rax_21, "release")
+    _objc_msgSend(self->WLAN_UtilityCtrl, "winCtrl_JoinConditionAlert:status:", 0, zx.q(rax_27))
+    return 
+
+char rax_31 = _objc_msgSend(_objc_msgSend(var_30_1, "objectForKey:", &cfstr_bHiddenAP), "boolValue")
+
+if (zx.d(_objc_msgSend(_objc_msgSend(var_30_1, "objectForKey:", &cfstr_Site_Encry), "unsignedCharValue")) == 0 && rax_31 == 0)
+    struct __NSConstantString* rax_35
+    rax_35.b = 0
+    _NSLog(&cfstr_joinNetwork[1]::_open-none_&&_non-hidden_AP/Adhoc:_%@\n, var_38_1)
+    _objc_msgSend(var_30_1, "setObject:forKey:", _objc_msgSend(clsRef_NSNumber, "numberWithUnsignedChar:", 0), &cfstr_profilesState)
+    _objc_msgSend(var_30_1, "setObject:forKey:", _objc_msgSend(clsRef_NSNumber, "numberWithUnsignedChar:", 0), &cfstr_PreferrAuth_Encry)
+    _objc_msgSend(clsRef_WiFiProfiles, "storeWiFiProfile:BSSIDDict:", var_38_1, var_30_1)
+    _objc_msgSend(self, "UpdateProfiledNetwork:", var_38_1)
+    struct __NSConstantString* rax_42
+    rax_42.b = 0
+    _NSLog(&cfstr_[7][PreLink][U2U3]_MenuItemClickToJoinNetwork[OPEN]::BSSID:_%@\n, rax_23)
+    int64_t rax_44
+    rax_44.b = 0
+    _NSLog(&cfstr_[7][PreLink][U2U3]_MenuItemClickToJoinNetwork[OPEN]::BSSID:_%@\n, rax_23)
+    id var_c8_1 = rax_23
+    int32_t var_cc_1 = _objc_msgSend(self, "U2U3_Switch_Process:", rax_23)
+    _objc_msgSend(self, "setApplyProfileInfo:BSSIDKey:AuxDict:")
+    _objc_msgSend(self, "ApplyTheProfileAndTryToConnect")
+    _objc_msgSend(var_38_1, "release")
+    _objc_msgSend(rax_21, "release")
+    return 
+
+id rax_47 = _objc_msgSend(clsRef_WiFiProfiles, "getPasswordForSSID:BSSIDDict:", var_38_1, var_30_1)
+
+if (rax_47 == 0)
+    _objc_msgSend(self->WLAN_UtilityCtrl, "ShowSettingDialog:BSSIDDict:", var_38_1, var_30_1)
+else
+    char var_71_1 = 0
+    int64_t var_80_1 = 0
+    char rax_49 = _objc_msgSend(_objc_msgSend(rax_47, "objectForKey:", &cfstr_PreferrAuth_Encry), "unsignedCharValue")
+    id rax_50 = _objc_msgSend(rax_47, "objectForKey:", &cfstr_Password)
+    int32_t r8_4
+    
+    if (rax_50 != 0)
+        r8_4 = sx.d(_objc_msgSend(rax_50, "isEqualToString:", &cfstr_))
+    
+    if (rax_50 == 0 || r8_4 != 0)
+        struct __NSConstantString* rax_53
+        rax_53.b = 0
+        _NSLog(&cfstr_joinNetwork[2]:_Password_get_failed\n)
+    
+    struct __NSConstantString* rax_55
+    rax_55.b = 0
+    _NSLog(&cfstr_joinNetwork[2]::_SSID:%@,_PreferrEncry=%d,_password=%@, var_38_1, zx.q(rax_49), rax_50)
+    int32_t var_d0_1 = _objc_msgSend(self->Model, "QueryInformation:Data:", 0xff0101bb, &__b)
+    int64_t rax_57
+    rax_57.b = 0
+    char var_53
+    char var_52
+    char var_51
+    _NSLog(&cfstr_WirelessMode:0x%x%x%x%x_\n, zx.q(__b), zx.q(var_53), zx.q(var_52), zx.q(var_51))
+    _objc_msgSend(clsRef_WiFiProfiles, "setProfileToDefaultState:", var_38_1)
+    id rax_59
+    rax_59.b = 0
+    _NSLog(&cfstr_[8][PreLink][U2U3]_MenuItemClickToJoinNetwork[SEC]::BSSID:_%@\n, self->ApplyProfileBSSID, &cfstr_[8][PreLink][U2U3]_MenuItemClickToJoinNetwork[SEC]::BSSID:_%@\n)
+    NSMutableString* ApplyProfileBSSID = self->ApplyProfileBSSID
+    id var_f0_1 = var_38_1
+    int32_t var_f4_1 = _objc_msgSend(self, "U2U3_Switch_Process:")
+    _objc_msgSend(self, "setApplyProfileInfo:BSSIDKey:AuxDict:")
+    _objc_msgSend(self, "ApplyTheProfileAndTryToConnect")
+
+_objc_msgSend(var_38_1, "release")
+_objc_msgSend(rax_21, "release")
+```

@@ -1,0 +1,39 @@
+## GetDriverVersion_-[WLANClientUtilityModel GetDriverVersionversion]
+addr: 0x10001ef80  name: -[WLANClientUtilityModel GetDriverVersion:version:]
+
+```c
+int64_t r10 = *___stack_chk_guard
+SEL sel_1 = sel
+void __b
+_memset(&__b, 0, 8)
+_objc_msgSend(_objc_msgSend(clsRef_NSBundle, "mainBundle"), "localizedStringForKey:value:table:", &cfstr_sDriverVersion, &cfstr_, 0)
+
+if (_objc_msgSend(self->RTK_DriverVersion, "isEqualToString:", &cfstr_) == 0)
+    self->RTK_DriverVersion
+    id rax_13
+    rax_13.b = 0
+    _objc_msgSend(GetDriverVersion, "setString:", _objc_msgSend(clsRef_NSString, "stringWithFormat:"))
+    _objc_msgSend(version, "setString:", self->RTK_DriverVersion)
+else
+    int32_t rax_6 = _objc_msgSend(self, "QueryInformation:Data:", 0xff010416, &__b)
+    void* var_48_1 = &__b
+    uint32_t var_64_1 = zx.d(__b.w)
+    var_1c
+    uint32_t var_98_1 = zx.d(var_1c.w)
+    var_1a
+    uint32_t var_90_1 = zx.d(var_1a.w)
+    int32_t var_68_1 = rax_6
+    int64_t rax_7
+    rax_7.b = 0
+    _objc_msgSend(GetDriverVersion, "setString:", _objc_msgSend(clsRef_NSString, "stringWithFormat:", &cfstr_%@%d.%d.%d%d))
+    uint32_t var_98_2 = zx.d(var_1a.w)
+    struct __NSConstantString* rax_10
+    rax_10.b = 0
+    _objc_msgSend(version, "setString:", _objc_msgSend(clsRef_NSString, "stringWithFormat:", &cfstr_%d.%d.%d%d))
+
+if (*___stack_chk_guard == r10)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```

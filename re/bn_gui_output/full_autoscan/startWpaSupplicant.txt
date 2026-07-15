@@ -1,0 +1,26 @@
+## startWpaSupplicant
+addr: 0x1000179a0  bn_name: -[WiFiStatusBarDelegate startWpaSupplicant]
+
+```c
+int64_t rax = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_22c = 0
+char var_239 = _objc_msgSend(self->Model, "SetInformation:Value:", 0xd010115, 0)
+id rax_9
+rax_9.b = 0
+char __s[0x208]
+int32_t var_264 = ___sprintf_chk(&__s, 0, 0x200, "%d, %d, /usr/bin/sudo, %s/Contents/MacOS/wpa_supplicant, -Dosx, -i%s, -c%s/profile1x.rtl", 3, 1, _objc_msgSend(_objc_msgSend(_objc_msgSend(clsRef_NSBundle, "mainBundle"), "bundlePath"), "UTF8String"), _objc_msgSend(self->kMyBSDName, "UTF8String"), _objc_msgSend(_objc_msgSend(clsRef_NSUserDefaults, "arAuxDataPath"), "UTF8String"))
+int64_t rax_12
+rax_12.b = 0
+_NSLog(&cfstr_startWpaSupplicant,_strlen()=%d\n, zx.q(_strlen(&__s)))
+int32_t result = _objc_msgSend(self->Model, "SendCommand:", &__s)
+int64_t rax_13
+rax_13.b = 0
+_NSLog(&cfstr_startWpaSupplicant_::_returnVal=_%d\n, zx.q(result))
+
+if (*___stack_chk_guard == rax)
+    return result
+
+___stack_chk_fail()
+noreturn
+```

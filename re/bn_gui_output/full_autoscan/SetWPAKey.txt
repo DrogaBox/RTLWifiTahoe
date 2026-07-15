@@ -1,0 +1,18 @@
+## SetWPAKey
+addr: 0x10001df30  bn_name: -[WLANClientUtilityModel SetWPAKey:]
+
+```c
+int64_t r10 = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_2c = 0
+void var_b0
+char var_ca = _objc_msgSend(SetWPAKey, "getCString:maxLength:encoding:", &var_b0, 0x80, 1)
+int32_t var_30 = _objc_msgSend(SetWPAKey, "length")
+char var_cb = _objc_msgSend(self, "SetInformation:Buffer:Length:", 0xff010305, &var_b0, 0x98)
+
+if (*___stack_chk_guard == r10)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```

@@ -470,6 +470,24 @@ struct JoinPanel: View {
                 .tint(Tahoe.accentCyan)
             }
 
+            // Band preference
+            VStack(alignment: .leading, spacing: 3) {
+                Text("BAND")
+                    .font(.system(size: 8, weight: .bold))
+                    .foregroundColor(Tahoe.subtext)
+                Picker("", selection: Binding(
+                    get: { joinOpts.forceBand ?? WiFiBand?.none },
+                    set: { joinOpts.forceBand = $0 }
+                )) {
+                    Text("Auto").tag(Optional<WiFiBand>.none)
+                    Text(L10n.Band.g24).tag(Optional<WiFiBand>.some(.g24))
+                    Text(L10n.Band.g5).tag(Optional<WiFiBand>.some(.g5))
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .controlSize(.small)
+            }
+
             // WPS
             VStack(alignment: .leading, spacing: 3) {
                 Text(L10n.Join.wps)
@@ -671,7 +689,7 @@ struct JoinPanel: View {
             // unless they look like normal network names
             merged.append(ScannedNetwork(
                 ssid: p.ssid,
-                isSecure: p.hasPassword,
+                isSecure: p.hasPassword || true,
                 isConnected: p.isDefault && model.snapshot.active,
                 signalBars: 2,
                 signalPercent: 0,

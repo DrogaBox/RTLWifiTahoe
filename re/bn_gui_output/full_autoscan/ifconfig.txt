@@ -1,0 +1,31 @@
+## ifconfig
+addr: 0x100002400  bn_name: -[WiFiStatusBarDelegate ifconfig:]
+
+```c
+int64_t r8 = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_130 = 0
+int64_t rax_1 = _objc_msgSend(self->kMyBSDName, "UTF8String")
+char const* const rdi_1 = "down"
+
+if (sx.d(ifconfig) != 0)
+    rdi_1 = &data_10013d215
+
+char const* const rax_3
+rax_3.b = 0
+char __s[0x108]
+int32_t var_14c = ___sprintf_chk(&__s, 0, 0xff, "%d, %d, /usr/bin/sudo, ifconfig, %s, %s", 3, 1, rax_1, rdi_1)
+int64_t rax_6
+rax_6.b = 0
+_NSLog(&cfstr_ifConfigArgs,_strlen()=%d\n, zx.q(_strlen(&__s)))
+int32_t result = _objc_msgSend(self->Model, "SendCommand:", &__s)
+int64_t rax_7
+rax_7.b = 0
+_NSLog(&cfstr_ifconfig::returnVal=%d\n, zx.q(result))
+
+if (*___stack_chk_guard == r8)
+    return result
+
+___stack_chk_fail()
+noreturn
+```

@@ -1,0 +1,9 @@
+## SetDriversIOKitClassName_-[WLANClientUtilityModel SetDriversIOKitClassName]
+addr: 0x100019ea0  name: -[WLANClientUtilityModel SetDriversIOKitClassName:]
+
+```c
+SEL sel_1 = sel
+int64_t rax_1
+rax_1.b = 0
+int32_t var_24 = ___sprintf_chk(&self->DriversIOKitClassName, 0, -1, "%s", SetDriversIOKitClassName)
+```

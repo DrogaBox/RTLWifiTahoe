@@ -1,0 +1,48 @@
+## CheckSoftRF
+addr: 0x1000083f0  bn_name: -[WiFiStatusBarDelegate CheckSoftRF]
+
+```c
+SEL sel_1 = sel
+char var_19 = 0
+id rax_1 = _objc_msgSend(_objc_msgSend(clsRef_NSMutableString, "alloc"), "initWithString:")
+char rax_3 = _objc_msgSend(clsRef_WiFiProfiles, "getSoftRFState:", data_1001b4d30)
+
+if (zx.d(rax_3) == 0)
+    char rax_4 = _objc_msgSend(self->Model, "IsRfOff:", &data_1001b4d2b)
+    data_1001b4d30
+    data_1001b4d2b
+    id var_50_1 = rax_1
+    char var_51_1 = rax_4
+    _objc_msgSend(clsRef_WiFiProfiles, "setSoftRFState:Rf:file:")
+else if (zx.d(rax_3) != 2)
+    data_1001b4d2b = 0
+    char var_53_1 = _objc_msgSend(self->Model, "turnRfOn")
+    _objc_msgSend(self->MenuItem_Status, "vsetStatus:", _StateRfOnStr)
+    _objc_msgSend(self, "EnableWlanFunMenuItem")
+else
+    data_1001b4d2b = 1
+    char var_52_1 = _objc_msgSend(self->Model, "turnRfOff")
+    _objc_msgSend(self->MenuItem_Status, "vsetStatus:", _StateRfOffStr)
+    _objc_msgSend(self, "DisableWlanFunMenuItem")
+
+if (zx.d(_uOSMinorVersion) s<= 0xa)
+    int64_t var_80_1
+    
+    if (sx.d(data_1001b4d2b) == 0)
+        var_80_1 = _TurnRadioOFFStr
+    else
+        var_80_1 = _TurnRadioONStr
+    
+    _objc_msgSend(self, "setMenuItemTitle:title:", self->MenuItem_RfOnOff, var_80_1)
+else
+    int64_t var_68_1
+    
+    if (sx.d(data_1001b4d2b) == 0)
+        var_68_1 = _TurnRadioOFFStr
+    else
+        var_68_1 = _TurnRadioONStr
+    
+    _objc_msgSend(self->MenuItem_RfOnOff, "vsetWlanFunTitle:", var_68_1)
+
+_objc_msgSend(rax_1, "release")
+```

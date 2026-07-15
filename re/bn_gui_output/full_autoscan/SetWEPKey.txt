@@ -1,0 +1,19 @@
+## SetWEPKey
+addr: 0x10001d5d0  bn_name: -[WLANClientUtilityModel SetWEPKey:AtIndex:]
+
+```c
+int64_t r14 = *___stack_chk_guard
+SEL sel_1 = sel
+void __b
+_memset(&__b, 0, 0x98)
+int32_t AtIndex_1 = AtIndex
+char var_f1 = _objc_msgSend(SetWEPKey, "getCString:maxLength:encoding:", &__b, 0x80, 1)
+int32_t result = _objc_msgSend(SetWEPKey, "length")
+char var_f2 = _objc_msgSend(self, "SetInformation:Buffer:Length:", 0xff070113, &__b, 0x98)
+
+if (*___stack_chk_guard == r14)
+    return result
+
+___stack_chk_fail()
+noreturn
+```

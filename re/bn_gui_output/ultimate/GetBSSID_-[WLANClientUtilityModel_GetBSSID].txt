@@ -1,0 +1,39 @@
+## GetBSSID_-[WLANClientUtilityModel GetBSSID]
+addr: 0x10001d090  name: -[WLANClientUtilityModel GetBSSID:]
+
+```c
+int64_t r10 = *___stack_chk_guard
+SEL sel_1 = sel
+char var_c1 = 1
+char __b[0x80]
+_memset(&__b, 0, 0x84)
+
+if (_objc_msgSend(self, "QueryInformation:Data:", 0xd010101, &__b) != 0)
+    char var_c2_1 = 0
+    char var_a5[0xc]
+    
+    while (zx.d(var_c2_1) s< 6)
+        char rax_5 = (zx.d(__b[zx.q(var_c2_1)]) s>> 4).b
+        char rax_8 = __b[zx.q(var_c2_1)] & 0xf
+        char var_c3_2
+        
+        var_c3_2 = zx.d(rax_5) s> 9 ? rax_5 + 0x57 : rax_5 + 0x30
+        
+        char var_c4_2
+        
+        var_c4_2 = zx.d(rax_8) s> 9 ? rax_8 + 0x57 : rax_8 + 0x30
+        
+        var_a5[sx.q(zx.d(var_c2_1) << 1)] = var_c3_2
+        var_a5[sx.q((zx.d(var_c2_1) << 1) + 1)] = var_c4_2
+        var_c2_1 += 1
+    
+    char var_99_1 = 0
+    _objc_msgSend(GetBSSID, "setString:", _objc_msgSend(clsRef_NSString, "stringWithCString:encoding:", &var_a5, 4))
+    char var_c1_1 = 1
+
+if (*___stack_chk_guard == r10)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```

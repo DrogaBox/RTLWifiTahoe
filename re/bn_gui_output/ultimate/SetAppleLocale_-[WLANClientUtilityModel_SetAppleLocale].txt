@@ -1,0 +1,23 @@
+## SetAppleLocale_-[WLANClientUtilityModel SetAppleLocale]
+addr: 0x10001c4e0  name: -[WLANClientUtilityModel SetAppleLocale:]
+
+```c
+int64_t rcx = *___stack_chk_guard
+struct WLANClientUtilityModel* self_1 = self
+SEL sel_1 = sel
+id rax_1 = _objc_msgSend(clsRef_NSMutableArray, "arrayWithArray:", _objc_msgSend(SetAppleLocale, "componentsSeparatedByString:", &cfstr__))
+id rax_2
+rax_2.b = 0
+_NSLog(&cfstr_SetAppleLocale:_localeString:%@, SetAppleLocale)
+void var_98
+
+if (_objc_msgSend(rax_1, "count") u> 1 && _objc_msgSend(rax_1, "objectAtIndex:", 2) != 0)
+    char var_c9_1 = _objc_msgSend(_objc_msgSend(rax_1, "objectAtIndex:", 2), "getCString:maxLength:encoding:", &var_98, 0x80, 1)
+int32_t var_18 = _objc_msgSend(_objc_msgSend(rax_1, "objectAtIndex:", 2), "length")
+
+if (*___stack_chk_guard == rcx)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```

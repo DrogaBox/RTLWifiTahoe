@@ -1,0 +1,50 @@
+## WirelessAssociate
+addr: 0x10001c7f0  bn_name: -[WLANClientUtilityModel WirelessAssociate:]
+
+```c
+SEL sel_1 = sel
+char var_21 = 0
+char rax = _objc_msgSend(self, "SetInformation:Value:", 0xd010115, 0)
+WirelessAssociate[3].b
+char var_31 = rax
+char rax_1 = _objc_msgSend(self, "SetInformation:Value:")
+WirelessAssociate[1]
+char var_41 = rax_1
+char var_42 = _objc_msgSend(self, "SetNetworkName:")
+char rax_3 = _objc_msgSend(self, "setChannel:", zx.q(*(WirelessAssociate + 0x1a)))
+WirelessAssociate[6].d
+char var_51 = rax_3
+char var_52 = _objc_msgSend(self, "SetInformation:Value:")
+
+if (zx.d(WirelessAssociate[3].b) == 1 && (WirelessAssociate[6].d == 3 || WirelessAssociate[6].d == 4))
+    var_21 = 1
+    char var_53_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff030004, 0)
+
+if (WirelessAssociate[6].d == 1 || WirelessAssociate[6].d == 2)
+    int32_t var_28_1 = 0
+    char rax_12 = _objc_msgSend(self, "SetInformation:Value:", 0xff030004, zx.q(*(WirelessAssociate + 0x19)))
+    WirelessAssociate[4]
+    *(WirelessAssociate + 0x19)
+    char var_61_1 = rax_12
+    
+    if (_objc_msgSend(self, "SetWEPKey:AtIndex:") != 0x1a)
+        char var_63_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff010194, 1)
+    else
+        char var_62_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff010194, 2)
+else if (WirelessAssociate[6].d == 3 || WirelessAssociate[6].d == 4 || WirelessAssociate[6].d == 5 || WirelessAssociate[6].d == 6)
+    struct __NSConstantString* rax_23
+    rax_23.b = 0
+    _NSLog(&cfstr_\t_WirelessAssoc():_WPA/WPA2\n)
+    char var_64_1 = _objc_msgSend(self, "SetWPAKey:", WirelessAssociate[5])
+    char var_65_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff010194, zx.q(WirelessAssociate[6].d))
+else
+    struct __NSConstantString* rax_27
+    rax_27.b = 0
+    _NSLog(&cfstr_\t_WirelessAssoc():_OPEN\n)
+    char var_66_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff010194, zx.q(WirelessAssociate[6].d))
+
+char var_67 = _objc_msgSend(self, "SetInformation:Value:", 0xff01041b, 0)
+
+if (var_21 != 0)
+    char var_68_1 = _objc_msgSend(self, "SetWPAKey:", WirelessAssociate[5])
+```

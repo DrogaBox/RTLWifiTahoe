@@ -1,0 +1,21 @@
+## GetNetworkName_-[WLANClientUtilityModel GetNetworkName]
+addr: 0x10001cd20  name: -[WLANClientUtilityModel GetNetworkName:]
+
+```c
+int64_t rcx = *___stack_chk_guard
+SEL sel_1 = sel
+char var_b1 = 1
+void var_98
+int32_t rax = _objc_msgSend(self, "QueryInformation:Data:", 0xff070102, &var_98)
+
+if (rax s> 0)
+    int64_t var_c8_1 = sx.q(rax)
+    _objc_msgSend(GetNetworkName, "setData:", _objc_msgSend(clsRef_NSData, "dataWithBytes:length:"))
+    char var_b1_1 = 1
+
+if (*___stack_chk_guard == rcx)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```

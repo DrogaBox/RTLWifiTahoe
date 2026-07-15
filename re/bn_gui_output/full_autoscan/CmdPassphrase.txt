@@ -1,0 +1,35 @@
+## CmdPassphrase
+addr: 0x10003ce10  bn_name: _CmdPassphrase
+
+```c
+int64_t rax = *___stack_chk_guard
+int32_t var_ac = arg1
+char* __s = *(arg2 + 0x10)
+int32_t rax_2 = _strlen(__s)
+
+if (rax_2 s< 8 || rax_2 s> 0x3f)
+    int64_t rax_3
+    rax_3.b = 0
+    int32_t var_cc_1 = _printf("Invalid passphrase length, %d, valid range is 8-63\n", zx.q(rax_2))
+else
+    int32_t var_24_1 = 0
+    void var_a8
+    int64_t var_d8_1 = ___memcpy_chk(&var_a8, __s, sx.q(rax_2), 0x98)
+    
+    if (_SetInformationBuffer(0xff010305, &var_a8, 0x98) != 0xffffffff)
+        int64_t rax_10
+        rax_10.b = 0
+        int32_t var_e0_1 = _printf("Set passphrase success.\n")
+    else
+        int64_t rax_8
+        rax_8.b = 0
+        int32_t var_dc_1 = _printf("Failed to set passphrase.\n")
+
+int64_t result = *___stack_chk_guard
+
+if (result == rax)
+    return result
+
+___stack_chk_fail()
+noreturn
+```

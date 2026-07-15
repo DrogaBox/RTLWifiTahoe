@@ -1,0 +1,20 @@
+## IsRfOff
+addr: 0x10001dcc0  bn_name: -[WLANClientUtilityModel IsRfOff:]
+
+```c
+SEL sel_1 = sel
+char var_29 = 0
+
+if (_objc_msgSend(self, "QueryInformation:Data:", 0xff818081, &var_29) == 0xffffffff)
+    return 0
+
+if (var_29 == 0)
+    *IsRfOff = 0
+else
+    *IsRfOff = 1
+
+struct __NSConstantString* rax_4
+rax_4.b = 0
+_NSLog(&cfstr_IsRfOff_bRfTurnOff_=_%d\n, zx.q(sx.d(*IsRfOff)))
+return 1
+```

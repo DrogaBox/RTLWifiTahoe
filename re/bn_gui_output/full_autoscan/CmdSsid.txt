@@ -1,0 +1,72 @@
+## CmdSsid
+addr: 0x10003ae40  bn_name: _CmdSsid
+
+```c
+int64_t r8 = *___stack_chk_guard
+char __b[0x80]
+_memset(&__b, 0, 0x84)
+
+if (_strcmp(*(arg2 + 0x10), "g") != 0)
+    if (_strcmp(*(arg2 + 0x10), "s") != 0)
+        int64_t rax_41
+        rax_41.b = 0
+        int32_t var_e4_1 = _printf("Usage: MacAccess -ssid [g|s] [ssid].\n")
+    else if (arg1 s< 4)
+        int64_t rax_39
+        rax_39.b = 0
+        int32_t var_e0_1 = _printf("Usage: MacAccess -ssid s [ssid].\n")
+    else if (_strlen(*(arg2 + 0x18)) u> 0x80)
+        uint64_t rax_37
+        rax_37.b = 0
+        int32_t var_dc_1 = _printf("Error input SSID.\n")
+    else
+        int32_t var_b0_1 = 0
+        
+        while (sx.q(var_b0_1) u< _strlen(*(arg2 + 0x18)))
+            __b[sx.q(var_b0_1)] = (*(arg2 + 0x18))[sx.q(var_b0_1)]
+            var_b0_1 += 1
+        
+        int32_t var_18_2 = _strlen(*(arg2 + 0x18))
+        uint64_t rax_27
+        rax_27.b = 0
+        int32_t var_cc_1 = _printf("strlen(argv[3]: %ld\n ", _strlen(*(arg2 + 0x18)))
+        
+        if (_SetInformationBuffer(0xff070102, &__b, 0x84) != 0xffffffff)
+            if (_SetInformationValue(0xff01041b, 0) != 0xffffffff)
+                int64_t rax_35
+                rax_35.b = 0
+                int32_t var_d8_1 = _printf("Set SSID (%s) success.\n", &__b)
+            else
+                int64_t rax_33
+                rax_33.b = 0
+                int32_t var_d4_1 = _printf("Failed to set SSID: %s\n", &__b)
+        else
+            int64_t rax_30
+            rax_30.b = 0
+            int32_t var_d0_1 = _printf("Failed to set SSID: %s\n", &__b)
+else
+    int32_t rax_1 = _QueryInformation(0xff070102, &__b)
+    
+    if (rax_1 s> 0)
+        int64_t rax_2
+        rax_2.b = 0
+        int32_t i = 0
+        int32_t var_b4_1 = _printf("Query SSID : ")
+        
+        for (; i s< rax_1; i += 1)
+            int64_t rax_6
+            rax_6.b = 0
+            int32_t var_b8_1 = _printf("%c", zx.q(sx.d(__b[sx.q(i)])))
+        
+        int64_t rax_10
+        rax_10.b = 0
+        int32_t var_bc_1 = _printf("\n")
+
+int64_t result = *___stack_chk_guard
+
+if (result == r8)
+    return result
+
+___stack_chk_fail()
+noreturn
+```

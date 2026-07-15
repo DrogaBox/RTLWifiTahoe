@@ -1,0 +1,104 @@
+## CmdAkm
+addr: 0x10003c770  bn_name: _CmdAkm
+
+```c
+int32_t var_1c = 0
+int32_t var_20 = 0
+int32_t result
+
+if (_strcmp(*(arg2 + 0x10), "g") != 0)
+    if (_strcmp(*(arg2 + 0x10), "s") != 0)
+        return _printCmdUsage(&(&_CommandPatterns)[sx.q(_g_nCurrCmd) * 4])
+    
+    if (arg1 s< 4)
+        return _printCmdUsage(&(&_CommandPatterns)[sx.q(_g_nCurrCmd) * 4])
+    
+    if (_strcmp(*(arg2 + 0x18), "sharedkey") != 0)
+        var_20 = 0
+        
+        if (_strcmp(*(arg2 + 0x18), "open") == 0)
+            var_1c = 0
+            goto label_10003c9c8
+        
+        if (_strcmp(*(arg2 + 0x18), "wpa-psk") == 0)
+            var_1c = 3
+            goto label_10003c9c8
+        
+        if (_strcmp(*(arg2 + 0x18), "wpa2-psk") == 0)
+            var_1c = 6
+            goto label_10003c9c8
+        
+        int64_t rax_23
+        rax_23.b = 0
+        result = _printf("unknown AKM!")
+        int32_t result_4 = result
+    else
+        var_20 = 1
+    label_10003c9c8:
+        
+        if (_SetInformationValue(0xff01041a, var_20) != 0xffffffff)
+            if (_SetInformationValue(0xff010194, var_1c) != 0xffffffff)
+                int64_t rax_28
+                rax_28.b = 0
+                result = _printf("Set AKM success.\n")
+                int32_t result_1 = result
+            else
+                int64_t rax_27
+                rax_27.b = 0
+                result = _printf("Failed to set AKM.\n")
+                int32_t result_2 = result
+        else
+            int64_t rax_25
+            rax_25.b = 0
+            result = _printf("Failed to set shared key auth.\n")
+            int32_t result_3 = result
+else if (_QueryInformation(0xff010194, &var_1c) != 0xffffffff)
+    uint64_t rcx_1 = zx.q(var_1c)
+    int64_t var_38_1 = rcx_1 - 6
+    
+    if (rcx_1 u> 6)
+        int64_t rax_12
+        rax_12.b = 0
+        result = _printf("unknown encryption method(%d)!\n", zx.q(var_1c))
+        int32_t result_5 = result
+    else
+        switch (rcx_1)
+            case 0
+                uint32_t* const rax_5
+                rax_5.b = 0
+                result = _printf("open\n")
+                int32_t result_11 = result
+            case 1, 2
+                if (_QueryInformation(0xff01041a, &var_20) == 0xffffffff)
+                    int64_t rax_7
+                    rax_7.b = 0
+                    result = _printf("Failed to get shared key authentication mode.\n")
+                    int32_t result_10 = result
+                else if (var_20 == 0)
+                    int64_t rax_9
+                    rax_9.b = 0
+                    result = _printf("open\n")
+                    int32_t result_8 = result
+                else
+                    int64_t rax_8
+                    rax_8.b = 0
+                    result = _printf("sharedkey\n")
+                    int32_t result_9 = result
+            case 3, 4
+                uint32_t* const rax_10
+                rax_10.b = 0
+                result = _printf("wpa-psk\n")
+                int32_t result_7 = result
+            case 5, 6
+                uint32_t* const rax_11
+                rax_11.b = 0
+                result = _printf("wpa2-psk\n")
+                int32_t result_6 = result
+else
+    int64_t rax_2
+    rax_2.b = 0
+    result = _printf("Failed to get encryption method.\n")
+    int32_t result_12 = result
+
+return result
+```

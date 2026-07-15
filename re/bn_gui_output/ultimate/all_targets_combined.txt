@@ -1,0 +1,813 @@
+## DecryptPwrTable_-[WiFiStatusBarDelegate DecryptPwrTablePwrTableTypeDecryptFlag]
+addr: 0x1000094a0  name: -[WiFiStatusBarDelegate DecryptPwrTable:PwrTableType:DecryptFlag:]
+
+```c
+int64_t r9 = *___stack_chk_guard
+SEL sel_1 = sel
+bool rax = DecryptFlag & 1
+bool var_b6 = false
+id var_c8 = nullptr
+int64_t var_d0 = 0
+
+if ((rax & 1) == 0)
+    id DecryptPwrTable_1 = DecryptPwrTable
+    var_c8 = _objc_msgSend(clsRef_NSString, "stringWithContentsOfFile:encoding:error:")
+else
+    id rax_4 = _AES256DecryptWithKey(_objc_msgSend(clsRef_NSData, "dataWithContentsOfFile:", _objc_msgSend(DecryptPwrTable, "stringByExpandingTildeInPath")), &cfstr_realtek)
+    
+    if (rax_4 != 0)
+        var_c8 = _objc_msgSend(_objc_msgSend(clsRef_NSString, "alloc"), "initWithData:encoding:", rax_4, 4)
+
+bool var_91
+
+if (_objc_msgSend(_objc_msgSend(_objc_msgSend(clsRef_NSFileManager, "defaultManager"), "attributesOfItemAtPath:error:", DecryptPwrTable, 0), "fileSize") == 0 || var_c8 == 0)
+    int32_t var_1078_1 = PwrTableType - 1
+    
+    if (PwrTableType != 1)
+        uint32_t var_107c_1 = PwrTableType - 2
+        
+        if (PwrTableType != 2)
+            uint32_t var_1080_1 = PwrTableType - 3
+    
+    if ((rax & 1) != 0 && var_c8 != 0)
+        _objc_msgSend(var_c8, "release")
+    
+    var_91 = var_b6 & 1
+else
+    id obj = _objc_msgSend(var_c8, "componentsSeparatedByString:", &cfstr_\n)
+    char __b_1
+    _memset(&__b_1, 0, 0xf14)
+    int32_t rax_19 = _objc_msgSend(obj, "count")
+    uint32_t PwrTableType_3 = PwrTableType
+    int32_t var_100c_1 = 0
+    void __b
+    int64_t var_1088_1 = &__b
+    int64_t var_1090_1 = 0x10
+    _memset(&__b, 0, 0x40)
+    void var_90
+    id rax_21 = _objc_msgSend(obj, "countByEnumeratingWithState:objects:count:", var_1088_1, &var_90, var_1090_1)
+    
+    if (rax_21 != 0)
+        int64_t* var_1048
+        int64_t rsi_3 = *var_1048
+        int64_t** var_10b0_1 = &var_1048
+        int64_t var_10b8_1 = 0
+        id var_10c0_1 = rax_21
+        
+        while (true)
+            if (**var_10b0_1 != rsi_3)
+                _objc_enumerationMutation(obj)
+            
+            int64_t var_1050
+            id rax_25 = *(var_1050 + (var_10b8_1 << 3))
+            char var_ff4[0xefc]
+            int64_t var_10f0_1 = ___memcpy_chk(&var_ff4[sx.q(mods.dp.d(sx.q(var_100c_1), 0xf)) << 8], _objc_msgSend(rax_25, "UTF8String"), _objc_msgSend(rax_25, "length"), -1)
+            var_ff4[(sx.q(mods.dp.d(sx.q(var_100c_1), 0xf)) << 8) + _objc_msgSend(rax_25, "length")] = 0
+            var_100c_1 += 1
+            void var_2068
+            int32_t var_f8
+            
+            if (mods.dp.d(sx.q(var_100c_1), 0xf) == 0)
+                __b_1 = 1
+                int32_t var_1000_1 = var_100c_1 - 0xf
+                struct objc_object* Model = self->Model
+                uint32_t PwrTableType_2 = PwrTableType
+                char* cmd_1 = "SetPwrTableByLocale:PwrLimitFrag:PwrTableType:"
+                __builtin_memcpy(&var_2068, &__b_1, 0xf10)
+                int32_t var_1158_1 = var_f8
+                void (* const var_1120_1)(void* self, char* cmd) = _objc_msgSend
+                var_b6 = _objc_msgSend(Model, cmd_1) != 0 & 1
+            
+            if (var_100c_1 == rax_19)
+                __b_1 = 0
+                int32_t var_1000_2 = var_100c_1 - mods.dp.d(sx.q(var_100c_1), 0xf)
+                struct objc_object* Model_1 = self->Model
+                uint32_t PwrTableType_1 = PwrTableType
+                char* cmd = "SetPwrTableByLocale:PwrLimitFrag:PwrTableType:"
+                __builtin_memcpy(&var_2068, &__b_1, 0xf10)
+                int32_t var_1158_2 = var_f8
+                void (* const var_1140_1)(void* self, char* cmd) = _objc_msgSend
+                var_b6 = _objc_msgSend(Model_1, cmd) != 0 & 1
+            
+            bool cond:5_1 = var_10b8_1 + 1 u< var_10c0_1
+            var_10b8_1 += 1
+            
+            if (not(cond:5_1))
+                rax_21 = _objc_msgSend(obj, "countByEnumeratingWithState:objects:count:", &__b, &var_90, 0x10)
+                var_10b8_1 = 0
+                var_10c0_1 = rax_21
+                
+                if (rax_21 == 0)
+                    break
+    
+    if ((rax & 1) != 0 && var_c8 != 0)
+        _objc_msgSend(var_c8, "release")
+    
+    var_91 = var_b6 & 1
+
+if (*___stack_chk_guard == r9)
+    return var_91 & 1
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## GetProductID_-[WLANClientUtilityModel GetProductID]
+addr: 0x100019e60  name: -[WLANClientUtilityModel GetProductID]
+
+```c
+SEL sel_1 = sel
+return self->ProductID
+```
+
+
+## GetVendorID_-[WLANClientUtilityModel GetVendorID]
+addr: 0x100019e80  name: -[WLANClientUtilityModel GetVendorID]
+
+```c
+SEL sel_1 = sel
+return self->VendorID
+```
+
+
+## SetDriversIOKitClassName_-[WLANClientUtilityModel SetDriversIOKitClassName]
+addr: 0x100019ea0  name: -[WLANClientUtilityModel SetDriversIOKitClassName:]
+
+```c
+SEL sel_1 = sel
+int64_t rax_1
+rax_1.b = 0
+int32_t var_24 = ___sprintf_chk(&self->DriversIOKitClassName, 0, -1, "%s", SetDriversIOKitClassName)
+```
+
+
+## GetSystemUSB3Cap_-[WLANClientUtilityModel GetSystemUSB3Cap]
+addr: 0x10001b660  name: -[WLANClientUtilityModel GetSystemUSB3Cap]
+
+```c
+SEL sel_1 = sel
+uint64_t __size = 0
+int64_t var_28 = 0
+int64_t rax_1
+rax_1.b = 0
+int32_t var_34 = _sysctlbyname("hw.model", nullptr, &__size, nullptr, 0)
+
+if (__size != 0)
+    void* rax_5 = _malloc(__size)
+    void* rax_6
+    rax_6.b = 0
+    void* var_48_1 = rax_5
+    int32_t var_4c_1 = _sysctlbyname("hw.model", rax_5, &__size, nullptr, 0)
+    id rax_8 = _objc_msgSend(clsRef_NSString, "stringWithCString:encoding:")
+    _free(rax_5)
+    struct __NSConstantString* rax_10
+    rax_10.b = 0
+    _NSLog(&cfstr_MachineName:_%@\n, rax_8)
+    int32_t r8_1 = sx.d(_objc_msgSend(rax_8, "isEqualToString:", &cfstr_Macmini6,2))
+    int32_t r8_2
+    
+    if (r8_1 == 0)
+        r8_2 = sx.d(_objc_msgSend(rax_8, "isEqualToString:", &cfstr_MacMini6,2))
+    
+    if (r8_1 == 0 && r8_2 == 0)
+        _objc_msgSend(self, "GetOSVersion")
+        struct __NSConstantString* rax_19
+        rax_19.b = 0
+        _NSLog(&cfstr_GetSystemUSB3Cap():_mOSMajorVersion:%d,_mOSMinorVersion:%d_\n, zx.q(self->mOSMajorVersion), zx.q(self->mOSMinorVersion), 0x4d)
+        
+        if (zx.d(self->mOSMajorVersion) == 0xa && zx.d(self->mOSMinorVersion) s>= 9)
+            self->bSystemUSB3Cap = 1
+        else if (zx.d(self->mOSMajorVersion) == 0xa && zx.d(self->mOSMinorVersion) == 8 && zx.d(self->mOSBugFixVersion) s> 2)
+            self->bSystemUSB3Cap = 1
+    else
+        self->bSystemUSB3Cap = 0
+        struct __NSConstantString* rax_14
+        rax_14.b = 0
+        _NSLog(&cfstr_Macmini6,2\n)
+        int64_t rax_16
+        rax_16.b = 0
+        _NSLog(&cfstr_Macmini6,2\n)
+    
+    if (self->bSystemUSB3Cap != 0 && sx.d(_objc_msgSend(self, "FindUSBHost30:", rax_8)) == 0)
+        self->bSystemUSB3Cap = 0
+        struct __NSConstantString* rax_29
+        rax_29.b = 0
+        _NSLog(&cfstr_U2U3_Get_USB3.0_Error\n)
+
+return self->bSystemUSB3Cap
+```
+
+
+## USBSwitch_bNicInU3_-[WLANClientUtilityModel USBSwitch_bNicInU3]
+addr: 0x10001bad0  name: -[WLANClientUtilityModel USBSwitch_bNicInU3]
+
+```c
+SEL sel_1 = sel
+char __b
+_memset(&__b, 0, 4)
+
+if (self->bCurrentUSB3Cap != 0)
+    int32_t var_28_1 = _objc_msgSend(self, "QueryInformation:Data:", 0xff819055, &__b)
+    int64_t rax_3
+    rax_3.b = 0
+    _NSLog(&cfstr_USBSwitch_bInU3::CurrentUsbMode=%d_\n, zx.q(__b))
+    
+    if (zx.d(__b) == 2)
+        return 1
+
+return 0
+```
+
+
+## USBSwitch_U3ToU2_-[WLANClientUtilityModel USBSwitch_U3ToU2]
+addr: 0x10001bb90  name: -[WLANClientUtilityModel USBSwitch_U3ToU2]
+
+```c
+SEL sel_1 = sel
+int32_t var_1c = 0
+int32_t var_3c = 0
+char __b_2
+_memset(&__b_2, 0, 4)
+char __b_1
+_memset(&__b_1, 0, 4)
+int32_t var_28 = 0
+char __b
+_memset(&__b, 0, 4)
+int32_t result
+
+if (self->bCurrentUSB3Cap == 0)
+    struct __NSConstantString* rax_14
+    rax_14.b = 0
+    _NSLog(&cfstr_USBSwitch_U3ToU2::bSupportU2U3(%d)_.._<==\n, zx.q(sx.d(self->bCurrentUSB3Cap)), 0x51)
+    result = 0
+else
+    int32_t var_40_1 = _objc_msgSend(self, "QueryInformation:Data:", 0xff819055, &__b_2)
+    int64_t rax_2
+    rax_2.b = 0
+    _NSLog(&cfstr_USBSwitch_U3ToU2::usbModePre=%d_\n, zx.q(__b_2))
+    
+    if (zx.d(__b_2) != 2)
+        result = 0
+    else
+        self->bUsbSwitchInProgress = 1
+        int32_t var_28_1 = 1
+        char var_49_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff819054, 1)
+        _objc_msgSend(self, "USBSwitch_WaitForNicBack")
+        int32_t var_5c_1 = _objc_msgSend(self, "QueryInformation:Data:")
+        int64_t rax_7
+        rax_7.b = 0
+        _NSLog(&cfstr_USBSwitch_U3ToU2::Result_[%d_->_%d]\n, zx.q(__b_2), zx.q(__b_1), &cfstr_USBSwitch_U3ToU2::Result_[%d_->_%d]\n)
+        
+        if (zx.d(__b_1) != 2)
+            result = 1
+        else
+            struct __NSConstantString* rax_9
+            rax_9.b = 0
+            _NSLog(&cfstr_USBSwitch_U3ToU2::_Failed...\n)
+            result = 2
+        
+        self->bUsbSwitchInProgress = 0
+        int32_t var_28_2 = 0
+        char var_5d_1 = _objc_msgSend(self, "SetInformation:Value:", 0xff819054, 0)
+
+int32_t var_64 = _objc_msgSend(self, "QueryInformation:Data:", 0xff0101bb, &__b)
+int64_t rax_17
+rax_17.b = 0
+char var_2b
+char var_2a
+char var_29
+_NSLog(&cfstr_WirelessMode:0x%x%x%x%x_\n, zx.q(__b), zx.q(var_2b), zx.q(var_2a), zx.q(var_29))
+return result
+```
+
+
+## USBSwitch_U2ToU3_-[WLANClientUtilityModel USBSwitch_U2ToU3]
+addr: 0x10001bdd0  name: -[WLANClientUtilityModel USBSwitch_U2ToU3:]
+
+```c
+SEL sel_1 = sel
+int32_t var_24 = 0
+int32_t var_44 = 0
+char var_36
+char* var_58 = &var_36
+char __b_2
+_memset(&__b_2, 0, 4)
+char __b_1
+_memset(&__b_1, 0, 4)
+char __b
+_memset(&__b, 0, 4)
+_objc_msgSend(self, "BSSID_GetHexValueFromNSString:To:", USBSwitch_U2ToU3, var_58)
+struct __NSConstantString* rax_2
+rax_2.b = 0
+char var_35
+char var_34
+char var_33
+char var_32
+char var_31
+_NSLog(&cfstr_USBSwitch_U2ToU3::BSSID:_0x%02X-0x%02X-0x%02X-0x%02X-0x%02X-0x%02X\n, zx.q(sx.d(var_36)), zx.q(sx.d(var_35)), zx.q(sx.d(var_34)), zx.q(sx.d(var_33)), zx.q(sx.d(var_32)), sx.d(var_31))
+
+if (self->bCurrentUSB3Cap == 0)
+    struct __NSConstantString* rax_16
+    rax_16.b = 0
+    _NSLog(&cfstr_USBSwitch_U2ToU3::U2/U3_Switching...bCurrentUSB3Cap(%d)_._<==\n, zx.q(sx.d(self->bCurrentUSB3Cap)), 0x51)
+    return 0
+
+char var_69_1 = _objc_msgSend(self, "SetInformation:Buffer:Length:", 0xff819052, var_58, 6)
+int32_t var_70_1 = _objc_msgSend(self, "QueryInformation:Data:")
+
+if (__b_2 == 0)
+    return 0
+
+int32_t var_74_1 = _objc_msgSend(self, "QueryInformation:Data:", 0xff819055, &__b_1)
+int64_t rax_8
+rax_8.b = 0
+_NSLog(&cfstr_USBSwitch_U2ToU3::U2/U3_Switching.....usbModePre=%d_==>\n, zx.q(__b_1))
+_objc_msgSend(self, "USBSwitch_WaitForNicBack")
+int32_t var_84_1 = _objc_msgSend(self, "QueryInformation:Data:")
+int64_t rax_10
+rax_10.b = 0
+_NSLog(&cfstr_USBSwitch_U2ToU3::usbModePre=%d_usbModeAft=%d_\n, zx.q(__b_1), zx.q(__b), &cfstr_USBSwitch_U2ToU3::usbModePre=%d_usbModeAft=%d_\n)
+uint32_t __b_3 = zx.d(__b_1)
+uint32_t __b_4 = zx.d(__b)
+int32_t result
+
+if (__b_3 != __b_4)
+    result = 1
+else
+    struct __NSConstantString* rax_12
+    rax_12.b = 0
+    _NSLog(&cfstr_USBSwitch_U2ToU3::U2/U3_Switching_Failed..\n, __b_4, __b_3)
+    result = 2
+
+struct __NSConstantString* rax_14
+rax_14.b = 0
+_NSLog(&cfstr_USBSwitch_U2ToU3::U2/U3_Switching....._<==\n)
+return result
+```
+
+
+## SetAppleLocale_-[WLANClientUtilityModel SetAppleLocale]
+addr: 0x10001c4e0  name: -[WLANClientUtilityModel SetAppleLocale:]
+
+```c
+int64_t rcx = *___stack_chk_guard
+struct WLANClientUtilityModel* self_1 = self
+SEL sel_1 = sel
+id rax_1 = _objc_msgSend(clsRef_NSMutableArray, "arrayWithArray:", _objc_msgSend(SetAppleLocale, "componentsSeparatedByString:", &cfstr__))
+id rax_2
+rax_2.b = 0
+_NSLog(&cfstr_SetAppleLocale:_localeString:%@, SetAppleLocale)
+void var_98
+
+if (_objc_msgSend(rax_1, "count") u> 1 && _objc_msgSend(rax_1, "objectAtIndex:", 2) != 0)
+    char var_c9_1 = _objc_msgSend(_objc_msgSend(rax_1, "objectAtIndex:", 2), "getCString:maxLength:encoding:", &var_98, 0x80, 1)
+int32_t var_18 = _objc_msgSend(_objc_msgSend(rax_1, "objectAtIndex:", 2), "length")
+
+if (*___stack_chk_guard == rcx)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## getSignalStrength_-[WLANClientUtilityModel getSignalStrength]
+addr: 0x10001c7a0  name: -[WLANClientUtilityModel getSignalStrength]
+
+```c
+SEL sel_1 = sel
+int32_t result = 0
+int32_t var_2c = _objc_msgSend(self, "QueryInformation:Data:", 0xd010206, &result)
+return result
+```
+
+
+## GetConnectionStatus_-[WLANClientUtilityModel GetConnectionStatus]
+addr: 0x10001cb10  name: -[WLANClientUtilityModel GetConnectionStatus]
+
+```c
+SEL sel_1 = sel
+int32_t result = 0
+int32_t var_2c = _objc_msgSend(self, "QueryInformation:Data:", 0x10114, &result)
+return result
+```
+
+
+## SetNetworkName_-[WLANClientUtilityModel SetNetworkName]
+addr: 0x10001cbd0  name: -[WLANClientUtilityModel SetNetworkName:]
+
+```c
+int64_t rcx = *___stack_chk_guard
+SEL sel_1 = sel
+char var_b1 = 1
+int32_t var_b8 = 0
+void var_98
+int64_t var_d0 = ___memcpy_chk(&var_98, _objc_msgSend(SetNetworkName, "mutableBytes"), _objc_msgSend(SetNetworkName, "length"), 0x84, 0x84)
+int32_t var_18 = _objc_msgSend(SetNetworkName, "length")
+char var_d1 = _objc_msgSend(self, "SetInformation:Buffer:Length:", 0xff070102, &var_98, 0x84)
+char var_b1_1 = 1
+
+if (*___stack_chk_guard == rcx)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## GetNetworkName_-[WLANClientUtilityModel GetNetworkName]
+addr: 0x10001cd20  name: -[WLANClientUtilityModel GetNetworkName:]
+
+```c
+int64_t rcx = *___stack_chk_guard
+SEL sel_1 = sel
+char var_b1 = 1
+void var_98
+int32_t rax = _objc_msgSend(self, "QueryInformation:Data:", 0xff070102, &var_98)
+
+if (rax s> 0)
+    int64_t var_c8_1 = sx.q(rax)
+    _objc_msgSend(GetNetworkName, "setData:", _objc_msgSend(clsRef_NSData, "dataWithBytes:length:"))
+    char var_b1_1 = 1
+
+if (*___stack_chk_guard == rcx)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## GetPermanentAddress_-[WLANClientUtilityModel GetPermanentAddress]
+addr: 0x10001ce40  name: -[WLANClientUtilityModel GetPermanentAddress:]
+
+```c
+int64_t r10 = *___stack_chk_guard
+SEL sel_1 = sel
+char var_c1 = 1
+char __b[0x80]
+_memset(&__b, 0, 0x84)
+
+if (_objc_msgSend(self, "QueryInformation:Data:", 0x1010102, &__b) != 0)
+    char var_c2_1 = 0
+    char var_a5[0xc]
+    
+    while (zx.d(var_c2_1) s< 6)
+        char rax_5 = (zx.d(__b[zx.q(var_c2_1)]) s>> 4).b
+        char rax_8 = __b[zx.q(var_c2_1)] & 0xf
+        char var_c3_2
+        
+        var_c3_2 = zx.d(rax_5) s> 9 ? rax_5 + 0x57 : rax_5 + 0x30
+        
+        char var_c4_2
+        
+        var_c4_2 = zx.d(rax_8) s> 9 ? rax_8 + 0x57 : rax_8 + 0x30
+        
+        var_a5[sx.q(zx.d(var_c2_1) << 1)] = var_c3_2
+        var_a5[sx.q((zx.d(var_c2_1) << 1) + 1)] = var_c4_2
+        var_c2_1 += 1
+    
+    char var_99_1 = 0
+    _objc_msgSend(GetPermanentAddress, "setString:", _objc_msgSend(clsRef_NSString, "stringWithCString:encoding:", &var_a5, 4))
+    char var_c1_1 = 1
+
+if (*___stack_chk_guard == r10)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## GetBSSID_-[WLANClientUtilityModel GetBSSID]
+addr: 0x10001d090  name: -[WLANClientUtilityModel GetBSSID:]
+
+```c
+int64_t r10 = *___stack_chk_guard
+SEL sel_1 = sel
+char var_c1 = 1
+char __b[0x80]
+_memset(&__b, 0, 0x84)
+
+if (_objc_msgSend(self, "QueryInformation:Data:", 0xd010101, &__b) != 0)
+    char var_c2_1 = 0
+    char var_a5[0xc]
+    
+    while (zx.d(var_c2_1) s< 6)
+        char rax_5 = (zx.d(__b[zx.q(var_c2_1)]) s>> 4).b
+        char rax_8 = __b[zx.q(var_c2_1)] & 0xf
+        char var_c3_2
+        
+        var_c3_2 = zx.d(rax_5) s> 9 ? rax_5 + 0x57 : rax_5 + 0x30
+        
+        char var_c4_2
+        
+        var_c4_2 = zx.d(rax_8) s> 9 ? rax_8 + 0x57 : rax_8 + 0x30
+        
+        var_a5[sx.q(zx.d(var_c2_1) << 1)] = var_c3_2
+        var_a5[sx.q((zx.d(var_c2_1) << 1) + 1)] = var_c4_2
+        var_c2_1 += 1
+    
+    char var_99_1 = 0
+    _objc_msgSend(GetBSSID, "setString:", _objc_msgSend(clsRef_NSString, "stringWithCString:encoding:", &var_a5, 4))
+    char var_c1_1 = 1
+
+if (*___stack_chk_guard == r10)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## GetChannel_-[WLANClientUtilityModel GetChannel]
+addr: 0x10001d4d0  name: -[WLANClientUtilityModel GetChannel]
+
+```c
+SEL sel_1 = sel
+
+if (_objc_msgSend(self, "QueryInformation:Data:") != 0xffffffff)
+    return 1
+
+return 0
+```
+
+
+## SetWEPKey_-[WLANClientUtilityModel SetWEPKeyAtIndex]
+addr: 0x10001d5d0  name: -[WLANClientUtilityModel SetWEPKey:AtIndex:]
+
+```c
+int64_t r14 = *___stack_chk_guard
+SEL sel_1 = sel
+void __b
+_memset(&__b, 0, 0x98)
+int32_t AtIndex_1 = AtIndex
+char var_f1 = _objc_msgSend(SetWEPKey, "getCString:maxLength:encoding:", &__b, 0x80, 1)
+int32_t result = _objc_msgSend(SetWEPKey, "length")
+char var_f2 = _objc_msgSend(self, "SetInformation:Buffer:Length:", 0xff070113, &__b, 0x98)
+
+if (*___stack_chk_guard == r14)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## IsRTL8180Enabled_-[WLANClientUtilityModel IsRTL8180Enabled]
+addr: 0x10001dc40  name: -[WLANClientUtilityModel IsRTL8180Enabled]
+
+```c
+SEL sel_1 = sel
+int32_t result = 0
+
+if (_objc_msgSend(self, "QueryInformation:Data:", 0xff010418, &result) != 0xffffffff)
+    return result
+
+struct __NSConstantString* rax_2
+rax_2.b = 0
+_NSLog(&cfstr_QueryInformation:_OID_RT_NETWORK_STATUS_failed!\n)
+return 0
+```
+
+
+## SetWPAKey_-[WLANClientUtilityModel SetWPAKey]
+addr: 0x10001df30  name: -[WLANClientUtilityModel SetWPAKey:]
+
+```c
+int64_t r10 = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_2c = 0
+void var_b0
+char var_ca = _objc_msgSend(SetWPAKey, "getCString:maxLength:encoding:", &var_b0, 0x80, 1)
+int32_t var_30 = _objc_msgSend(SetWPAKey, "length")
+char var_cb = _objc_msgSend(self, "SetInformation:Buffer:Length:", 0xff010305, &var_b0, 0x98)
+
+if (*___stack_chk_guard == r10)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## SetPwrTableByLocale_-[WLANClientUtilityModel SetPwrTableByLocalePwrLimitFragPwrTableType]
+addr: 0x10001e570  name: -[WLANClientUtilityModel SetPwrTableByLocale:PwrLimitFrag:PwrTableType:]
+
+```c
+SEL sel_1 = sel
+uint32_t SetPwrTableByLocale_1 = SetPwrTableByLocale
+int32_t var_20 = PwrLimitFrag.d
+int64_t var_30 = 0xf14
+void arg_8
+void* var_38 = &arg_8
+return _IOConnectCallStructMethod(zx.q(self->driverConnect), 0xb, var_38, 0xf14, &arg_8, &var_30, var_38, var_30)
+```
+
+
+## GetTX_-[WLANClientUtilityModel GetTX]
+addr: 0x10001eaa0  name: -[WLANClientUtilityModel GetTX]
+
+```c
+int64_t r8 = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_34 = 0
+void __b
+void* var_48 = &__b
+_memset(&__b, 0, 8)
+void* var_40 = var_48
+int32_t result
+
+if (_objc_msgSend(self, "QueryInformation:Data:", 0xff81902b, var_48) != 0xffffffff)
+    result = __b.d
+else
+    result = 0
+
+if (*___stack_chk_guard == r8)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## GetRX_-[WLANClientUtilityModel GetRX]
+addr: 0x10001eb60  name: -[WLANClientUtilityModel GetRX]
+
+```c
+int64_t r8 = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_34 = 0
+void __b
+void* var_48 = &__b
+_memset(&__b, 0, 8)
+void* var_40 = var_48
+int32_t result
+
+if (_objc_msgSend(self, "QueryInformation:Data:", 0xff81901d, var_48) != 0xffffffff)
+    result = __b.d
+else
+    result = 0
+
+if (*___stack_chk_guard == r8)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## GetHTinfo_BW_-[WLANClientUtilityModel GetHTinfo_BW]
+addr: 0x10001ec20  name: -[WLANClientUtilityModel GetHTinfo_BW]
+
+```c
+int64_t r8 = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_34 = 0xffffffff
+void __b
+void* var_48 = &__b
+_memset(&__b, 0, 8)
+void* var_40 = var_48
+int32_t result
+
+if (_objc_msgSend(self, "QueryInformation:Data:", 0xff819035, var_48) s> 0)
+    int32_t result_2 = __b.d
+    
+    if (result_2 != 0xffffffff)
+        int32_t result_1
+        
+        result_1 = result_2 != 1 ? 0x14 : 0x28
+        
+        result = result_1
+    else
+        result = result_2
+else
+    result = 0xffffffff
+
+if (*___stack_chk_guard == r8)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## GetHTinfo_GI_-[WLANClientUtilityModel GetHTinfo_GI]
+addr: 0x10001ed10  name: -[WLANClientUtilityModel GetHTinfo_GI]
+
+```c
+int64_t r8 = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_34 = 0xffffffff
+void __b
+void* var_48 = &__b
+_memset(&__b, 0, 8)
+void* var_40 = var_48
+int32_t result
+
+if (_objc_msgSend(self, "QueryInformation:Data:", 0xff819046, var_48) s> 0)
+    result = __b.d
+else
+    result = 0xffffffff
+
+if (*___stack_chk_guard == r8)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## GetHTinfo_MCS_-[WLANClientUtilityModel GetHTinfo_MCS]
+addr: 0x10001edd0  name: -[WLANClientUtilityModel GetHTinfo_MCS]
+
+```c
+int64_t r8 = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_34 = 0xffffffff
+void __b
+void* var_48 = &__b
+_memset(&__b, 0, 8)
+void* var_40 = var_48
+int32_t result
+
+if (_objc_msgSend(self, "QueryInformation:Data:", 0xff819047, var_48) s> 0)
+    result = __b.d
+else
+    result = 0xffffffff
+
+if (*___stack_chk_guard == r8)
+    return result
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## GetWPSHwPBC_-[WLANClientUtilityModel GetWPSHwPBC]
+addr: 0x10001ef00  name: -[WLANClientUtilityModel GetWPSHwPBC]
+
+```c
+SEL sel_1 = sel
+char var_1d = 0
+char __b
+_memset(&__b, 0, 4)
+int32_t var_2c = _objc_msgSend(self, "QueryInformation:Data:", 0xff819029, &__b)
+return __b != 0 & 1
+```
+
+
+## GetDriverVersion_-[WLANClientUtilityModel GetDriverVersionversion]
+addr: 0x10001ef80  name: -[WLANClientUtilityModel GetDriverVersion:version:]
+
+```c
+int64_t r10 = *___stack_chk_guard
+SEL sel_1 = sel
+void __b
+_memset(&__b, 0, 8)
+_objc_msgSend(_objc_msgSend(clsRef_NSBundle, "mainBundle"), "localizedStringForKey:value:table:", &cfstr_sDriverVersion, &cfstr_, 0)
+
+if (_objc_msgSend(self->RTK_DriverVersion, "isEqualToString:", &cfstr_) == 0)
+    self->RTK_DriverVersion
+    id rax_13
+    rax_13.b = 0
+    _objc_msgSend(GetDriverVersion, "setString:", _objc_msgSend(clsRef_NSString, "stringWithFormat:"))
+    _objc_msgSend(version, "setString:", self->RTK_DriverVersion)
+else
+    int32_t rax_6 = _objc_msgSend(self, "QueryInformation:Data:", 0xff010416, &__b)
+    void* var_48_1 = &__b
+    uint32_t var_64_1 = zx.d(__b.w)
+    var_1c
+    uint32_t var_98_1 = zx.d(var_1c.w)
+    var_1a
+    uint32_t var_90_1 = zx.d(var_1a.w)
+    int32_t var_68_1 = rax_6
+    int64_t rax_7
+    rax_7.b = 0
+    _objc_msgSend(GetDriverVersion, "setString:", _objc_msgSend(clsRef_NSString, "stringWithFormat:", &cfstr_%@%d.%d.%d%d))
+    uint32_t var_98_2 = zx.d(var_1a.w)
+    struct __NSConstantString* rax_10
+    rax_10.b = 0
+    _objc_msgSend(version, "setString:", _objc_msgSend(clsRef_NSString, "stringWithFormat:", &cfstr_%d.%d.%d%d))
+
+if (*___stack_chk_guard == r10)
+    return 1
+
+___stack_chk_fail()
+noreturn
+```
+
+
+## GetSupportedWirelessMode_-[WLANClientUtilityModel GetSupportedWirelessMode]
+addr: 0x10001f290  name: -[WLANClientUtilityModel GetSupportedWirelessMode]
+
+```c
+SEL sel_1 = sel
+int32_t var_1c = 0xffffffff
+void __b
+void* var_28 = &__b
+_memset(&__b, 0, 4)
+int32_t var_34 = _objc_msgSend(self, "QueryInformation:Data:", 0xff0101bb, &__b)
+return __b.d
+```

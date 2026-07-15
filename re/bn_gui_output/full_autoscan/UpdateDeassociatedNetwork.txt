@@ -1,0 +1,15 @@
+## UpdateDeassociatedNetwork
+addr: 0x100011390  bn_name: -[WiFiStatusBarDelegate UpdateProfiledNetwork:]
+
+```c
+SEL sel_1 = sel
+int64_t var_28 = 0
+id UpdateProfiledNetwork_1 = UpdateProfiledNetwork
+id rax = _objc_msgSend(self->dropDownMenu, "itemWithTitle:")
+
+if (rax != 0)
+    _objc_msgSend(rax, "vsetProfileIcon:", 1)
+
+_objc_msgSend(self->WLAN_UtilityCtrl, "ProfilesReloadData")
+_nReTryConnectTimeOut = 9
+```

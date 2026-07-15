@@ -1,0 +1,19 @@
+## USBSwitch_bNicInU3_-[WLANClientUtilityModel USBSwitch_bNicInU3]
+addr: 0x10001bad0  name: -[WLANClientUtilityModel USBSwitch_bNicInU3]
+
+```c
+SEL sel_1 = sel
+char __b
+_memset(&__b, 0, 4)
+
+if (self->bCurrentUSB3Cap != 0)
+    int32_t var_28_1 = _objc_msgSend(self, "QueryInformation:Data:", 0xff819055, &__b)
+    int64_t rax_3
+    rax_3.b = 0
+    _NSLog(&cfstr_USBSwitch_bInU3::CurrentUsbMode=%d_\n, zx.q(__b))
+    
+    if (zx.d(__b) == 2)
+        return 1
+
+return 0
+```

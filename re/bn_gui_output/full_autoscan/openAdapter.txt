@@ -1,0 +1,56 @@
+## openAdapter
+addr: 0x10003d900  bn_name: _openAdapter
+
+```c
+char var_21 = 0
+mach_port_name_t name
+int32_t var_1c
+
+if (_IOMasterPort(0, &name) == 0)
+    if (_IOServiceGetMatchingServices(zx.q(name), _IOServiceMatching("IOEthernetController"), &var_1c) == 0)
+        while (true)
+            int32_t rax_7 = _IOIteratorNext(zx.q(var_1c))
+            
+            if (rax_7 == 0)
+                break
+            
+            if (rax_7 != 0)
+                CFStringRef rax_8 = _IORegistryEntryCreateCFProperty(zx.q(rax_7), &cfstr_IOClass, *_kCFAllocatorDefault, 0)
+                
+                if (rax_8 != 0)
+                    if (_CFGetTypeID(rax_8) == _CFStringGetTypeID())
+                        if (_isInSupportWlanIC(rax_8) != 0)
+                            int32_t rax_15 = _IOServiceOpen(zx.q(rax_7), zx.q(*_mach_task_self_), 0, arg1)
+                            char* var_38_1 = _CFStringGetCStringPtr(rax_8, 0)
+                            
+                            if (rax_15 == 0)
+                                var_21 = 1
+                                int32_t var_58_1 = _IOObjectRelease(zx.q(rax_7))
+                                _CFRelease(rax_8)
+                                break
+                        
+                        _CFRelease(rax_8)
+                    else
+                        CFTypeID rax_12
+                        rax_12.b = 0
+                        int32_t var_54_1 = _printf("sssssss\n")
+                        _CFRelease(rax_8)
+        
+        int32_t var_5c_1 = _IOObjectRelease(zx.q(var_1c))
+    else
+        int64_t rax_5
+        rax_5.b = 0
+        int32_t var_44_1 = _printf("CmdLine - Error: No matching services!")
+        int32_t var_48_1 = _mach_port_deallocate(*_mach_task_self_, name)
+else
+    int64_t rax_1
+    rax_1.b = 0
+    int32_t var_3c_1 = _printf("Error: IOMasterPort!")
+
+if (var_21 == 0)
+    int64_t rax_19
+    rax_19.b = 0
+    int32_t var_60_1 = _printf("No Adapter found!\n")
+
+return zx.q(sx.d(var_21))
+```

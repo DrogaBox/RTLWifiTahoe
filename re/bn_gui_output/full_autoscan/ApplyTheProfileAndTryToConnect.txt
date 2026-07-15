@@ -1,0 +1,166 @@
+## ApplyTheProfileAndTryToConnect
+addr: 0x100014c90  bn_name: -[WiFiStatusBarDelegate ApplyTheProfileAndTryToConnect]
+
+```c
+SEL sel_1 = sel
+char var_19 = 0
+data_1001b4da8 = 0
+struct __NSConstantString* rax_1
+rax_1.b = 0
+_NSLog(&cfstr_ApplyTheProfileAndTryToConnect_===>\n)
+
+if (zx.d(data_1001b4d50) != zx.d(self->ApplyProfileNetworkType))
+    struct __NSConstantString* rax_3
+    rax_3.b = 0
+    _NSLog(&cfstr_NetworkType(%d)_has_been_modified_->(%d)\n, zx.q(data_1001b4d50), zx.q(self->ApplyProfileNetworkType))
+    var_19 = 1
+
+if (_objc_msgSend(data_1001b4d38, "isEqualToString:", self->ApplyProfileSSID) == 0)
+    _objc_msgSend(self, "ResetSwitchU2U3FailCnt")
+    struct __NSConstantString* rax_8
+    rax_8.b = 0
+    _NSLog(&cfstr_NetworkName(%@)_has_been_modified_->(%@)\n, data_1001b4d38, self->ApplyProfileSSID, 0x78)
+    var_19 = 1
+
+if (zx.d(data_1001b4d52) != self->ApplyProfileChannel)
+    struct __NSConstantString* rax_11
+    rax_11.b = 0
+    _NSLog(&cfstr_Channel(%d)_has_been_modified_->_(%d)\n, zx.q(data_1001b4d52), zx.q(self->ApplyProfileChannel))
+    var_19 = 1
+
+if (data_1001b4d68 != zx.d(self->ApplyProfileEncryption))
+    struct __NSConstantString* rax_14
+    rax_14.b = 0
+    _NSLog(&cfstr_DataEncryption(%d)_has_been_modified->(%d)\n, zx.q(data_1001b4d68), zx.q(self->ApplyProfileEncryption))
+    var_19 = 1
+
+if (zx.d(self->ApplyProfileEncryption) == 1 || zx.d(self->ApplyProfileEncryption) == 2)
+    if (zx.d(data_1001b4d51) != zx.d(self->ApplyProfileDefaultKeyID))
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d58, "isEqualToString:", self->ApplyProfileWEPKey) == 0)
+        var_19 = 1
+else if (zx.d(self->ApplyProfileEncryption) == 3 || zx.d(self->ApplyProfileEncryption) == 4 || zx.d(self->ApplyProfileEncryption) == 5 || zx.d(self->ApplyProfileEncryption) == 6)
+    if (_objc_msgSend(data_1001b4d60, "isEqualToString:", self->ApplyProfileWPAPSKKey) == 0)
+        struct __NSConstantString* rax_27
+        rax_27.b = 0
+        _NSLog(&cfstr_The_WPA(2)_key_has_been_modified_%@->%@, data_1001b4d60, self->ApplyProfileWPAPSKKey)
+        var_19 = 1
+else if (zx.d(self->ApplyProfileEncryption) == 7 || zx.d(self->ApplyProfileEncryption) == 8 || zx.d(self->ApplyProfileEncryption) == 9 || zx.d(self->ApplyProfileEncryption) == 0xa || zx.d(self->ApplyProfileEncryption) == 0xb)
+    if (data_1001b4d6c != zx.d(self->ApplyProfileEAPMethod))
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d70, "isEqualToString:", self->ApplyProfileUserName1X) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d60, "isEqualToString:", self->ApplyProfileWPAPSKKey) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d78, "isEqualToString:", self->ApplyProfileCACert) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d80, "isEqualToString:", self->ApplyProfileClientCert) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d88, "isEqualToString:", self->ApplyProfilePrivateKey) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d90, "isEqualToString:", self->ApplyProfilePrivateKeyPwd) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4d98, "isEqualToData:", self->ApplyProfileClientCert_IdentityData) == 0)
+        var_19 = 1
+    
+    if (_objc_msgSend(data_1001b4da0, "isEqualToData:", self->ApplyProfilePrivateKey_KeychainData) == 0)
+        var_19 = 1
+
+if (sx.d(var_19) != 0)
+label_1000151cb:
+    char var_1a_1 = 0
+    
+    if (_Adapter != 0)
+        _Adapter = 0
+        data_1001b4d29 = 0
+        struct __NSConstantString* rax_53
+        rax_53.b = 0
+        _NSLog(&cfstr_ApplyTheProfileAndTryToConnect():_set_LinkingTicket=0_and_UpdateDeassociatedNetwork!\n)
+        _objc_msgSend(self, "UpdateDeassociatedNetwork")
+    
+    _objc_msgSend(self, "SetStatusBarImage:param:", 1, 0)
+    data_1001b4d29 = 1
+    data_1001b4d50 = self->ApplyProfileNetworkType
+    NSMutableString* ApplyProfileSSID = self->ApplyProfileSSID
+    _objc_msgSend(data_1001b4d38, "setString:")
+    _objc_msgSend(data_1001b4d40, "setData:", self->ApplyProfileHexSSID)
+    data_1001b4d52 = (self->ApplyProfileChannel).b
+    data_1001b4d68 = zx.d(self->ApplyProfileEncryption)
+    
+    if (zx.d(data_1001b4d50) == 1 && (data_1001b4d68 == 3 || data_1001b4d68 == 4))
+        char var_1a_2 = 1
+    
+    if (data_1001b4d68 == 1 || data_1001b4d68 == 2)
+        data_1001b4d51 = self->ApplyProfileDefaultKeyID
+        _objc_msgSend(data_1001b4d58, "setString:", self->ApplyProfileWEPKey)
+    else if (data_1001b4d68 == 0xd || data_1001b4d68 == 3 || data_1001b4d68 == 4 || data_1001b4d68 == 5 || data_1001b4d68 == 6)
+        if (data_1001b4d68 == 0xd)
+            struct __NSConstantString* rax_63
+            rax_63.b = 0
+            _NSLog(&cfstr_set_Adapter.AssocParams.WPAPSKey=ApplyProfileWPAPSKKey!!!\n)
+        
+        _objc_msgSend(data_1001b4d60, "setString:", self->ApplyProfileWPAPSKKey)
+    else if (data_1001b4d68 == 0xe || data_1001b4d68 == 7 || data_1001b4d68 == 8 || data_1001b4d68 == 9 || data_1001b4d68 == 0xa || data_1001b4d68 == 0xb)
+        data_1001b4d6c = zx.d(self->ApplyProfileEAPMethod)
+        _objc_msgSend(data_1001b4d70, "setString:", self->ApplyProfileUserName1X)
+        _objc_msgSend(data_1001b4d60, "setString:", self->ApplyProfileWPAPSKKey)
+        _objc_msgSend(data_1001b4d78, "setString:", self->ApplyProfileCACert)
+        _objc_msgSend(data_1001b4d80, "setString:", self->ApplyProfileClientCert)
+        int32_t r8_4 = sx.d(_objc_msgSend(_objc_msgSend(self->ApplyProfileClientCert, "pathExtension"), "isEqualToString:", &cfstr_pem))
+        int32_t r8_5
+        
+        if (r8_4 == 0)
+            r8_5 = sx.d(_objc_msgSend(_objc_msgSend(self->ApplyProfileClientCert, "pathExtension"), "isEqualToString:", &cfstr_der))
+        
+        if (r8_4 == 0 && r8_5 == 0)
+            if (_objc_msgSend(_objc_msgSend(self->ApplyProfileClientCert, "pathExtension"), "isEqualToString:", &cfstr_pfx) == 0)
+                _objc_msgSend(data_1001b4d98, "setData:", self->ApplyProfileClientCert_IdentityData)
+            else
+                _objc_msgSend(data_1001b4d90, "setString:", self->ApplyProfilePrivateKeyPwd)
+        else
+            _objc_msgSend(data_1001b4d88, "setString:", self->ApplyProfilePrivateKey)
+            
+            if (sx.d(_objc_msgSend(_objc_msgSend(self->ApplyProfilePrivateKey, "pathExtension"), "isEqualToString:", &cfstr_pem)) != 0)
+                _objc_msgSend(data_1001b4d90, "setString:", self->ApplyProfilePrivateKeyPwd)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(self->ApplyProfilePrivateKey, "pathExtension"), "isEqualToString:", &cfstr_der)) != 0)
+                _objc_msgSend(data_1001b4d90, "setString:", self->ApplyProfilePrivateKeyPwd)
+            else if (sx.d(_objc_msgSend(_objc_msgSend(self->ApplyProfilePrivateKey, "pathExtension"), "isEqualToString:", &cfstr_pfx)) == 0)
+                _objc_msgSend(data_1001b4da0, "setData:", self->ApplyProfilePrivateKey_KeychainData)
+            else
+                _objc_msgSend(data_1001b4d90, "setString:", self->ApplyProfilePrivateKeyPwd)
+    
+    if (_EnterpriseCapability != 0)
+        struct __NSConstantString* rax_100
+        rax_100.b = 0
+        _NSLog(&cfstr_\t\t_[CYC]_ApplyTheProfileAndTryToConnect():_stopWpaSupplicant!\n)
+        _objc_msgSend(self, "stopWpaSupplicant")
+        uint32_t var_34_1 = _sleep(1)
+    
+    if (data_1001b4d68 == 0xe || data_1001b4d68 == 7 || data_1001b4d68 == 8 || data_1001b4d68 == 9 || data_1001b4d68 == 0xa || data_1001b4d68 == 0xb)
+        if ((zx.d(_EnterpriseCapability) & 7) != 0)
+            _objc_msgSend(self, "CreateWpaSupplicantConf:", &data_1001b4d38)
+            struct __NSConstantString* rax_105
+            rax_105.b = 0
+            _NSLog(&cfstr_\t\t_[CYC]_ApplyTheProfileAndTryToConnect():_startWpaSupplicant!\n)
+            int32_t var_38_1 = _objc_msgSend(self, "startWpaSupplicant")
+    else if (data_1001b4d68 != 0xd)
+        _objc_msgSend(self->Model, "WirelessAssociate:", &data_1001b4d38)
+    else if ((zx.d(_EnterpriseCapability) & 0x10) != 0)
+        _objc_msgSend(self, "CreateWpaSupplicantConf:", &data_1001b4d38)
+        struct __NSConstantString* rax_110
+        rax_110.b = 0
+        _NSLog(&cfstr_\t\t_[CYC]_ApplyTheProfileAndTryToConnect():_WPA3_AES_startWpaSupplicant!\n)
+        int32_t var_3c_1 = _objc_msgSend(self, "startWpaSupplicant")
+    
+    _nDisconnectedTimer = 0xa
+else if (_Adapter == 0 && zx.d(data_1001b4d50) != 1)
+    goto label_1000151cb
+```

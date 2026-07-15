@@ -1,0 +1,24 @@
+## GetTX_-[WLANClientUtilityModel GetTX]
+addr: 0x10001eaa0  name: -[WLANClientUtilityModel GetTX]
+
+```c
+int64_t r8 = *___stack_chk_guard
+SEL sel_1 = sel
+int32_t var_34 = 0
+void __b
+void* var_48 = &__b
+_memset(&__b, 0, 8)
+void* var_40 = var_48
+int32_t result
+
+if (_objc_msgSend(self, "QueryInformation:Data:", 0xff81902b, var_48) != 0xffffffff)
+    result = __b.d
+else
+    result = 0
+
+if (*___stack_chk_guard == r8)
+    return result
+
+___stack_chk_fail()
+noreturn
+```

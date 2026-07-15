@@ -1,0 +1,37 @@
+## SetInformationValue
+addr: 0x10003ef70  bn_name: _SetInformationValue
+
+```c
+int64_t rax = *___stack_chk_guard
+int64_t var_a10 = 0x9d4
+void var_9d8
+void* var_a18 = &var_9d8
+int32_t var_9e4 = 0x9c4
+var_9d8.d = arg2
+int32_t var_9e8 = arg1
+int32_t var_9e0 = 0
+int32_t var_9dc = 0
+int32_t var_9fc
+int32_t var_9ec
+
+if (_openAdapter(&var_9fc) != 0)
+    if (_IOConnectCallStructMethod(zx.q(var_9fc), 0xa, &var_9e8, 0x9d4, &var_9e8, &var_a10) == 0)
+        int64_t rax_5
+        rax_5.b = 0
+        int32_t var_a30_1 = _printf("SetInformationValue: Set OID 0x%X sucessfully\n", zx.q(arg1))
+        _closeAdapter(&var_9fc)
+        var_9ec = 1
+    else
+        int64_t rax_3
+        rax_3.b = 0
+        var_9ec = 0xffffffff
+        int32_t var_a2c_1 = _printf("SetInformationValue: Can not set the OID 0x%X!\n", zx.q(arg1))
+else
+    var_9ec = 0xffffffff
+
+if (*___stack_chk_guard == rax)
+    return zx.q(var_9ec)
+
+___stack_chk_fail()
+noreturn
+```

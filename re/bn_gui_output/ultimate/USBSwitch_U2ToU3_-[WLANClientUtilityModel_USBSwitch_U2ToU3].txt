@@ -1,0 +1,63 @@
+## USBSwitch_U2ToU3_-[WLANClientUtilityModel USBSwitch_U2ToU3]
+addr: 0x10001bdd0  name: -[WLANClientUtilityModel USBSwitch_U2ToU3:]
+
+```c
+SEL sel_1 = sel
+int32_t var_24 = 0
+int32_t var_44 = 0
+char var_36
+char* var_58 = &var_36
+char __b_2
+_memset(&__b_2, 0, 4)
+char __b_1
+_memset(&__b_1, 0, 4)
+char __b
+_memset(&__b, 0, 4)
+_objc_msgSend(self, "BSSID_GetHexValueFromNSString:To:", USBSwitch_U2ToU3, var_58)
+struct __NSConstantString* rax_2
+rax_2.b = 0
+char var_35
+char var_34
+char var_33
+char var_32
+char var_31
+_NSLog(&cfstr_USBSwitch_U2ToU3::BSSID:_0x%02X-0x%02X-0x%02X-0x%02X-0x%02X-0x%02X\n, zx.q(sx.d(var_36)), zx.q(sx.d(var_35)), zx.q(sx.d(var_34)), zx.q(sx.d(var_33)), zx.q(sx.d(var_32)), sx.d(var_31))
+
+if (self->bCurrentUSB3Cap == 0)
+    struct __NSConstantString* rax_16
+    rax_16.b = 0
+    _NSLog(&cfstr_USBSwitch_U2ToU3::U2/U3_Switching...bCurrentUSB3Cap(%d)_._<==\n, zx.q(sx.d(self->bCurrentUSB3Cap)), 0x51)
+    return 0
+
+char var_69_1 = _objc_msgSend(self, "SetInformation:Buffer:Length:", 0xff819052, var_58, 6)
+int32_t var_70_1 = _objc_msgSend(self, "QueryInformation:Data:")
+
+if (__b_2 == 0)
+    return 0
+
+int32_t var_74_1 = _objc_msgSend(self, "QueryInformation:Data:", 0xff819055, &__b_1)
+int64_t rax_8
+rax_8.b = 0
+_NSLog(&cfstr_USBSwitch_U2ToU3::U2/U3_Switching.....usbModePre=%d_==>\n, zx.q(__b_1))
+_objc_msgSend(self, "USBSwitch_WaitForNicBack")
+int32_t var_84_1 = _objc_msgSend(self, "QueryInformation:Data:")
+int64_t rax_10
+rax_10.b = 0
+_NSLog(&cfstr_USBSwitch_U2ToU3::usbModePre=%d_usbModeAft=%d_\n, zx.q(__b_1), zx.q(__b), &cfstr_USBSwitch_U2ToU3::usbModePre=%d_usbModeAft=%d_\n)
+uint32_t __b_3 = zx.d(__b_1)
+uint32_t __b_4 = zx.d(__b)
+int32_t result
+
+if (__b_3 != __b_4)
+    result = 1
+else
+    struct __NSConstantString* rax_12
+    rax_12.b = 0
+    _NSLog(&cfstr_USBSwitch_U2ToU3::U2/U3_Switching_Failed..\n, __b_4, __b_3)
+    result = 2
+
+struct __NSConstantString* rax_14
+rax_14.b = 0
+_NSLog(&cfstr_USBSwitch_U2ToU3::U2/U3_Switching....._<==\n)
+return result
+```

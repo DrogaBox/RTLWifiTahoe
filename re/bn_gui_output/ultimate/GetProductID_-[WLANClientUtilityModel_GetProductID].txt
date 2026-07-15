@@ -1,0 +1,7 @@
+## GetProductID_-[WLANClientUtilityModel GetProductID]
+addr: 0x100019e60  name: -[WLANClientUtilityModel GetProductID]
+
+```c
+SEL sel_1 = sel
+return self->ProductID
+```
