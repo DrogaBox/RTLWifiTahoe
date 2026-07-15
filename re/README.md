@@ -1,43 +1,19 @@
 # RTL Wi-Fi Tahoe — Reverse Engineering
 
-Everything extracted from the Realtek StatusBarApp (`/Library/Application Support/WLAN/StatusBarApp.app`).
+Everything extracted from the Realtek StatusBarApp driver (`/Library/Application Support/WLAN/StatusBarApp.app`).
 
-## Contents
+## What's Here
 
-### OID Map
-- **[OID_MAP.md](./OID_MAP.md)** — Complete OID table: connect path, NET_INFO layout, signal/RSSI, key function addresses
+### OID Reference
+- **[OID_MAP.md](./OID_MAP.md)** — Complete table of discovered OIDs: connect path, NET_INFO layout, signal/RSSI, key function addresses
 - **[Sources/OIDConstants.swift](../Sources/OIDConstants.swift)** — All OID constants as typed Swift constants with documentation
 
 ### Connect Protocol
 - **[WIRELESS_ASSOCIATE_PROTOCOL.md](./WIRELESS_ASSOCIATE_PROTOCOL.md)** — Full OID sequence for joining a network: SSID → passphrase → AKM → SetInformation → WirelessAssociate
-- **[all_connect.asm](./all_connect.asm)** — Combined annotated disassembly of the entire driver connect path
 
-### Individual Function Disassembly
-| File | Function |
-|------|----------|
-| [CmdSsid.asm](./CmdSsid.asm) | SSID OID handler |
-| [CmdPassphrase.asm](./CmdPassphrase.asm) | Passphrase OID handler |
-| [CmdAkm.asm](./CmdAkm.asm) | AKM OID handler |
-| [CmdScan.asm](./CmdScan.asm) | Scan OID handler |
-| [CmdSetInformation.asm](./CmdSetInformation.asm) | SetInformation buffer path |
-| [WirelessAssociate.asm](./WirelessAssociate.asm) | Association trigger |
-| [SetInformationBuffer.asm](./SetInformationBuffer.asm) | SetInformation with raw data |
-| [SetInformationValue.asm](./SetInformationValue.asm) | SetInformation with UInt32 value |
-| [SetInformation_Buffer_Length.asm](./SetInformation_Buffer_Length.asm) | Buffer length helper |
-| [SetInformation_Value.asm](./SetInformation_Value.asm) | Value helper |
-
-### Decompiled Output
-- **[bn_gui_output/full_autoscan/](./bn_gui_output/full_autoscan/)** — Individual decompilations of all 36 known functions
-- **[bn_gui_output/ultimate/](./bn_gui_output/ultimate/)** — Decompiled target methods + all ObjC methods organized by class
-
-### Notes
-- **[WIP.md](./WIP.md)** — Deferred features and technical notes (WPA3/SAE, full WSC, etc.)
-
-## Source Implementation
-
-The implementation derived from this RE is in:
-- **[Sources/OIDConstants.swift](../Sources/OIDConstants.swift)** — All discovered OIDs as typed Swift constants with documentation
-- **[Sources/RealtekDriver.swift](../Sources/RealtekDriver.swift)** — Driver communication: open/close, OID query/set, connect, scan, radio control, WPS, NET_INFO parser
+### Decompiled Function Output
+- **[bn_gui_output/full_autoscan/](./bn_gui_output/full_autoscan/)** — Decompiled output of all 36 documented driver functions (connect, scan, radio, WPS, etc.)
+- **[bn_gui_output/ultimate/](./bn_gui_output/ultimate/)** — Decompiled target methods plus all ObjC methods organized by class
 
 ## Key OID Reference
 
