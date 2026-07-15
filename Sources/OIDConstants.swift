@@ -335,6 +335,19 @@ let OID_RT_WIRELESS_MODE: UInt32 = 0xFF_81_85_00
 ///   Returns non-zero when button is being pressed.
 let OID_RT_WPS_HW_PBC: UInt32 = 0xFF_81_90_29
 
+/// HT Bandwidth (0xFF819024). Returns channel width: 0=20, 1=40, 2=80, 3=160 MHz.
+///
+/// Source: GetHTinfo_BW @ 0x10001ec20
+///   Reads OID 0xFF819024; maps to the HT/VHT channel width.
+///   Values: 0 = 20 MHz, 1 = 40 MHz, 2 = 80 MHz, 3 = 160 MHz.
+let OID_RT_BW: UInt32 = 0xFF_81_90_24
+
+/// HT Guard Interval (0xFF819025). 0=long, 1=short.
+let OID_RT_GI: UInt32 = 0xFF_81_90_25
+
+/// HT MCS index (0xFF819026). MCS 0–31.
+let OID_RT_MCS: UInt32 = 0xFF_81_90_26
+
 // MARK: - Network type values (CmdNetworkType)
 
 /// Infrastructure mode (most Wi‑Fi networks, AP + station).

@@ -30,6 +30,11 @@ crowdin-credentials*
 /tmp/
 *.plist.bak
 
+# RE scripts (keep locally, do not track on GitHub)
+re/*.asm
+re/bn_*.py
+re/all_connect.asm
+
 # RE scratch (keep maps; ignore heavy dumps if re-generated)
 re/bn_gui_output/*.txt
 !re/bn_gui_output/.gitkeep

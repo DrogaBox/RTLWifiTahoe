@@ -57,7 +57,10 @@ struct StatusTab: View {
                 hasIP: model.snapshot.ip != "—",
                 associating: model.snapshot.associating,
                 signalPercent: model.snapshot.signalPercent > 0 ? model.snapshot.signalPercent : nil,
-                channel: model.snapshot.channel
+                channel: model.snapshot.channel,
+                channelWidthMHz: model.snapshot.channelWidthMHz,
+                giShort: model.snapshot.giShort,
+                mcsIndex: model.snapshot.mcsIndex
             )
 
             HStack(spacing: 6) {

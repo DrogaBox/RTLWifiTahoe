@@ -43,6 +43,10 @@ struct InterfaceSnapshot: Equatable {
     var ssid: String = "—"
     var driverLoaded: Bool = false
     var driverVersion: String = "—"
+    /// USB Vendor ID as hex string (e.g. "0x0BDA") — queried on-demand for About Panel.
+    var usbVendorID: String = "—"
+    /// USB Product ID as hex string (e.g. "0x8812") — queried on-demand for About Panel.
+    var usbProductID: String = "—"
     var bytesIn: UInt64 = 0
     var bytesOut: UInt64 = 0
     var rxMbps: Double = 0
@@ -57,6 +61,12 @@ struct InterfaceSnapshot: Equatable {
     var signalPercent: Int = 0
     /// Associated RF channel from kext (0 = unknown)
     var channel: Int = 0
+    /// Channel bandwidth in MHz (20/40/80/160). 0 = unknown.
+    var channelWidthMHz: Int = 0
+    /// Guard Interval: true = short (400ns), false = long (800ns), nil = unknown.
+    var giShort: Bool? = nil
+    /// HT MCS index (0–31). nil = unknown.
+    var mcsIndex: Int? = nil
     var signalLevel: SignalLevel = .none
     /// L2 associating (iface up / join in progress) but no IPv4 yet
     var associating: Bool = false
@@ -1037,6 +1047,13 @@ final class WiFiModel: ObservableObject {
         observeWake()
         AppNotify.requestAuthorizationIfNeeded()
         refreshAsync(forceSlow: true)
+        // Auto-scan on launch (unless scan is disabled)
+        if scanEnabled {
+            // Small delay to let the driver initialize
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+                self?.scanNearby(force: true)
+            }
+        }
         if hideClassicUtility {
             purgeClassicUtility()
         }
@@ -1339,6 +1356,16 @@ final class WiFiModel: ObservableObject {
             snap.driverVersion = driver.version
             snap.linkSpeedBps = driver.linkSpeedBps
 
+            // USB Vendor/Product ID (queried once; About Panel display)
+            if snap.usbVendorID == "—" || snap.usbProductID == "—" {
+                let (vendor, product) = RealtekDriver.shared.queryUSBVendorProduct()
+                snap.usbVendorID = vendor ?? "—"
+                snap.usbProductID = product ?? "—"
+                if let v = vendor, let p = product {
+                    rtlog("usb chipset: \(v) \(p)")
+                }
+            }
+
             // USB radio RF state (OID or soft file)
             if let off = RealtekDriver.shared.isRadioOff() {
                 snap.radioOn = !off
@@ -1346,6 +1373,12 @@ final class WiFiModel: ObservableObject {
 
             let assocCh = RealtekDriver.shared.queryAssociatedChannel()
             snap.channel = assocCh
+            let bw = RealtekDriver.shared.queryChannelBandwidthMHz()
+            snap.channelWidthMHz = bw
+            let gi = RealtekDriver.shared.queryGuardInterval()
+            snap.giShort = gi
+            let mcs = RealtekDriver.shared.queryMCS()
+            snap.mcsIndex = mcs
 
             // Really linked at L2? PHY rate or ifconfig media active — NOT IFF_RUNNING alone,
             // and NOT a sticky SSID string left in the kext after a failed join.
@@ -1675,6 +1708,10 @@ final class WiFiModel: ObservableObject {
         NSWorkspace.shared.open(url)
     }
 
+    func showAbout() {
+        AboutPanelController.show(model: self)
+    }
+
     func revealProfilesFolder() {
         NSWorkspace.shared.open(URL(fileURLWithPath: realtekSupport))
     }
@@ -1731,6 +1768,10 @@ final class WiFiModel: ObservableObject {
                 self.snapshot = s
                 self.statusText = on ? L10n.Model.radioOn : L10n.Model.radioOffStatus
                 self.refreshAsync(forceSlow: true)
+                // Auto-scan when radio turns ON (unless scan is disabled)
+                if on, self.scanEnabled {
+                    self.scanNearby(force: true)
+                }
             }
         }
     }

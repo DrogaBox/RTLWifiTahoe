@@ -204,6 +204,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             menu.addItem(withTitle: L10n.App.disconnect, action: #selector(disconnect), keyEquivalent: "d")
         }
         menu.addItem(NSMenuItem.separator())
+        menu.addItem(withTitle: L10n.App.about, action: #selector(showAbout), keyEquivalent: "")
+        menu.addItem(NSMenuItem.separator())
         menu.addItem(withTitle: L10n.App.quit, action: #selector(quit), keyEquivalent: "q")
         menu.items.forEach { $0.target = self }
         statusItem.menu = menu
@@ -217,6 +219,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
     @objc private func copyIP() { model.copyIP() }
     @objc private func disconnect() { model.disconnectNetwork() }
+    @objc private func showAbout() { model.showAbout() }
     @objc private func quit() { NSApp.terminate(nil) }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }

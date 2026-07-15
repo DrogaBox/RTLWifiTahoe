@@ -37,6 +37,7 @@ enum RTAuthEnc: UInt32, CaseIterable, Identifiable {
     case wpaPskAes = 4
     case wpa2PskTkip = 5
     case wpa2Psk = 6         // WPA2-PSK AES (most common home AP)
+    case wpa3Sae = 8         // WPA3 SAE (AKM suit 8) via wpa_supplicant
 
     var id: UInt32 { rawValue }
 
@@ -49,6 +50,7 @@ enum RTAuthEnc: UInt32, CaseIterable, Identifiable {
         case .wpaPskAes: return L10n.Auth.wpaPskAes
         case .wpa2PskTkip: return L10n.Auth.wpa2Tkip
         case .wpa2Psk: return L10n.Auth.wpa2
+        case .wpa3Sae: return L10n.Auth.wpa3Sae
         }
     }
 
@@ -64,6 +66,8 @@ enum RTAuthEnc: UInt32, CaseIterable, Identifiable {
             if siteEncry != 0 { return .wpaPsk }
             return .open
         }
+        // AKM suit 8 = SAE (WPA3)
+        if akmSuit == 8 { return .wpa3Sae }
         // Prefer WPA2 when AKM or enc looks modern
         if siteEncry >= 96 || akmSuit >= 32 { return .wpa2Psk }
         if siteEncry > 0 { return .wpaPsk }

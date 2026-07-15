@@ -245,6 +245,41 @@ final class RealtekDriver {
         return min(100, Int(raw))
     }
 
+    /// HT channel bandwidth via OID_RT_BW (0xFF819024). 20/40/80/160 MHz. 0 if unknown/not linked.
+    /// Values: 0=20MHz, 1=40MHz, 2=80MHz, 3=160MHz, 4=80+80MHz.
+    func queryChannelBandwidthMHz() -> Int {
+        guard open() else { return 0 }
+        var raw: UInt32 = 0
+        let n = queryOID(OID_RT_BW, out: &raw, maxLen: 4)
+        guard n >= 1 else { return 0 }
+        switch raw {
+        case 1: return 40
+        case 2: return 80
+        case 3: return 160
+        case 4: return 80  // 80+80 MHz → display as 80
+        default: return 20  // 0 or unknown → default 20 MHz
+        }
+    }
+
+    /// HT Guard Interval via OID_RT_GI (0xFF819025). true = short (400ns), false = long (800ns), nil = unknown.
+    func queryGuardInterval() -> Bool? {
+        guard open() else { return nil }
+        var raw: UInt32 = 0
+        let n = queryOID(OID_RT_GI, out: &raw, maxLen: 4)
+        guard n >= 1 else { return nil }
+        // 0 = long (800ns), 1 = short (400ns)
+        return raw != 0
+    }
+
+    /// HT MCS index via OID_RT_MCS (0xFF819026). 0–31, nil if unknown.
+    func queryMCS() -> Int? {
+        guard open() else { return nil }
+        var raw: UInt32 = 0
+        let n = queryOID(OID_RT_MCS, out: &raw, maxLen: 4)
+        guard n >= 1 else { return nil }
+        return Int(raw & 0x1F)
+    }
+
     /// Current RF channel from kext (OID_RT_CHANNEL get). 0 if unknown.
     func queryAssociatedChannel() -> Int {
         guard open() else { return 0 }
@@ -387,6 +422,11 @@ final class RealtekDriver {
         }
         if opts.wps == .pin {
             return connectWPS_PIN(ssid: ssid, pin: opts.wpsPin, options: opts)
+        }
+
+        // WPA3-SAE: use wpa_supplicant (pure OID AKM doesn't support SAE)
+        if opts.authEnc == .wpa3Sae {
+            return connectWPA3SAE(ssid: ssid, password: password, options: opts)
         }
 
         let pass = password
@@ -576,6 +616,104 @@ final class RealtekDriver {
         return connect(ssid: ssid, password: "", options: opts)
     }
 
+    // MARK: - WPA3-SAE (wpa_supplicant)
+
+    /// Path to Realtek's bundled wpa_supplicant inside StatusBarApp.
+    private static let wpaSupplicantPath = "/Library/Application Support/WLAN/StatusBarApp.app/Contents/MacOS/wpa_supplicant"
+
+    /// Connect to a WPA3-SAE network via wpa_supplicant + profile1x.rtl.
+    /// Falls back to OID connect if supplicant fails.
+    private func connectWPA3SAE(ssid: String, password: String, options: JoinOptions) -> Bool {
+        guard FileManager.default.isExecutableFile(atPath: Self.wpaSupplicantPath) else {
+            rtlog("WPA3 SAE: wpa_supplicant not found at \(Self.wpaSupplicantPath), fallback to OID")
+            var opts = options
+            opts.authEnc = .wpa2Psk
+            return connect(ssid: ssid, password: password, options: opts)
+        }
+
+        let supportDir = "/Library/Application Support/WLAN/com.realtek.utility.wifi"
+        let profilePath = supportDir + "/profile1x.rtl"
+
+        // Ensure support dir exists
+        try? FileManager.default.createDirectory(atPath: supportDir, withIntermediateDirectories: true)
+
+        // Write profile1x.rtl with SAE config (wpa_supplicant format)
+        // NOTE: Use regular string interpolation with \n real newlines, NOT multi-line """ which
+        // would make \n literal characters instead of actual newline bytes.
+        let escapedSSID = ssid.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\"")
+        let escapedPass = password.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\"")
+        var config = "network={\n"
+        config += "\tssid=\"\(escapedSSID)\"\n"
+        config += "\tsae_password=\"\(escapedPass)\"\n"
+        config += "\tkey_mgmt=SAE\n"
+        config += "\tieee80211w=2\n"  // PMF required for WPA3
+        config += "}\n"
+        do {
+            try config.write(toFile: profilePath, atomically: true, encoding: .utf8)
+            rtlog("WPA3 SAE: wrote profile1x.rtl for \(ssid)")
+        } catch {
+            rtlog("WPA3 SAE: failed to write profile1x.rtl: \(error.localizedDescription)")
+            var opts = options
+            opts.authEnc = .wpa2Psk
+            return connect(ssid: ssid, password: password, options: opts)
+        }
+
+        // Set the SSID via OID first so the kext knows which BSS to associate
+        var ssidBuf = [UInt8](repeating: 0, count: 0x84)
+        let ssidBytes = Array(ssid.utf8.prefix(0x80))
+        for (i, b) in ssidBytes.enumerated() { ssidBuf[i] = b }
+        var ssidLen = UInt32(ssidBytes.count)
+        withUnsafeBytes(of: &ssidLen) { ssidBuf.replaceSubrange(0x80..<0x84, with: $0) }
+        _ = setOIDData(OID_RT_SSID, data: ssidBuf)
+        _ = setOIDValue(OID_RT_RF, value: 0)
+        _ = setOIDValue(OID_802_11_INFRASTRUCTURE_MODE, value: NETTYPE_INFRA)
+        _ = setOIDValue(OID_802_11_DISASSOCIATE, value: 0)
+        _ = setOIDValue(OID_RT_AKM, value: 8)  // SAE
+
+        // Launch wpa_supplicant
+        let proc = Process()
+        proc.executableURL = URL(fileURLWithPath: Self.wpaSupplicantPath)
+        let iface = currentBSD.isEmpty ? "en1" : currentBSD
+        proc.arguments = ["-Dosx", "-i", iface, "-c", profilePath]
+        proc.standardOutput = FileHandle.nullDevice
+        proc.standardError = FileHandle.nullDevice
+
+        do {
+            try proc.run()
+            rtlog("WPA3 SAE: launched wpa_supplicant pid=\(proc.processIdentifier)")
+        } catch {
+            rtlog("WPA3 SAE: failed to launch wpa_supplicant: \(error.localizedDescription)")
+            var opts = options
+            opts.authEnc = .wpa2Psk
+            return connect(ssid: ssid, password: password, options: opts)
+        }
+
+        // Poll for link (~10s max)
+        var sawPhy = false
+        for i in 1...15 {
+            Thread.sleep(forTimeInterval: 0.6)
+            let drv = NetProbe.realtekDriver()
+            if drv.phyLinked || NetProbe.mediaActive(bsd: iface) {
+                sawPhy = true
+                rtlog("WPA3 SAE: link up at t=\(i*600)ms")
+                break
+            }
+        }
+
+        // Stop supplicant after link is up (driver handles SAE keys)
+        proc.terminate()
+        proc.waitUntilExit()
+        rtlog("WPA3 SAE: supplicant terminated (exit \(proc.terminationStatus))")
+
+        if !sawPhy {
+            rtlog("WPA3 SAE: timed out waiting for link")
+            return false
+        }
+
+        rtlog("WPA3 SAE: PHY link asserted — waiting for DHCP")
+        return true
+    }
+
     private func waitScanIdle(timeoutSec: Double) {
         let deadline = Date().addingTimeInterval(timeoutSec)
         while Date() < deadline {
@@ -699,6 +837,96 @@ final class RealtekDriver {
         let off = isRadioOff()
         rtlog("setRadioOn result ok=\(ok) isRadioOff=\(String(describing: off)) softOff=\(String(describing: softRFFileSaysOff()))")
         return ok
+    }
+
+    // MARK: - USB Vendor/Product ID (chipset detection)
+
+    /// Queries the USB Vendor ID and Product ID from the RtWlanU IOKit service tree.
+    /// First tries "RtWlanU" class directly, then falls back to IOEthernetController.
+    /// Walks the parent chain looking for IOUSBDevice properties.
+    func queryUSBVendorProduct() -> (vendor: String?, product: String?) {
+        // Try specific class first
+        for className in ["RtWlanU", "IOEthernetController"] {
+            let matching = IOServiceMatching(className)
+            let service = IOServiceGetMatchingService(kIOMainPortDefault, matching)
+            guard service != 0 else {
+                rtlog("[usb] no \(className) service found")
+                continue
+            }
+            defer { IOObjectRelease(service) }
+
+            let cls = IOObjectCopyClass(service)?.takeRetainedValue() as String? ?? ""
+            rtlog("[usb] checking \(className) → service: \(cls)")
+
+            // Direct properties on the service
+            if let (v, p) = readUSBProperties(from: service) {
+                rtlog("[usb] found on \(cls): vendor=\(v) product=\(p)")
+                return (v, p)
+            }
+
+            // Walk parent chain
+            var current = service
+            var ownsCurrent = false
+            for _ in 0..<10 {
+                var parent: io_registry_entry_t = 0
+                guard IORegistryEntryGetParentEntry(current, kIOServicePlane, &parent) == KERN_SUCCESS else {
+                    rtlog("[usb] \(cls): no more parents")
+                    break
+                }
+
+                let pc = IOObjectCopyClass(parent)?.takeRetainedValue() as String? ?? ""
+                if pc.contains("IOUSB") || pc.contains("USBDevice") || pc.contains("IOUserUSBHostDevice") {
+                    if let (v, p) = readUSBProperties(from: parent) {
+                        rtlog("[usb] found on parent \(pc): vendor=\(v) product=\(p)")
+                        IOObjectRelease(parent)
+                        if ownsCurrent { IOObjectRelease(current) }
+                        return (v, p)
+                    }
+                    IOObjectRelease(parent)
+                    break
+                }
+
+                if ownsCurrent { IOObjectRelease(current) }
+                current = parent
+                ownsCurrent = true
+            }
+            if ownsCurrent { IOObjectRelease(current) }
+        }
+
+        rtlog("[usb] no USB vendor/product found in IOKit tree")
+        return (nil, nil)
+    }
+
+    /// Tries to read IOUSBVendorID / IOUSBProductID from an IOKit entry.
+    /// Falls back to idVendor / idProduct. Returns nil if neither found.
+    private func readUSBProperties(from entry: io_registry_entry_t) -> (String, String)? {
+        var vendor: String?
+        var product: String?
+
+        if let vid = IORegistryEntryCreateCFProperty(entry, "IOUSBVendorID" as CFString, kCFAllocatorDefault, 0)?
+            .takeRetainedValue() as? NSNumber {
+            vendor = String(format: "0x%04X", vid.uint16Value)
+        } else if let vid = IORegistryEntryCreateCFProperty(entry, "vendor-id" as CFString, kCFAllocatorDefault, 0)?
+            .takeRetainedValue() as? NSNumber {
+            vendor = String(format: "0x%04X", vid.uint16Value)
+        } else if let vid = IORegistryEntryCreateCFProperty(entry, "idVendor" as CFString, kCFAllocatorDefault, 0)?
+            .takeRetainedValue() as? NSNumber {
+            vendor = String(format: "0x%04X", vid.uint16Value)
+        }
+
+        if let pid = IORegistryEntryCreateCFProperty(entry, "IOUSBProductID" as CFString, kCFAllocatorDefault, 0)?
+            .takeRetainedValue() as? NSNumber {
+            product = String(format: "0x%04X", pid.uint16Value)
+        } else if let pid = IORegistryEntryCreateCFProperty(entry, "device-id" as CFString, kCFAllocatorDefault, 0)?
+            .takeRetainedValue() as? NSNumber {
+            product = String(format: "0x%04X", pid.uint16Value)
+        } else if let pid = IORegistryEntryCreateCFProperty(entry, "idProduct" as CFString, kCFAllocatorDefault, 0)?
+            .takeRetainedValue() as? NSNumber {
+            product = String(format: "0x%04X", pid.uint16Value)
+        }
+
+        if let v = vendor, let p = product { return (v, p) }
+        return nil
     }
 
     /// Query RF off flag. `true` = radio off, `false` = on, `nil` = query failed.

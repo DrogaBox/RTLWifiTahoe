@@ -97,6 +97,9 @@ struct SettingsTab: View {
                     ActionButton(title: L10n.Settings.networkSettings, icon: "gearshape", accent: Tahoe.accentCyan) {
                         model.openNetworkSettings()
                     }
+                    ActionButton(title: L10n.App.about, icon: "info.circle", accent: Tahoe.accentPurple) {
+                        model.showAbout()
+                    }
                     ActionButton(title: L10n.App.quit, icon: "xmark.circle", accent: Tahoe.accentRed) {
                         NSApp.terminate(nil)
                     }

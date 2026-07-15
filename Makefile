@@ -141,8 +141,8 @@ $(APP)/Contents/Info.plist: | $(APP)/Contents/Resources
   <key>CFBundleName</key><string>RTL Wi-Fi Tahoe</string>\n\
   <key>CFBundleIconFile</key><string>AppIcon</string>\n\
   <key>CFBundlePackageType</key><string>APPL</string>\n\
-  <key>CFBundleShortVersionString</key><string>1.1.0</string>\n\
-  <key>CFBundleVersion</key><string>7</string>\n\
+  <key>CFBundleShortVersionString</key><string>1.1.1</string>\n\
+  <key>CFBundleVersion</key><string>8</string>\n\
   <key>LSMinimumSystemVersion</key><string>13.0</string>\n\
   <key>LSUIElement</key><true/>\n\
   <key>NSHighResolutionCapable</key><true/>\n\

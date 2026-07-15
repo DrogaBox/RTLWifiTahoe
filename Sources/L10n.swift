@@ -43,6 +43,7 @@ enum L10n {
         static var name: String { tr("app.name") }
         static var refresh: String { tr("app.refresh") }
         static var quit: String { tr("app.quit") }
+        static var about: String { tr("app.about") }
         static var copyIP: String { tr("app.copy_ip") }
         static var disconnect: String { tr("app.disconnect") }
         static var join: String { tr("app.join") }
@@ -241,6 +242,7 @@ enum L10n {
         static var wpaPskAes: String { tr("auth.wpa_psk_aes") }
         static var wpa2Tkip: String { tr("auth.wpa2_tkip") }
         static var wpa2: String { tr("auth.wpa2") }
+        static var wpa3Sae: String { tr("auth.wpa3_sae") }
     }
 
     // MARK: - Model status strings

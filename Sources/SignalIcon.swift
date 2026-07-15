@@ -58,6 +58,12 @@ struct SignalMeter: View {
     var signalPercent: Int? = nil
     /// Associated RF channel if known
     var channel: Int = 0
+    /// Channel bandwidth 20/40/80/160 MHz (0 = unknown)
+    var channelWidthMHz: Int = 0
+    /// Guard interval: true = short (400ns), nil = unknown
+    var giShort: Bool? = nil
+    /// MCS index 0–31, nil = unknown
+    var mcsIndex: Int? = nil
 
     private var title: String {
         level.statusLabel(associating: associating, hasIP: hasIP)
@@ -80,7 +86,17 @@ struct SignalMeter: View {
             parts.append(L10n.Signal.disconnected)
         }
         if channel > 0 {
-            parts.append("Ch \(channel)")
+            var chStr = "Ch \(channel)"
+            if channelWidthMHz >= 40 {
+                chStr += " · \(channelWidthMHz)MHz"
+            }
+            parts.append(chStr)
+        }
+        if let gi = giShort {
+            parts.append(gi ? "Short GI" : "Long GI")
+        }
+        if let mcs = mcsIndex {
+            parts.append("MCS \(mcs)")
         }
         return parts.joined(separator: " · ")
     }

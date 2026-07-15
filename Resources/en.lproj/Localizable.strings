@@ -6,6 +6,7 @@
 "app.name" = "RTL Wi-Fi Tahoe";
 "app.refresh" = "Refresh";
 "app.quit" = "Quit RTL Wi-Fi Tahoe";
+"app.about" = "About RTL Wi‑Fi Tahoe";
 "app.copy_ip" = "Copy IP";
 "app.disconnect" = "Disconnect";
 "app.join" = "Join…";
@@ -179,6 +180,7 @@
 "auth.wpa_psk_aes" = "WPA-PSK AES";
 "auth.wpa2_tkip" = "WPA2-PSK TKIP";
 "auth.wpa2" = "WPA2-PSK AES";
+"auth.wpa3_sae" = "WPA3-SAE";
 
 // MARK: Model / runtime
 "model.disconnected" = "Disconnected";
