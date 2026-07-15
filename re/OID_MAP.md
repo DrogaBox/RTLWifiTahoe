@@ -9,7 +9,7 @@
 | Step | OID | Notes |
 |------|-----|--------|
 | RF on | `0xFF818081` = **0** | off = **1** (byte query) |
-| Soft RF file | `<mac>rfoff.rtl` | **`bRfOff`**: `"0\n"`=ON `"1\n"`=OFF (BN MenuItemRadioOnOff) |
+| Soft RF file | `<mac>rfoff.rtl` | **`bRfOff`**: `"0\n"`=ON `"1\n"`=OFF (MenuItemRadioOnOff) |
 | Disassociate | `0x0D010115` | Leave BSS (Disconnect button) |
 | Infra | `0x0D010108` = **0** (adhoc=1, auto=3) | |
 | BSSID | `0x0D010101` | **only real MAC** — skip scan keys with U/L bit (0e…) |
@@ -41,14 +41,14 @@
 | `0xFF81902B` | 867 | same / alt link rate |
 | `0xFF818081` | 0 | RF on |
 
-## Signal / RSSI (confirmed BN + live)
+## Signal / RSSI
 | OID | Role |
 |-----|------|
 | **`0x0D010206`** | **Signal strength 0…100** — `-[WLANClientUtilityModel getSignalStrength]` + MacAccess `-rssi` (`RSSI: %d`). Live e.g. `100` when strong. |
 | `0x0D010106` | Does **not** return useful RSSI on this stack (often 0). |
 | NET_INFO `[0x2A]` | Per-BSS signal in scan list (same 0…100 scale). |
 
-## Key functions (jump in BN with `g`)
+## Key functions
 | Address | Name |
 |---------|------|
 | `0x100014c90` | `ApplyTheProfileAndTryToConnect` |
@@ -56,28 +56,21 @@
 | `0x10001c7f0` | `WirelessAssociate:` |
 | `0x10001df30` | `SetWPAKey:` |
 | `0x10000d650` | `NicIFLinkStatusWatchdog` ← OID `0xFF819053` |
-| `0x100002400` | `ifconfig:` (sudo ifconfig up/down) |
+| `0x100002400` | `ifconfig:` |
 | `0x100012200` | `MenuItemRadioOnOff:` |
 | `0x10001d530` | `turnRfOn` |
 | `0x10003d900` | `openAdapter` |
 | `0x100011080` | `UpdateAssociatedNetwork` |
-| `0x1000179a0` | `startWpaSupplicant` (enterprise/WPA3) |
+| `0x1000179a0` | `startWpaSupplicant` |
 
 ## WPA3 / SAE — WIP (deferred)
 
-**Status:** Not implemented in Tahoe. **Do only if a real WPA3-only AP is needed.**
+**Status:** Not implemented. **Do only if a real WPA3-only AP is needed.**
 
 - StatusBarApp path: `profile1x.rtl` + `wpa_supplicant` (not pure OID passphrase).
-- Tahoe today: WPA2-PSK OIDs — enough for WPA2 and most mixed APs.
 - Details / decision log: **`re/WIP.md`**
 
-## BN script
-```
-exec(open("/Users/droga/Desktop/RTLWifiTahoe/re/bn_deep_connect.py").read(), globals())
-```
-Output: `~/Desktop/RTLWifiTahoe/re/bn_gui_output/deep_connect_hlil.txt`
-
-## Known join failure mode (our logs)
+## Known join failure mode
 All connect OIDs return OK, kext SSID set, but:
 - `IOLinkSpeed=0`, media inactive, `rssi=0`, `0xFF819053=0`
 - Wrong channel (e.g. 80) or pinning scan-key BSSID (`0e84…` vs real `0c84…`) makes this worse
